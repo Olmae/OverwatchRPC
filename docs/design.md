@@ -35,7 +35,8 @@ desktop app. User requested autonomous implementation and GitHub publication.
 `platform.py`: process/foreground/startup/single-instance integration.
 `ocr.py`: screen regions and local Tesseract recognition.
 `runtime.py`: background polling, Discord connection, OCR debounce, event queue.
-`ui.py`: Tkinter controls and thread-safe tray events.
+`ui.py`: Tkinter controls and thread-safe tray events. `widgets.py` provides
+scrollable pages; `regions.py` handles explicit screenshot-region calibration.
 
 ## Validation
 

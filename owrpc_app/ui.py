@@ -14,6 +14,7 @@ from .platform import open_folder, set_autostart
 from .regions import choose_region
 from .runtime import Worker
 from .storage import data_dir, load_settings, save_settings
+from .widgets import ScrollPage
 
 log = logging.getLogger(__name__)
 
@@ -72,13 +73,11 @@ class App:
         self.pause_button.pack(side="right")
         book = ttk.Notebook(self.root)
         book.pack(fill="both", expand=True, padx=20, pady=(0, 10))
-        presence = ttk.Frame(book, padding=18)
-        preferences = ttk.Frame(book, padding=18)
-        recognition = ttk.Frame(book, padding=18)
-        about = ttk.Frame(book, padding=18)
-        for page, name in ((presence, "Presence"), (preferences, "Settings"),
-                           (recognition, "Recognition"), (about, "About")):
+        pages = [ScrollPage(book) for _ in range(4)]
+        presence, preferences, recognition, about = [p.content for p in pages]
+        for page, name in zip(pages, ("Presence", "Settings", "Recognition", "About")):
             book.add(page, text=name)
+        self.root.bind("<MouseWheel>", lambda event: pages[book.index(book.select())].wheel(event))
         self.build_presence(presence)
         self.build_preferences(preferences)
         self.build_recognition(recognition)
