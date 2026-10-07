@@ -5,6 +5,7 @@ import unicodedata
 from urllib.parse import urlparse
 
 DEFAULT_CLIENT = "583356928688783369"
+DEFAULT_LARGE_IMAGE = "https://raw.githubusercontent.com/Olmae/OverwatchRPC/main/assets/overwatch-logo.png"
 PHASES = {"menus": "In menus", "queue": "In queue", "match": "In match"}
 MODES = ["Quick Play", "Competitive", "Stadium", "Arcade", "Custom Game",
          "Mystery Heroes", "Mystery Madness: Graveyard Games", "Practice",
@@ -24,7 +25,7 @@ class Settings:
     only_when_game: bool = True
     game_process: str = "Overwatch.exe"
     show_timer: bool = True
-    large_image: str = "overwatch"
+    large_image: str = DEFAULT_LARGE_IMAGE
     hero_image: str = ""
     use_hero_portrait: bool = True
     use_map_art: bool = True
@@ -69,6 +70,8 @@ class Settings:
         result.display_type = result.display_type if result.display_type in (0, 1, 2) else 0
         if not result.client_id.isdecimal() or not 6 <= len(result.client_id) <= 22:
             result.client_id = DEFAULT_CLIENT
+        if result.large_image == "overwatch":
+            result.large_image = DEFAULT_LARGE_IMAGE
         return result
 
 

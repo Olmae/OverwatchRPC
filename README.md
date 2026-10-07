@@ -9,6 +9,8 @@ of the way while you play. No Chromium runtime, account login or Discord token.
 ![Python](https://img.shields.io/badge/python-3.12%2B-blue)
 ![License](https://img.shields.io/badge/code-GPLv3-blue)
 
+![Windows UI smoke-test preview](docs/screenshots/presence.png)
+
 ## Why this refresh exists
 
 The original OWRPC was a useful console script, but its 2019 dependencies, map
@@ -157,7 +159,9 @@ py -3.12 -m venv .venv
 accessible. `--self-test` validates imports, catalog structure and Discord payload
 serialization without connecting to Discord or capturing the screen.
 
-The target is Windows 10/11 x64. Other platforms can run the window when Tkinter
+The target is Windows 10/11 x64. Windows 11 ARM64 can run the x64 build through
+Windows emulation; its dependency/catalog self-test passed in a Parallels VM.
+This is not a native ARM64 binary. Other platforms can run the window when Tkinter
 is available, but Windows startup, single-instance guard, tray and foreground OCR
 are Windows integrations. Administrator privileges are not required.
 

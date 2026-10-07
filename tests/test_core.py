@@ -10,6 +10,12 @@ from owrpc_app.runtime import RpcSession
 
 
 class ModelTests(unittest.TestCase):
+    def test_default_logo_migrates_legacy_settings_and_preserves_custom_art(self):
+        expected = Settings().large_image
+        self.assertTrue(expected.startswith("https://"))
+        self.assertEqual(Settings.from_dict({"large_image": "overwatch"}).large_image, expected)
+        self.assertEqual(Settings.from_dict({"large_image": "custom_logo"}).large_image, "custom_logo")
+
     def test_payload_uses_names_and_preserves_match_start(self):
         s = Status(phase="match", hero="Ana", map_name="King's Row", started_at=42)
         p = build_payload(Settings(), s)

@@ -1,4 +1,4 @@
-# Desktop refresh · beta 2
+# Desktop refresh · beta 3
 
 The seven-year-old console companion is now a Windows tray application with
 English UI, settings and documentation. Thank you to Tominous and maxicc for
@@ -16,9 +16,13 @@ the original OWRPC code and inspiration.
 - Local atomic settings, rotating logs, Windows portable ZIP and build checks.
 - Window size adapts to screen height; settings remain reachable through scrolling.
 
+The transparent official fallback logo replaces the old white-square Discord
+asset; existing settings using the legacy image key migrate automatically.
+
 Extract the entire ZIP. Launch `OverwatchRPC.exe`; Python is not needed. Tesseract
 is needed only for optional OCR. The build is unsigned.
 
-Real Windows tray/Discord/game runtime testing is still required. See the included
-WINDOWS-TESTING.md before treating this beta as stable. Automated tests and the
-frozen dependency smoke check do not prove authenticated Discord or game flows.
+Beta.2 ran in Windows 11 ARM64 under x64 emulation and published real Discord menu
+and match activity with Doctrine's portrait and a timer. Real Overwatch/OCR and
+the full tray/startup lifecycle still require testing. See the included
+WINDOWS-TESTING.md before treating the beta as stable.

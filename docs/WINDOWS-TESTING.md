@@ -1,5 +1,21 @@
 # Windows acceptance checklist
 
+## Recorded beta checks (October 7, 2026)
+
+The beta.2 portable x64 build launched under Windows 11 ARM64 x64 emulation in
+Parallels (Windows 10.0.26200.9168). Its frozen self-test loaded 54 heroes and 59
+maps. The desktop window and Settings tab rendered in the interactive user
+session. With game gating disabled in isolated test settings, the logged-in
+desktop Discord client displayed In Menus, then a manually selected Quick Play
+match with a map name, Doctrine portrait, and match timer. These are observed
+client results, rather than only mocked IPC tests.
+
+One five-second idle sample with OCR disabled measured approximately 67 MiB RAM
+and 0.62% of one CPU core. This short VM measurement is not a gaming benchmark.
+Real Overwatch capture/OCR, tray lifecycle, startup, and Discord restart recovery
+still require the checklist below. Beta.3 changes the fallback logo source and
+migrates the legacy `overwatch` image key; its rendering needs a separate check.
+
 The unit tests and CI smoke checks do not validate these real-device flows.
 Please run this checklist with the desktop Discord client and Overwatch on your PC.
 
