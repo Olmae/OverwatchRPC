@@ -53,6 +53,8 @@ def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s",
                         handlers=[RotatingFileHandler(folder / "owrpc.log", maxBytes=1_000_000,
                                                       backupCount=2, encoding="utf-8")])
+    from owrpc_app import __version__
+    logging.info("Starting OWRPC %s; executable=%s", __version__, sys.executable)
     import tkinter as tk
     from tkinter import messagebox
     from owrpc_app.platform import SingleInstance

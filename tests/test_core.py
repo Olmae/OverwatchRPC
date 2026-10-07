@@ -85,6 +85,48 @@ class ModelTests(unittest.TestCase):
         p = build_payload(Settings(button_label="Open", button_url="file:///secret"), Status())
         self.assertNotIn("buttons", p)
 
+    def test_transition_statuses_do_not_advertise_active_play_or_old_kda(self):
+        settings = Settings(language="ru", kda_enabled=True)
+        status = Status(phase="match", hero="Ana", map_name="Ilios", started_at=10,
+                        kda=(12, 4, 3), kda_read_at=15, party_size=5, party_read_at=5)
+        status.transition("results", now=20)
+        payload = build_payload(settings, status, now=21)
+        self.assertEqual(payload['details'], 'Матч завершён')
+        self.assertIn('Ilios', payload['state'])
+        self.assertNotIn('E/A/D', payload['state'])
+        self.assertNotIn('start', payload)
+        self.assertEqual(status.party_size, 5)
+        status.transition("map_loading", now=30)
+        self.assertEqual(build_payload(settings, status, now=31)['details'], 'Загрузка карты')
+        status.transition('match', now=40)
+        status.scene = 'hero_select'
+        self.assertTrue(build_payload(settings, status, now=41)['state'].startswith('Выбор героя'))
+        status.transition('menus', now=50)
+        status.scene = 'waiting_for_group'
+        self.assertEqual(build_payload(settings, status, now=51)['state'], 'Ожидание группы')
+
+    def test_artwork_layout_swaps_images_and_labels_and_keeps_custom_hero(self):
+        hero = {"portrait": "https://example.com/ana.png", "source": "https://example.com/ana"}
+        map_info = {"screenshot": "https://example.com/busan.png"}
+        status = Status(phase="match", hero="Ana", map_name="Busan")
+        settings = Settings(artwork_layout="hero_large")
+        payload = build_payload(settings, status, hero, map_info)
+        self.assertEqual((payload["large_image"], payload["large_text"]), (hero["portrait"], "Ana"))
+        self.assertEqual((payload["small_image"], payload["small_text"]), (map_info["screenshot"], "Busan"))
+        settings.hero_image = "custom_hero"
+        self.assertEqual(build_payload(settings, status, hero, map_info)["large_image"], "custom_hero")
+        settings.use_map_art = False
+        self.assertNotIn("small_image", build_payload(settings, status, hero, map_info))
+        settings.hero_image = ""
+        settings.use_hero_portrait = False
+        self.assertEqual(build_payload(settings, status, hero, map_info)["large_image"], settings.large_image)
+
+    def test_image_defaults_migrate_and_layout_is_validated(self):
+        settings = Settings.from_dict({"menu_image": "", "artwork_layout": "invalid"})
+        self.assertEqual(settings.artwork_layout, "map_large")
+        self.assertEqual(settings.menu_image, Settings().menu_image)
+        self.assertIn("small_image", build_payload(settings, Status()))
+
     def test_menu_branding_and_github_default(self):
         settings = Settings(menu_image="https://example.com/logo.png")
         menu = build_payload(settings, Status(phase="menus", hero="Ana"))

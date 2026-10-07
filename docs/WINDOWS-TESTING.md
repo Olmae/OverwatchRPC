@@ -16,7 +16,14 @@ Real Overwatch capture/OCR, tray lifecycle, startup, and Discord restart recover
 still require the checklist below. Beta.3 changes the fallback logo source and
 migrates the legacy `overwatch` image key; its rendering needs a separate check.
 
-The unit tests and CI smoke checks do not validate these real-device flows.
+Beta.4 adds native Windows OCR, nine interface languages, the Activity dashboard,
+bounded short-Tab capture, retained E/A/D and party counts, transitional states
+and scrolling fixes. Russian 3440×1440 gameplay checks and a 25-frame native OCR
+corpus have been reviewed. Unknown fields remain explicitly unconfirmed.
+The latest transition changes still need a live recheck; 16:9 and a controlled
+FPS comparison remain pending. See `performance.md` for desktop-only measurements.
+
+The unit tests and CI smoke checks do not validate all these real-device flows.
 Please run this checklist with the desktop Discord client and Overwatch on your PC.
 
 - Extract the entire portable ZIP and launch `OverwatchRPC.exe` without Python.
@@ -36,15 +43,24 @@ Please run this checklist with the desktop Discord client and Overwatch on your 
 - Restart Discord during a match: the companion reconnects without resetting time.
 - Select New match: timer restarts and old hero/map fields clear.
 - Test at 100%, 125% and 150% display scaling; every control is reachable.
-- Optional OCR: install Tesseract and eng traineddata, run Overwatch borderless on
-  the PRIMARY monitor, select only hero/map name text, enable OCR, select In match.
-  Keep the text visible for two samples; check the OCR status and actual name.
+- Recognition: use borderless/windowed Overwatch and select English or Russian
+  OCR under Additional. The matching Windows OCR language must be available;
+  no Tesseract installation or rectangle calibration is required.
+- Check menu → queue → map voting → winning map → hero selection → gameplay →
+  results → menu → next match. Results must stop the timer and clear E/A/D.
+- Enter your exact nickname for optional E/A/D. Open Tab briefly, then release
+  while OCR finishes. Confirm your own hero, mode, map and counters; holding Tab
+  until processing finishes is unnecessary, but extremely short taps may miss.
+- Confirm party counts in menus and their retention during gameplay. Try solo,
+  two and five players; do not confuse team size or friends count with the party.
 - Alt-tab away: OCR stops capturing. Test unknown/noisy text: it must not invent
   a selection. Manual changes must override pending OCR results.
-- Change resolution: recalibrate. Missing Tesseract, unsupported language, hidden
+- Change resolution and check both 3440×1440 and 16:9. Unsupported language, hidden
   hero text or black captures should show a diagnostic without preventing manual use.
-- Check Task Manager with OCR off and on; record CPU, RAM and update latency.
-  Performance is not yet measured on a gaming PC.
+- Repeat identical gameplay conditions with the app off, in the tray and open.
+  Record resolution, scaling, graphics settings, FPS limit, scene, duration,
+  average FPS/frame times, CPU and RAM. A screenshot's instantaneous FPS is not
+  a controlled comparison. Game FPS impact has not yet been established.
 
 Logs and settings: `%APPDATA%\OWRPC`. No screenshot files are created by the app.
 Report OS, app version, display scaling, Discord version, log excerpt and exact

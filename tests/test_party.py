@@ -13,7 +13,7 @@ class PartyTests(unittest.TestCase):
         return image
 
     def test_solo_duo_trio_do_not_count_social_number(self):
-        for name, expected in [('solo', 1), ('solo-cat', 1), ('duo', 2), ('trio', 3)]:
+        for name, expected in [('solo', 1), ('solo-cat', 1), ('duo', 2), ('trio', 3), ('five-compact', 5)]:
             image = self.header(name)
             for variant in (image, ImageOps.invert(image), ImageOps.grayscale(image).convert('RGB')):
                 with self.subTest(name=name):
@@ -28,16 +28,26 @@ class PartyTests(unittest.TestCase):
         self.assertEqual(payload['state'], 'В группе: 2 игрока')
         self.assertNotIn('группе', build_payload(Settings(language='ru', ocr_enabled=True), status, now=200)['state'])
         status.phase = 'match'
-        self.assertNotIn('группе', build_payload(Settings(language='ru', ocr_enabled=True), status, now=110)['state'])
+        self.assertIn('В группе: 2 игрока', build_payload(Settings(language='ru', ocr_enabled=True), status, now=110)['state'])
 
     def test_solo_label_and_override(self):
         status = Status(party_size=1, party_read_at=100)
         self.assertEqual(build_payload(Settings(language='ru', ocr_enabled=True), status, now=101)['state'], 'Соло')
         self.assertEqual(build_payload(Settings(state_override='Custom', ocr_enabled=True), status, now=101)['state'], 'Custom')
 
-    def test_phase_transition_clears_previous_party(self):
+    def test_party_is_remembered_through_queue_and_match_then_cleared(self):
         status = Status(party_size=2, party_read_at=100)
-        status.transition('match')
+        status.transition('queue', now=110)
+        self.assertEqual(status.party_size, 2)
+        self.assertIn('В группе: 2 игрока', build_payload(Settings(language='ru'), status, now=150)['state'])
+        status.transition('map_vote', now=160)
+        payload = build_payload(Settings(language='ru'), status, now=170)
+        self.assertEqual(payload['details'], 'Выбор карты')
+        self.assertIn('В группе: 2 игрока', payload['state'])
+        status.transition('match', now=200)
+        payload = build_payload(Settings(language='ru'), status, now=2000)
+        self.assertIn('В группе: 2 игрока', payload['state'])
+        status.transition('menus', now=2100)
         self.assertIsNone(status.party_size)
         self.assertIsNone(status.party_read_at)
 

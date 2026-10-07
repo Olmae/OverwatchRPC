@@ -4,14 +4,30 @@ from owrpc_app.recognition_schedule import RecognitionSchedule
 
 
 class RecognitionScheduleTests(unittest.TestCase):
+    def test_missed_opening_frame_gets_one_bounded_retry(self):
+        schedule = RecognitionSchedule()
+        self.assertTrue(schedule.due(0, True, True, 60))
+        schedule.completed(1, 60)
+        schedule.retry_followup(1)
+        self.assertTrue(schedule.due(1.4, True, True, 60))
+        schedule.completed(2, 60)
+        schedule.retry_followup(2)
+        self.assertTrue(schedule.due(2.2, True, True, 60))
+        schedule.completed(3, 60)
+        schedule.retry_followup(3)
+        self.assertFalse(schedule.due(4, True, True, 60))
+        self.assertTrue(schedule.due(63, True, True, 60))
+        schedule.completed(64, 60)
+        schedule.retry_followup(64)
+        self.assertFalse(schedule.due(65, True, True, 60))
+
     def test_tab_bypasses_interval_and_hold_has_one_followup(self):
         schedule = RecognitionSchedule()
         self.assertTrue(schedule.due(0, True, False, 60))
         schedule.completed(1, 60)
         self.assertTrue(schedule.due(2, True, True, 60))
         schedule.completed(3, 60)
-        self.assertFalse(schedule.due(3.2, True, True, 60))
-        self.assertTrue(schedule.due(3.4, True, True, 60))
+        self.assertTrue(schedule.due(3.2, True, True, 60))
         schedule.completed(4, 60)
         self.assertFalse(schedule.due(5, True, True, 60))
         self.assertFalse(schedule.due(6, True, False, 60))

@@ -58,6 +58,16 @@ def main():
             app.save_preferences()
         assert app.settings.ocr_language == "rus"
         assert app.rpc_status == original_rpc_status
+        app.artwork_layout_choice.set(app.t("Large hero, small map"))
+        app.artwork_layout_widget.event_generate("<<ComboboxSelected>>")
+        with patch("owrpc_app.ui.set_autostart"):
+            app.save_preferences()
+        assert app.settings.artwork_layout == "hero_large"
+        app.artwork_layout_choice.set(app.t("Large map, small hero"))
+        app.artwork_layout_widget.event_generate("<<ComboboxSelected>>")
+        with patch("owrpc_app.ui.set_autostart"):
+            app.save_preferences()
+        assert app.settings.artwork_layout == "map_large"
         app.events.put(("service", ("catalog", None, "offline", True)))
         app.poll()
         assert app.catalog is original_catalog
@@ -68,11 +78,50 @@ def main():
         print("Updating layout", flush=True)
         root.update()
         print("Layout ready in", round(time.perf_counter() - ui_started, 2), "seconds", flush=True)
+        from owrpc_app.widgets import Disclosure
+        app.book.select(1)
+        root.update()
+        page = root.nametowidget(app.book.tabs()[1])
+        disclosures = []
+        def collect(widget):
+            if isinstance(widget, Disclosure):
+                disclosures.append((widget, widget.opened))
+            for child in widget.winfo_children():
+                collect(child)
+        collect(page)
+        for section, _ in disclosures:
+            section.opened = True
+            section.render()
+        root.update()
+        page.canvas.yview_moveto(.15)
+        root.update()
+        previous = page.canvas.yview()[0]
+        selected = app.artwork_layout_widget.get()
+        app.artwork_layout_widget.event_generate("<MouseWheel>", delta=-120)
+        root.update()
+        assert page.canvas.yview()[0] > previous, "Wheel over an expanded section must scroll the page"
+        assert app.artwork_layout_widget.get() == selected, "Wheel must not silently change a closed list"
+        before_resize = page.canvas.canvasy(0)
+        # Changing a lower section's height preserves the top pixel rather than
+        # its fraction of the full document, which previously caused jumps.
+        section = disclosures[-1][0]
+        section.opened = False
+        section.render()
+        root.update()
+        assert abs(page.canvas.canvasy(0)-before_resize) <= 2
+        for section, opened in disclosures:
+            section.opened = opened
+            section.render()
+        page.canvas.yview_moveto(0)
+        app.book.select(0)
+        root.update()
         assert root.winfo_height() <= max(500, root.winfo_screenheight() - 100)
         assert app.status.hero == "Doctrine"
         assert app.status.started_at
         assert app.hero_preview.cget("image")
-        assert "Doctrine" in app.preview_state.cget("text")
+        selected_hero = next(row for row in app.catalog["heroes"] if row["name"] == app.status.hero)
+        displayed_hero = selected_hero.get("localized_names", {}).get(app.language, app.status.hero)
+        assert app.preview_state.cget("text") == app.t("Playing {hero}", hero=displayed_hero)
         for kind in ("heroes", "maps"):
             for row in app.catalog[kind]:
                 if row.get("image_available"):
@@ -123,7 +172,10 @@ def main():
         assert app.activity_values["Party"].cget("text") == "3"
         app.status.party_read_at = time.time() - 1000
         app.timer_tick()
-        assert app.activity_values["Party"].cget("text") == "—", "Expired party must disappear without another OCR event"
+        assert app.activity_values["Party"].cget("text") == "3", "Last confirmed party stays visible during a match"
+        app.set_phase("menus")
+        app.timer_tick()
+        assert app.activity_values["Party"].cget("text") == "—", "Leaving the match clears remembered party"
         app.status.party_size = app.status.party_read_at = None
         # Rounded surfaces keep native keyboard activation and disabled state.
         app.pause_button.focus_force()

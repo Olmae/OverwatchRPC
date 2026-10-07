@@ -15,10 +15,31 @@ characters. Row matching is independent of team color and highlight color.
 
 The worker confirms state changes with two observations, rejects captures that
 cross a manual configuration revision, clears match-specific values on phase
-changes, and keeps the last confirmed fields on unknown frames. E/A/D expires
+changes, and keeps the last confirmed fields on unknown frames. E/A/D retains
+the last confirmed scoreboard values until another confirmed read or match exit,
 and is never inferred from another player's row. A nickname can be learned from
 the HUD; an explicit nickname in Advanced is recommended. Tab is not pressed by
 the app. An unseen hero switch cannot be confirmed.
+
+If menu/queue frames are missed between matches, two matching observations of
+a different map recover the boundary while already in match phase. Clear the
+previous hero, mode, E/A/D and timer before applying fields confirmed for the
+new map; retain the last known party. A same-map restart additionally requires
+confirmed zero E/A/D, a scoreboard timer at 0–10 seconds and a prior match at
+least 60 seconds old with nonzero counters. A round timer resetting alone does
+not create a new match. The supplied Grimsvotn scoreboard validates D.Mon,
+Escort, the reviewed Russian map alias and elapsed 0:00 using real Windows OCR;
+its own E/A/D row remains unconfirmed and must not be inferred as zero.
+
+Transition screenshots also cover waiting for the group to choose roles,
+map voting, its winning-map screen, hero selection/team assembly, the centered
+final defeat banner and post-match player cards. Results form a separate phase
+and stop the timer and E/A/D immediately after phase confirmation; recognized
+map information remains contextual, without advertising active play. The winning
+map remains available when entering hero selection. Two observations still
+confirm phases and scene labels; a brief unseen transition cannot be inferred.
+The centered final banner requires large text in its specific screen area;
+round-complete notices and chat text do not establish a completed match.
 
 Private source screenshots remain under ignored `build/recognition-fixtures`.
 `scripts/check_recognition.py` validates their external manifest using real
@@ -45,10 +66,13 @@ Windows application; macOS/CrossOver does not provide these Windows OCR APIs.
 Performance: the capture worker and OCR helper run below normal Windows priority.
 Polling is configurable (default 5 seconds) and stops outside the foreground
 Overwatch window or while paused. OCR is sequential, with no overlay rendering
-or continuous game-frame analysis. A foreground-only Tab rising edge starts an immediate capture and one follow-up
-350 ms after it finishes, provided Tab remains held. Release, focus loss, pause,
-or configuration changes cancel the follow-up. Holding Tab does not repeat the
-burst; ordinary polling resumes at the configured interval. This reads key state
+or continuous game-frame analysis. A foreground-only Tab rising edge starts a
+separate capture thread's bounded burst: at most three in-memory frames, after
+150 ms of opening animation and at least 250 ms apart. OCR processes them
+sequentially even after Tab is released. Focus loss, pause, a new burst or
+configuration changes discard pending frames. Frames expire after 10 seconds.
+Holding Tab does not repeat the burst; ordinary polling resumes after release.
+No screenshots are written to disk. This reads key state
 without keyboard hooks or input injection. OCR failures impose a 30-second cooldown.
 Two matching scoreboard observations confirm phase and match fields together.
 
@@ -79,11 +103,36 @@ Menu party size: `party.py` reads a small portrait strip anchored to the right e
 and scaled by viewport height. Local corner samples estimate each tile's background;
 contrast coverage and horizontal/vertical extent separate full profile artwork from
 small social glyphs. Low-confidence strips return unknown. Only recognized menu
-navigation and menu/queue scenes can produce a count, and only menu presence displays
-it. The count includes the user's own portrait, confirms twice, is cleared on phase
-changes, and expires after max(30 seconds, 3 polling intervals). Recognition disabled
+navigation and menu/queue scenes can produce a count. The count includes the user's
+own portrait and confirms twice. It expires in menus after max(30 seconds, 3 polling
+intervals), but the last confirmed count remains visible through queue, map voting
+and match. Leaving a match clears it until a new menu observation. Recognition disabled
 or custom state text suppresses the automatic label. No Discord join/invite metadata
 or invented maximum party capacity is advertised. Tested source strips cover solo,
-duo and trio, plus inverted/grayscale/shifted-hue variants. An artificial ultrawide
+duo and trio, plus inverted/grayscale/shifted-hue variants. A supplied 3440x1440
+five-player strip covers the mixed layout with two wide and three compact
+profile tiles; all five profiles and the absent sixth slot must be recognizable.
+An artificial ultrawide
 canvas verifies right-edge anchoring; this is not proof of a live ultrawide UI.
 Ambiguous artwork and unsupported layouts can leave party size unknown.
+
+Windows PC validation, 2026-10-07: Russian interface, 3440x1440 (21:9),
+borderless game window. PrintWindow returned an entirely black image on this PC.
+Capture now falls back to the visible game client rectangle, checking foreground
+identity before and after capture. No capture is saved by the application.
+
+Real Windows OCR on supplied screenshots identifies Reaper on two practice
+scoreboards and hero selection, Ramattra on hero selection and a later scoreboard,
+Ilios and Control on the match scoreboard, and own E/A/D 10/0/1. Smaller padded
+title crops preserve condensed Cyrillic glyphs. Practice headers need a lower,
+context-specific search area. HUD ammo templates supplement missed OCR digits.
+The supplied menu portraits identify solo and duo; the user also observed the
+live change from one to two players. These do not establish all-avatar support.
+
+Map voting has its own phase, confirmed with the same two-observation rule.
+Candidate map names are deliberately ignored. The supplied voting result now
+identifies the winning map; assembled-team frames identify hero selection.
+The initial zero-stat Ramattra scoreboard still misses the hero and own row;
+recognition is not fully validated. Source screenshots and detailed OCR output
+stay in the ignored private corpus. Live rechecks, 16:9 and FPS comparisons remain
+required after rebuilding.

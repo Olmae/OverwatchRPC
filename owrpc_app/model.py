@@ -10,11 +10,14 @@ PROJECT_URL = "https://github.com/Olmae/OverwatchRPC"
 
 DEFAULT_CLIENT = "583356928688783369"
 LEGACY_LARGE_IMAGE = "https://raw.githubusercontent.com/Olmae/OverwatchRPC/main/assets/overwatch-logo.png"
-DEFAULT_LARGE_IMAGE = LEGACY_LARGE_IMAGE + "?v=20261007"
-PHASES = {"menus": "In menus", "queue": "In queue", "match": "In match"}
+PREVIOUS_LARGE_IMAGE = LEGACY_LARGE_IMAGE + "?v=20261007"
+DEFAULT_LARGE_IMAGE = LEGACY_LARGE_IMAGE + "?v=white-20261007-2"
+DEFAULT_MENU_IMAGE = "https://raw.githubusercontent.com/Olmae/OverwatchRPC/main/assets/owrpc-logo.png?v=20261007"
+PHASES = {"menus": "In menus", "queue": "In queue", "match": "In match", "map_vote": "Choosing a map",
+          "results": "Match finished", "map_loading": "Loading map"}
 MODES = ["Quick Play", "Competitive", "Stadium", "Arcade", "Custom Game",
          "Mystery Heroes", "Mystery Madness: Graveyard Games", "Practice",
-         "Capture the Flag", "Deathmatch", "Team Deathmatch", "Elimination", "Payload Race", "Workshop"]
+         "Capture the Flag", "Deathmatch", "Team Deathmatch", "Elimination", "Payload Race", "Workshop", "Control", "Escort", "Hybrid"]
 
 
 @dataclass
@@ -33,7 +36,8 @@ class Settings:
     show_timer: bool = True
     large_image: str = DEFAULT_LARGE_IMAGE
     hero_image: str = ""
-    menu_image: str = ""
+    menu_image: str = DEFAULT_MENU_IMAGE
+    artwork_layout: str = "map_large"
     use_hero_portrait: bool = True
     use_map_art: bool = True
     display_type: int = 0
@@ -82,8 +86,12 @@ class Settings:
         result.display_type = result.display_type if result.display_type in (0, 1, 2) else 0
         if not result.client_id.isdecimal() or not 6 <= len(result.client_id) <= 22:
             result.client_id = DEFAULT_CLIENT
-        if result.large_image in ("overwatch", LEGACY_LARGE_IMAGE):
+        if result.large_image in ("overwatch", LEGACY_LARGE_IMAGE, PREVIOUS_LARGE_IMAGE):
             result.large_image = DEFAULT_LARGE_IMAGE
+        if not result.menu_image:
+            result.menu_image = DEFAULT_MENU_IMAGE
+        if result.artwork_layout not in ("map_large", "hero_large"):
+            result.artwork_layout = "map_large"
         if result.language not in (*LANGUAGES, "auto"):
             result.language = "auto"
         result.ocr_language = "rus" if result.ocr_language.lower() in ("rus", "ru", "ru-ru", "rus+eng") else "eng"
@@ -103,6 +111,7 @@ class Status:
     kda_read_at: float | None = None
     party_size: int | None = None
     party_read_at: float | None = None
+    scene: str = ""
 
     def transition(self, phase, now=None):
         if phase not in PHASES:
@@ -110,8 +119,10 @@ class Status:
         if phase != self.phase or (phase == "match" and self.started_at is None):
             self.kda = self.kda_read_at = None
             self.started_at = int(time.time() if now is None else now) if phase == "match" else None
-        if phase != self.phase:
+        if phase != self.phase and self.phase == "match" and phase != "results":
             self.party_size = self.party_read_at = None
+        if phase != self.phase:
+            self.scene = ""
         self.phase = phase
 
 
@@ -125,14 +136,15 @@ def parse_kda(text):
 def kda_is_fresh(settings, status, now=None):
     age = (time.time() if now is None else now) - (status.kda_read_at or 0)
     return bool(settings.kda_enabled and status.phase == "match" and status.kda is not None
-                and status.kda_read_at is not None and 0 <= age <= max(15, settings.ocr_interval * 3))
+                and status.kda_read_at is not None and age >= 0)
 
 
 def party_is_fresh(settings, status, now=None):
+    age = (time.time() if now is None else now) - (status.party_read_at or 0)
     return bool(settings.ocr_enabled and status.party_size in range(1, 7)
                 and status.party_read_at is not None
-                and 0 <= (time.time() if now is None else now) - status.party_read_at
-                <= max(30, settings.ocr_interval * 3))
+                and age >= 0
+                and (status.phase in ("queue", "map_vote", "map_loading", "results", "match") or age <= max(30, settings.ocr_interval * 3)))
 
 
 def build_payload(settings, status, hero_info=None, map_info=None, now=None):
@@ -142,18 +154,29 @@ def build_payload(settings, status, hero_info=None, map_info=None, now=None):
     if status.phase == "match":
         details = f"{tr(status.mode, language)} · {map_name or tr('Map not selected', language)}"
         state = tr("Playing {hero}", language, hero=hero_name) if status.hero else tr("In match", language)
+        if status.scene == "hero_select":
+            state = tr("Choosing a hero", language)
     elif status.phase == "queue":
         details, state = f"{tr(status.mode, language)}: {tr('In Queue', language)}", tr("Waiting for a match", language)
+    elif status.phase == "map_vote":
+        details, state = tr("Choosing a map", language), tr("Choosing a map", language)
+    elif status.phase == "map_loading":
+        details, state = tr("Loading map", language), map_name or tr("Loading map", language)
+    elif status.phase == "results":
+        details, state = tr("Match finished", language), map_name or "Overwatch"
     else:
         details, state = tr("In Menus", language), "Overwatch"
-    if status.phase == "menus" and party_is_fresh(settings, status, now):
+        if status.scene == "waiting_for_group":
+            state = tr("Waiting for group", language)
+    if party_is_fresh(settings, status, now):
         if status.party_size == 1:
-            state = tr("Solo", language)
+            party_label = tr("Solo", language)
         else:
             key = "In a party: {count} players"
             if language == "ru" and status.party_size in (2, 3, 4):
                 key = "In a party: {count} teammates"
-            state = tr(key, language, count=status.party_size)
+            party_label = tr(key, language, count=status.party_size)
+        state = party_label if status.phase == "menus" and status.scene != "waiting_for_group" else state + " · " + party_label
     if kda_is_fresh(settings, status, now):
         state += " · E/A/D " + "/".join(str(value) for value in status.kda)
     payload = {"details": (settings.details_override or details)[:128],
@@ -169,6 +192,16 @@ def build_payload(settings, status, hero_info=None, map_info=None, now=None):
                        small_url=hero_info.get("source"))
     if status.phase == "match" and settings.use_map_art and map_info and map_info.get("image_available", True):
         payload.update(large_image=map_info["screenshot"], large_text=map_name[:128])
+    if status.phase == "match" and settings.artwork_layout == "hero_large":
+        payload.pop("small_image", None)
+        payload.pop("small_text", None)
+        payload.pop("small_url", None)
+        payload["large_image"] = settings.large_image
+        payload["large_text"] = "Overwatch"
+        if status.hero and (settings.hero_image or settings.use_hero_portrait and hero_info):
+            payload.update(large_image=settings.hero_image or hero_info["portrait"], large_text=hero_name[:128])
+        if settings.use_map_art and map_info and map_info.get("image_available", True):
+            payload.update(small_image=map_info["screenshot"], small_text=map_name[:128])
     if status.phase == "menus" and valid_url(settings.menu_image):
         payload.update(small_image=settings.menu_image[:256], small_text="OWRPC", small_url=PROJECT_URL)
     if status.phase == "menus" and not settings.button_label:

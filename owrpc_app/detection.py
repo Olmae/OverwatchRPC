@@ -78,6 +78,10 @@ def catalog_name(text, catalog, fuzzy=False):
                 for start in range(len(tokens) - size + 1):
                     phrase = normalize(' '.join(tokens[start:start + size]))
                     scores.append(SequenceMatcher(None, normalized, phrase).ratio())
+                    # The condensed Cyrillic A can be read as Я by Windows OCR.
+                    # Keep the existing length, confidence and ambiguity gates.
+                    if 'а' in normalized:
+                        scores.append(SequenceMatcher(None, normalized, phrase.replace('я', 'а')).ratio())
             score = max(scores, default=0)
             candidates.append((score, name))
         candidates.sort(reverse=True)
@@ -88,8 +92,10 @@ def catalog_name(text, catalog, fuzzy=False):
 
 def mode_from(text):
     for mode, aliases in [('Stadium', ('STADIUM', 'СТАДИОН')), ('Competitive', ('COMPETITIVE', 'СОРЕВНОВАТЕЛ')),
-                          ('Quick Play', ('QUICK PLAY', 'БЫСТРАЯ ИГРА', 'JOGO CASUAL', 'JOGO CASUAL')), ('Practice', ('PRACTICE', 'ТРЕНИРОВОЧ')),
-                          ('Arcade', ('ARCADE', 'АРКАДА')), ('Custom Game', ('CUSTOM GAME', 'СВОЯ ИГРА'))]:
+                          ('Quick Play', ('QUICK PLAY', 'БЫСТРАЯ ИГРА', 'НЕРЕЙТИНГОВАЯ ИГРА', 'JOGO CASUAL')), ('Practice', ('PRACTICE', 'ТРЕНИРОВОЧ', 'УЧЕБНЫЙ ПОЛИГОН')),
+                          ('Arcade', ('ARCADE', 'АРКАДА')), ('Custom Game', ('CUSTOM GAME', 'СВОЯ ИГРА')),
+                          ('Control', ('CONTROL', 'КОНТРОЛЬ')), ('Escort', ('ESCORT', 'СОПРОВОЖДЕНИЕ')),
+                          ('Hybrid', ('HYBRID', 'ГИБРИДНЫЙ РЕЖИМ'))]:
         if any(alias in text for alias in aliases):
             return mode
     return None
@@ -130,8 +136,21 @@ def own_stats(words, headers, nickname):
 
 def detect(words, heroes, maps, nickname=''):
     top = text_in(words, (0, 0, 1, .15))
+    result = any(t in top for t in ('VICTORY', 'DEFEAT', 'VICTORIA', 'DERROTA', 'ПОБЕДА', 'ПОРАЖЕНИЕ'))
+    results_ui = any(t in top for t in ('LEAVING GAME', 'ABANDONANDO', 'SUMMARY', 'REWARDS', 'ВЫХОД', 'НАГРАДЫ', 'ДЛИТЕЛЬНОСТЬ МАТЧА', 'ПОКИНУТЬ МАТЧ'))
+    # The final banner is large and centered; chat text and round notices are
+    # insufficient evidence that the match ended.
+    final_banner = any((w.text.upper() in ('VICTORY', 'DEFEAT', 'ПОБЕДА', 'ПОРАЖЕНИЕ')
+                        or w.text.upper().endswith('ЖЕНИЕ')
+                        and SequenceMatcher(None, w.text.upper(), 'ПОРАЖЕНИЕ').ratio() >= .65)
+                       and .3 < w.x < .7 and .35 < w.cy < .65
+                       and w.width > .20 and w.height > .065 for w in words)
+    if result and results_ui or final_banner:
+        return Detection(phase='results', scene='results')
     # Search is an independent state; it may coexist with gallery/practice HUD.
-    waiting = any(t in top for t in ('WAITING FOR GROUP MEMBERS', 'TO SELECT ROLE', 'ВЫБЕРУТ РОЛИ'))
+    group_banner = text_in(words, (.4, .08, .6, .2))
+    waiting = (any(t in top for t in ('WAITING FOR GROUP MEMBERS', 'TO SELECT ROLE', 'ВЫБЕРУТ РОЛИ'))
+               or all(t in group_banner for t in ('ГРУППЫ', 'ВЫБЕРУТ', 'РОЛИ')))
     search = any(t in top for t in ('SEARCHING', 'ПОИСК', 'ПОИСКА'))
     center_banner = text_in(words, (.4, 0, .6, .10))
     center_timer = text_in(words, (.52, 0, .59, .07))
@@ -146,24 +165,43 @@ def detect(words, heroes, maps, nickname=''):
         detail_mode = mode_from(detail) if any(t in detail for t in ('SEARCH', 'ПОИСК')) else None
         banner_mode = mode_from(stadium_banner) or mode_from(text_in(words, (.73, .07, 1, .15)))
         return Detection(phase='queue', mode=detail_mode or banner_mode, scene='search')
+    vote_hint = text_in(words, (.32, .19, .75, .25))
+    vote_result = text_in(words, (.32, .14, .75, .27))
+    if 'РЕЗУЛЬТАТЫ ГОЛОСОВАНИ' in vote_result.replace('Я', 'А') or 'VOTING RESULTS' in vote_result:
+        selected_map = catalog_name(top, maps)
+        if selected_map is None:
+            # The small italic winner label can be split into individual words.
+            compact = normalize(text_in(words, (.94, .025, 1, .08)))
+            names = {item['name'] for item in maps if isinstance(item, dict)
+                     and any(normalize(alias) == compact for alias in
+                             (item['name'], *item.get('localized_names', {}).values()))}
+            selected_map = next(iter(names)) if len(names) == 1 else None
+        return Detection(phase='map_loading', scene='map_loading',
+                         map_name=selected_map, mode=mode_from(top))
+    if ('БОЛЬШЕ' in vote_hint and 'ГОЛОСОВ' in vote_hint) or 'VOTE FOR A' in top:
+        return Detection(phase='map_vote', scene='map_vote')
     if ('SPIEL WIRD GESCHLOSSEN' in top and 'SIEG' in top) or all(t in top for t in ('RESUMEN', 'EQUIPOS', 'PERSONAL')):
-        return Detection(phase='menus', scene='results')
+        return Detection(phase='results', scene='results')
     result = any(t in top for t in ('VICTORY', 'DEFEAT', 'VICTORIA', 'DERROTA', 'ПОБЕДА', 'ПОРАЖЕНИЕ'))
     results_ui = any(t in top for t in ('LEAVING GAME', 'ABANDONANDO', 'SUMMARY', 'REWARDS', 'ВЫХОД', 'НАГРАДЫ'))
     if (result and results_ui) or ('COMPETITIVE' in top and 'SUMMARY' in top and 'REWARDS' in top):
-        return Detection(phase='menus', scene='results')
-    if waiting or any(t in top for t in ('HISTORY', 'ИСТОРИЯ')):
+        return Detection(phase='results', scene='results')
+    if waiting:
+        return Detection(phase='menus', scene='waiting_for_group')
+    if any(t in top for t in ('HISTORY', 'ИСТОРИЯ')):
         return Detection(phase='menus', scene='menus')
     # Headers locate the numeric columns without relying on row highlight or team colors.
+    practice = 'УЧЕБНЫЙ ПОЛИГОН' in top or 'PRACTICE RANGE' in top
+    header_bottom = .4 if practice else .2
     headers = []
     for aliases in [('E', 'УБ'), ('A', 'СОД'), ('D', 'С')]:
-        found = [w for w in words if .3 < w.x < .55 and .1 < w.cy < .2 and w.text.upper() in aliases]
+        found = [w for w in words if .3 < w.x < .55 and .1 < w.cy < header_bottom and w.text.upper() in aliases]
         if len(found) != 1:
             break
         headers.append(found[0])
     if len(headers) != 3:
-        dmg = [w for w in words if .35 < w.x < .6 and .12 < w.cy < .19 and w.text.upper() in ('DMG', 'УРОН')]
-        mit = [w for w in words if .45 < w.x < .65 and .12 < w.cy < .19 and w.text.upper() in ('MIT', 'ПОГЛ')]
+        dmg = [w for w in words if .35 < w.x < .6 and .12 < w.cy < header_bottom and w.text.upper() in ('DMG', 'УРОН')]
+        mit = [w for w in words if .45 < w.x < .65 and .12 < w.cy < header_bottom and w.text.upper() in ('MIT', 'ПОГЛ')]
         if len(dmg) == 1 and not mit and sum(bool(re.fullmatch(r'\d+', w.text)) for w in words if .3 < w.x < .6 and .19 < w.cy < .88) >= 9:
             mit = [Word('MIT', dmg[0].x+dmg[0].width*5.3, dmg[0].y, dmg[0].width, dmg[0].height)]
         if len(dmg) == len(mit) == 1 and abs(dmg[0].cy-mit[0].cy) < .01:
@@ -175,14 +213,23 @@ def detect(words, heroes, maps, nickname=''):
     if scoreboard:
         hero = catalog_name(text_in(words, (.58, .29, .86, .39)), heroes, fuzzy=True)
         map_name = catalog_name(text_in(words, (.65, 0, 1, .09)), maps)
-        timer = re.findall(r'(?<!\d)(\d{1,3}):([0-5]\d)(?!\d)', text_in(words, (.91, .025, 1, .085)))
+        timer_text = text_in(words, (.91, .025, 1, .085)).replace('O', '0').replace('О', '0')
+        timer = re.findall(r'(?<!\d)(\d{1,3}):([0-5]\d)(?!\d)', timer_text)
         elapsed = int(timer[0][0])*60+int(timer[0][1]) if len(timer)==1 else None
         return Detection(phase='match', hero=hero, map_name=map_name, mode=mode_from(top),
                          kda=own_stats(words, headers, nickname), scene='scoreboard', elapsed=elapsed)
     left = text_in(words, (0, .08, .48, .31))
+    selected_label = text_in(words, (.42, .72, .57, .89))
+    practice_selection = ('В МАТЧЕ' in left and 'УЧЕБНЫЙ ПОЛИГОН' in left
+                          and 'ПРОДОЛЖИТЬ' in text_in(words, (.42, .84, .57, .96)))
     selection = any(t in left for t in ('SELECT YOUR HERO', 'SELECT HERO', 'ВЫБЕРИТЕ ГЕРОЯ', 'ВЫБОР ГЕРОЯ')) or ('SUA EQUIPE' in left and 'SELECIONAR VISUAL' in text_in(words, (.65, .08, 1, .28)))
-    if selection:
-        return Detection(phase='match', hero=catalog_name(text_in(words, (.65, .02, 1, .26)), heroes),
+    assembly = ('СБОР КОМАНДЫ' in left
+                and any(t in text_in(words, (.42, .84, .57, .96)) for t in ('ВЫБРАТЬ', 'СМЕНИТЬ ГЕРОЯ')))
+    if selection or practice_selection or assembly:
+        hero = catalog_name(text_in(words, (.65, .02, 1, .26)), heroes, fuzzy=True)
+        if hero is None and (practice_selection or assembly):
+            hero = catalog_name(selected_label, heroes, fuzzy=True)
+        return Detection(phase='match', hero=hero,
                          map_name=catalog_name(left, maps), mode=mode_from(top + ' ' + left), scene='hero_select')
     # A gallery has the same portrait grid as hero selection, but HOME/CUSTOMIZE controls.
     navigation = text_in(words, (0, 0, .8, .09))

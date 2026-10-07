@@ -45,10 +45,15 @@ class DetectionTests(unittest.TestCase):
         self.assertEqual(result.hero, 'Moira')
         self.assertIsNone(result.kda)
 
+    def test_scoreboard_timer_accepts_ocr_zero_letters_only_in_timer_region(self):
+        result = detect([word('E', .38, .15), word('A', .41, .15), word('D', .44, .15),
+                         word('q.o:oo', .96, .04, .025)], [], [])
+        self.assertEqual(result.elapsed, 0)
+
     def test_result_screen_takes_priority_over_scoreboard(self):
         result = detect([word('VICTORY', .02, .03), word('HAVANA', .15, .03),
                          word('LEAVING GAME IN', .73, .04)], [], ['Havana'])
-        self.assertEqual(result.phase, 'menus')
+        self.assertEqual(result.phase, 'results')
 
     def test_unrecognized_frame_does_not_force_menu(self):
         self.assertIsNone(detect([], [], []).phase)
@@ -90,16 +95,60 @@ class QueueModeTests(unittest.TestCase):
 
 
 class AdditionalSceneTests(unittest.TestCase):
+    def test_russian_hybrid_scoreboard_resolves_bundled_paraiso(self):
+        from owrpc_app.catalog import load_catalog
+        catalog = load_catalog()
+        words = [word('УБ', .38, .15, .01), word('СОД', .41, .15, .01),
+                 word('С', .44, .15, .01), word('ГИБРИДНЫЙ РЕЖИМ', .82, .035, .07),
+                 word('ПАРАИСО', .90, .035, .03)]
+        result = detect(words, catalog['heroes'], catalog['maps'])
+        self.assertEqual((result.map_name, result.mode), ('Paraíso', 'Hybrid'))
+
+    def test_map_vote_does_not_pick_a_candidate_map(self):
+        words = [word('ЧЕМ БОЛЬШЕ ГОЛОСОВ У ПОЛЯ БОЯ', .36, .215, .30),
+                 word('BLIZZARD WORLD', .31, .54), word('ИЛИОС', .49, .54),
+                 word('ПАРАИСО', .65, .54)]
+        result = detect(words, [], ['Blizzard World', 'Илиос', 'Параисо'])
+        self.assertEqual((result.phase, result.scene), ('map_vote', 'map_vote'))
+        self.assertIsNone(result.map_name)
+
+    def test_cyrillic_condensed_title_and_control_mode(self):
+        words = [word('УБ', .38, .15, .01), word('СОД', .41, .15, .01),
+                 word('С', .44, .15, .01), word('РЯМЯТТРЯ', .6, .34),
+                 word('КОНТРОЛЬ', .87, .03)]
+        heroes = [{'name': 'Ramattra', 'localized_names': {'ru': 'Раматтра'}},
+                  {'name': 'Reaper', 'localized_names': {'ru': 'Жнец'}}]
+        result = detect(words, heroes, [])
+        self.assertEqual((result.hero, result.mode), ('Ramattra', 'Control'))
+
+    def test_practice_scoreboard_with_lower_headers(self):
+        words = [word('Учебный полигон', .86, .03, .07),
+                 word('УБ', .414, .295, .008), word('СОД', .429, .295, .014),
+                 word('С', .455, .295, .004), word('ЭШ', .627, .344, .02),
+                 word('OLMAEUWU', .296, .334, .036),
+                 word('0', .414, .337, .008), word('0', .435, .337, .008),
+                 word('0', .456, .337, .008)]
+        result = detect(words, [{'name': 'Ashe', 'localized_names': {'ru': 'Эш'}}],
+                        [{'name': 'Practice Range', 'localized_names': {'ru': 'Учебный полигон'}}],
+                        'OlmaeUwU')
+        self.assertEqual((result.scene, result.hero, result.map_name, result.mode, result.kda),
+                         ('scoreboard', 'Ashe', 'Practice Range', 'Practice', (0, 0, 0)))
+
+    def test_lower_headers_without_practice_context_are_not_a_scoreboard(self):
+        words = [word('E', .414, .295, .008), word('A', .435, .295, .008),
+                 word('D', .456, .295, .008)]
+        self.assertEqual(detect(words, [], []).scene, 'unknown')
+
     def test_german_result_is_not_active_match(self):
         result = detect([word('SIEG', .03, .04), word('SPIEL WIRD GESCHLOSSEN IN:', .5, .05),
                          word('SAMOA', .1, .04)], [], ['Samoa'])
-        self.assertEqual(result.phase, 'menus')
+        self.assertEqual(result.phase, 'results')
         self.assertIsNone(result.map_name)
 
     def test_spanish_team_report_is_not_current_scoreboard(self):
         result = detect([word('RESUMEN EQUIPOS PERSONAL', .05, .03),
                          word('E', .38, .15), word('A', .41, .15), word('D', .44, .15)], [], [])
-        self.assertEqual(result.phase, 'menus')
+        self.assertEqual(result.phase, 'results')
         self.assertIsNone(result.kda)
 
     def test_portuguese_assembly_identifies_own_hero(self):

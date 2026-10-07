@@ -42,6 +42,8 @@ class App:
         with Image.open(resource_dir() / "app.png") as image:
             self.window_icon = ImageTk.PhotoImage(image)
         root.iconphoto(True, self.window_icon)
+        if sys.platform == "win32":
+            root.iconbitmap(default=str(resource_dir() / "app.ico"))
         self.vars = {}
         self.rpc_label = tk.StringVar(value=self.t('Waiting for Discord…'))
         self.rpc_status = "Waiting for Discord…"
@@ -119,7 +121,17 @@ class App:
         style.map("TRadiobutton", background=[("active", "#20252d")])
         style.configure("TLabelframe", background="#20252d", bordercolor="#343b44", lightcolor="#343b44", darkcolor="#343b44", padding=12)
         style.configure("TLabelframe.Label", foreground="#f4f6f8", font=("Segoe UI", 11, "bold"))
-        style.configure("Vertical.TScrollbar", background="#343b44", troughcolor="#15191f", arrowcolor="#98a2ae", bordercolor="#20252d")
+        style.layout("OWRPC.Vertical.TScrollbar", [
+            ("Vertical.Scrollbar.trough", {"sticky": "ns", "children": [
+                ("Vertical.Scrollbar.thumb", {"expand": "1", "sticky": "nswe"})]})])
+        style.configure("OWRPC.Vertical.TScrollbar", background="#465262", troughcolor="#15191f",
+                        bordercolor="#15191f", lightcolor="#465262", darkcolor="#465262",
+                        borderwidth=0, troughborderwidth=0, relief="flat",
+                        width=round(12 * self.scale), arrowsize=round(12 * self.scale))
+        style.map("OWRPC.Vertical.TScrollbar",
+                  background=[("pressed", "#f59c20"), ("active", "#728399")],
+                  lightcolor=[("pressed", "#f59c20"), ("active", "#728399")],
+                  darkcolor=[("pressed", "#f59c20"), ("active", "#728399")])
         self.root.option_add("*TCombobox*Listbox.background", "#20252d")
         self.root.option_add("*TCombobox*Listbox.foreground", "#f4f6f8")
         self.root.option_add("*TCombobox*Listbox.selectBackground", "#a66a17")
@@ -148,7 +160,6 @@ class App:
         pages = [ScrollPage(book) for _ in range(2)]
         for page, title in zip(pages, ("Activity", "Additional")):
             book.add(page, text=self.t(title))
-        self.root.bind("<MouseWheel>", lambda event: pages[book.index(book.select())].wheel(event))
         def navigation_changed(event=None):
             for index, button in enumerate(self.nav_buttons):
                 selected = index == book.index(book.select())
@@ -256,6 +267,8 @@ class App:
         phases.pack(fill="x", pady=(0, 14))
         self.phase_buttons = {}
         for phase, name in PHASES.items():
+            if phase in ("results", "map_loading"):
+                continue
             button = MotionButton(phases, text=self.t(name), command=lambda p=phase: self.set_phase(p))
             button.pack(side="left", padx=(0, 3))
             self.phase_buttons[phase] = button
@@ -413,6 +426,14 @@ class App:
         appearance = appearance_section.content
         self.check(appearance, self.t("Use official hero portraits"), "use_hero_portrait")
         self.check(appearance, self.t("Use map artwork"), "use_map_art")
+        ttk.Label(appearance, text=self.t("Discord artwork layout")).pack(anchor="w", pady=(8, 4))
+        layouts = {self.t("Large map, small hero"): "map_large", self.t("Large hero, small map"): "hero_large"}
+        layout_choice = tk.StringVar(value=next(label for label, value in layouts.items()
+                                              if value == self.var("artwork_layout").get()))
+        layout = ttk.Combobox(appearance, textvariable=layout_choice, values=list(layouts), state="readonly")
+        layout.pack(fill="x", pady=(0, 8))
+        layout.bind("<<ComboboxSelected>>", lambda _: self.var("artwork_layout").set(layouts[layout_choice.get()]))
+        self.artwork_layout_choice, self.artwork_layout_widget = layout_choice, layout
         form = ttk.Frame(appearance)
         form.pack(fill="x", pady=6)
         labels = ("Application name", "State", "Details")
@@ -446,7 +467,7 @@ class App:
                      values=("English", "Русский"), state="readonly").grid(row=1, column=1, sticky="ew", pady=5)
         self.region_labels = {}
         self.check(parent, "Show E/A/D from the scoreboard (experimental)", "kda_enabled")
-        self.hint(parent, "E/A/D is read from your nickname row while Tab is visible. Old readings are omitted from Discord. No region calibration is needed.")
+        self.hint(parent, "E/A/D is read from your nickname row while Tab is visible. Discord keeps the last confirmed values until the next update or match exit. No region calibration is needed.")
         ttk.Label(parent, textvariable=self.ocr_label, wraplength=int(590 * self.scale)).pack(anchor="w", pady=10)
 
     def build_about(self, parent):
@@ -583,6 +604,13 @@ class App:
             small = self.photo("", "owrpc-logo", (int(44 * self.scale), int(44 * self.scale)))
         elif shown.phase == "match" and self.settings.use_hero_portrait and hero:
             small = self.photo("heroes", hero["key"], (int(44 * self.scale), int(44 * self.scale)))
+        if shown.phase == "match" and self.settings.artwork_layout == "hero_large":
+            large = (self.photo("heroes", hero["key"], (int(150 * self.scale), int(150 * self.scale)))
+                     if self.settings.use_hero_portrait and hero else
+                     self.photo("", "overwatch-logo", (int(150 * self.scale), int(150 * self.scale))))
+            small = (self.photo("maps", map_info["key"], (int(44 * self.scale), int(44 * self.scale)), crop=True)
+                     if self.settings.use_map_art and map_info else None)
+            self.map_preview.configure(image=large or "", text="")
         self.hero_preview.configure(image=small or "", text="")
         if small:
             self.hero_preview.place(relx=1, rely=1, anchor="se")
@@ -594,12 +622,15 @@ class App:
             self.preview_link.pack(fill="x", before=self.preview_notice, pady=(0, 16))
         else:
             self.preview_link.pack_forget()
-        custom_art = self.settings.large_image != Settings().large_image or bool(self.settings.hero_image and shown.phase == "match") or bool(self.settings.menu_image and shown.phase == "menus")
+        custom_art = self.settings.large_image != Settings().large_image or bool(self.settings.hero_image and shown.phase == "match") or bool(self.settings.menu_image != Settings().menu_image and shown.phase == "menus")
         note = "Custom artwork is sent to Discord; the preview uses local artwork." if custom_art else "This is a local preview. Discord controls the final appearance."
         if shown.phase == "menus" and not self.settings.menu_image:
             note = "The menu logo is ready locally. Add its public HTTPS URL in Additional to show it in Discord."
         self.preview_notice.configure(text=self.t(note))
-        self.scene_label.configure(text=self.t(PHASES[current.phase]))
+        scene_label = ("Choosing a hero" if current.phase == "match" and current.scene == "hero_select"
+                       else "Waiting for group" if current.phase == "menus" and current.scene == "waiting_for_group"
+                       else PHASES[current.phase])
+        self.scene_label.configure(text=self.t(scene_label))
         self.mode_label.configure(text=self.t(current.mode) if current.phase != "menus" else self.t("Your activity updates automatically") if self.settings.ocr_enabled else self.t("Manual activity"))
         current_hero = next((x for x in self.catalog["heroes"] if x["name"] == current.hero), {})
         current_map = next((x for x in self.catalog["maps"] if x["name"] == current.map_name), {})

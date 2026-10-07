@@ -44,6 +44,6 @@ a two-column Discord preview. No WebView.
 
 Optional scoreboard E/A/D is opt-in. Read only a calibrated rectangle while
 Overwatch is foreground and the phase is match. Accept exactly three numeric
-counters after two consecutive matching samples; track reading time, omit old
-values from Discord, and reset on a new match. Reject events from prior worker
+counters after two consecutive matching samples; track reading time, retain the
+last confirmed values until the next update or match exit, and reset on a new match. Reject events from prior worker
 revisions. This is an experimental OCR convenience, not a live game API.

@@ -1,28 +1,45 @@
-# Desktop refresh · beta 3
+# OverwatchRPC 2.0.0-beta.4
 
-The seven-year-old console companion is now a Windows tray application with
-English UI, settings and documentation. Thank you to Tominous and maxicc for
-the original OWRPC code and inspiration.
+A native Windows tray companion for Overwatch and Discord Rich Presence.
+This beta improves local recognition, desktop responsiveness and activity artwork.
+Thank you to Tominous and maxicc for the original OWRPC code and inspiration.
 
-- Tkinter window, tray controls, optional Windows startup and single-instance guard.
-- Manual phase/map/hero controls, hero gallery, local preview and match timer.
-- 54 official Blizzard hero portraits and a 59-entry map catalog, checked against
-  available sources for October 6, 2026. Includes Doctrine and legacy/Arcade/Stadium
-  maps; seasonal duplicates and ranked rotations are not a separate catalog.
-- Current pypresence 4.6.2: HTTPS images, clickable hero artwork, optional profile
-  button, status display selection, background reconnect and update throttling.
-- Optional calibrated Tesseract OCR, foreground-only capture and conservative
-  matching. This is experimental; it cannot infer match state or read hidden text.
-- Local atomic settings, rotating logs, Windows portable ZIP and build checks.
-- Window size adapts to screen height; settings remain reachable through scrolling.
+- Activity dashboard with a Discord preview, compact rounded controls, nine
+  interface languages and expandable settings under Additional.
+- Local Windows OCR for English and Russian game interfaces. No Tesseract
+  installation, WebView, cloud OCR, game-memory reads or in-game overlay.
+- A foreground-only, bounded Tab capture burst lets OCR finish after releasing
+  the scoreboard. Two matching readable observations still confirm changes.
+- Menu, queue, map voting, winning-map loading, hero selection and match-result
+  states. New-map confirmation recovers a match boundary when menu frames were missed.
+- Optional E/A/D from your nickname row. The last confirmed values remain until
+  the next successful read or match exit; unreadable values are never invented.
+- Party count remembered from menus through search and gameplay, including the
+  reviewed five-player compact header layout.
+- Choose a large map with a small hero, or a large hero with a small map.
+  White/orange Overwatch artwork and the original OWRPC application icon.
+- Wheel scrolling over embedded controls, preserved position when collapsing
+  sections and a narrow scrollbar with native hover feedback.
+- Background release checks and validated daily hero/map reference updates, with
+  a local cache. No automatic EXE replacement or live-statistics database.
+- 54 bundled heroes and 59 map entries, with reviewed Russian aliases.
+- English README with the new cover and one native application screenshot.
 
-The transparent official fallback logo replaces the old white-square Discord
-asset; existing settings using the legacy image key migrate automatically.
+Validation: 101 unit tests, lint, native UI smoke checks in nine languages and
+the frozen Windows OCR/dependency self-test passed on the maintainer's PC.
+Real Windows OCR on 25 supplied 3440×1440 screenshots matched the declared
+expectations, including documented unavailable fields. Live short-Tab checks and
+an actual Discord activity capture were also performed. Documentation activity
+values are illustrative, not recognition benchmarks.
 
-Extract the entire ZIP. Launch `OverwatchRPC.exe`; Python is not needed. Tesseract
-is needed only for optional OCR. The build is unsigned.
+Recognition remains experimental. Every hero/skin, 16:9, live rechecks of the
+latest transition changes and controlled app-off/tray/open-window FPS comparisons
+are still pending. Desktop latency measurements do not prove zero FPS impact.
 
-Beta.2 ran in Windows 11 ARM64 under x64 emulation and published real Discord menu
-and match activity with Doctrine's portrait and a timer. Real Overwatch/OCR and
-the full tray/startup lifecycle still require testing. See the included
-WINDOWS-TESTING.md before treating the beta as stable.
+Download `OverwatchRPC-Windows.zip` and extract the entire folder. Keep
+`OverwatchRPC.exe` and `_internal` together; Python is not required. Open the
+desktop Discord client, enable activity sharing, and select the game's OCR
+language under Additional. This is an unsigned Windows beta.
+
+Settings and rotating logs are stored in `%APPDATA%\OWRPC`. See the README and
+Windows acceptance checklist for setup and bug-report details.

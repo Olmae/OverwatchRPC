@@ -1156,7 +1156,10 @@
       ],
       "location": "Rio de Janeiro, Brazil",
       "country_code": "BR",
-      "image_available": true
+      "image_available": true,
+      "localized_names": {
+        "ru": "Параисо"
+      }
     },
     {
       "key": "paris",
@@ -1212,6 +1215,9 @@
     {
       "key": "practice-range",
       "name": "Practice Range",
+      "localized_names": {
+        "ru": "Учебный полигон"
+      },
       "screenshot": "https://overfast-api.tekrop.fr/static/maps/practice-range.jpg",
       "gamemodes": [
         "practice-range"
@@ -1376,6 +1382,9 @@
     {
       "key": "watchpoint-grimsvotn",
       "name": "Watchpoint: Grimsvotn",
+      "localized_names": {
+        "ru": "Гримсвотн"
+      },
       "screenshot": "https://overfast-api.tekrop.fr/static/maps/watchpoint-grimsvotn.jpg",
       "gamemodes": [
         "escort"

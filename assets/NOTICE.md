@@ -3,8 +3,8 @@
 The transparent Overwatch logo was supplied by the maintainer from
 [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Overwatch_circle_logo.svg)
 on October 7, 2026. `overwatch-logo.svg` preserves that original vector source.
-The Discord PNG is rendered at 1280 x 1280 with alpha transparency; the window,
-tray and executable icons use transparent raster versions of the same source.
+The Discord PNG is rendered at 1280 x 1280 with alpha transparency and a white
+and orange treatment for dark backgrounds.
 The logo and associated trademarks belong to Blizzard Entertainment.
 
 Hero portraits are resized from the official Blizzard Overwatch hero roster.
@@ -47,3 +47,11 @@ they are not covered by the code's GPL license.
 The original OWRPC orange and ivory relay mark (`owrpc-logo.png` and
 `owrpc-logo-source.png`) is the application identity. Window, tray and
 executable icons use resized versions of this approved mark.
+
+The README cover combines the original OWRPC mark, an English native desktop
+capture, and a Discord activity screenshot supplied by the maintainer on
+October 8, 2026. Its heading uses stylized lettering inspired by Overwatch;
+no official Overwatch font file is bundled. The cover translates the Discord
+card header to English. Activity values in these documentation images are
+illustrative and do not represent measured recognition accuracy or performance.
+The original captures are stored separately under `docs/screenshots`.

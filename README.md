@@ -1,3 +1,7 @@
+![OverwatchRPC — native Windows companion for Discord Rich Presence](docs/screenshots/readme-cover.png)
+
+![English Activity dashboard](docs/screenshots/activity-en.png)
+
 # OverwatchRPC
 
 A small Windows tray companion for **Overwatch + Discord Rich Presence**.
@@ -9,7 +13,10 @@ of the way while you play. No Chromium runtime, account login or Discord token.
 ![Python](https://img.shields.io/badge/python-3.12%2B-blue)
 ![License](https://img.shields.io/badge/code-GPLv3-blue)
 
-![Windows UI smoke-test preview](docs/screenshots/presence.png)
+The English dashboard and Discord activity use illustrative match data for
+documentation. The cover is a styled composition; the dashboard above is a
+native Windows capture, and the [Discord activity capture](docs/screenshots/discord-en-activity.png)
+was supplied by the maintainer. These images are not recognition or FPS benchmarks.
 
 ## Why this refresh exists
 
@@ -34,8 +41,10 @@ its old network checks and catalogs are not part of the supported desktop flow.
    and its `_internal` directory together; Python is not required.
 3. Open the desktop Discord client and enable **Activity Privacy → Share your
    detected activities with others**. Browser-only Discord cannot accept local RPC.
-4. Launch `OverwatchRPC.exe`, start Overwatch, choose **In match**, select a mode,
-   map and hero, then click **Apply presence**.
+4. Launch `OverwatchRPC.exe`, start Overwatch, and select the game's OCR language
+   under **Additional**. Automatic recognition is enabled by default. For manual
+   corrections, expand the Activity controls, select a mode, map and hero, then
+   click **Apply presence**.
 5. Allow up to the configured update interval (15 seconds by default), and check
    your profile from another Discord account.
 
@@ -45,8 +54,9 @@ selections and resets the timer. Settings are saved to `%APPDATA%\OWRPC`.
 
 This is an **unsigned beta**. Beta.2 launched in Windows 11 ARM64 under x64
 emulation and published real Discord activity with a hero portrait and match
-timer. Real-game OCR and the full tray/startup lifecycle still need testing on a
-gaming PC. Please use the
+timer. Subsequent testing on a Windows gaming PC covers Russian 3440×1440
+gameplay and supplied screenshots. Recognition is still experimental: every
+hero, 16:9, and comparable FPS measurements remain unverified. Please use the
 [Windows acceptance checklist](docs/WINDOWS-TESTING.md).
 
 ## What is included
@@ -97,7 +107,7 @@ Sources:
 The historical application ID is retained for compatibility. It is public; no
 account password or user token is used. If that old Discord application stops
 working, create an application in the [Developer Portal](https://discord.com/developers/applications)
-and paste its application ID into Settings. Its application name determines the
+and paste its application ID into Additional → Discord connection. Its application name determines the
 activity name; it is not freely renamed by this companion.
 
 Official hero portraits use external HTTPS URLs, so they do not depend on uploading
@@ -135,7 +145,7 @@ Two observations confirm changes; unknown frames retain the last known state.
 
 Tab provides the current map, mode when displayed, and own hero name on the
 right. During gameplay the HUD can provide your nickname. For reliable E/A/D,
-enter your exact game nickname in Advanced and enable the scoreboard option.
+enter your exact game nickname in Additional and enable the scoreboard option.
 The app locates your row by name rather than highlight color. Small digit
 shape templates supplement OCR. Ambiguous rows/counters are not published.
 Automatic recognition is enabled by default for new settings. A saved explicit
@@ -146,20 +156,27 @@ With automatic recognition enabled, menu presence also shows **Solo** or
 portrait tiles at the right of the menu header, not the social/friends counter,
 voice channel count, or in-match team count. Two observations confirm a change;
 unknown/hidden strips retain a value only briefly before it expires. Custom state
-text still overrides this label. The supplied 1/2/3-player layouts and palette
-variants were checked; arbitrary avatars, UI scaling and larger groups need more
+text still overrides this label. The last confirmed count is remembered through
+search, map voting and the match, and appears alongside the activity. Leaving the
+match clears it until the menu portraits can be read again. Map voting shows
+**Choosing a map** without treating a proposed map as the actual battlefield.
+The supplied 1/2/3-player layouts, a five-player compact strip and palette
+variants were checked; arbitrary avatars, UI scaling and other groups need more
 real-game validation. No extra OCR pass or in-game overlay is added for this feature.
 
 The offline catalog includes official Russian names for all 54 heroes and an
 initial subset of map names. Russian names are also used in localized Discord
 activity text; other catalog identities remain stable.
 
-Stats only update while Tab is visible, expire from Discord when stale, and
-clear when entering another phase. Hero switches without a readable selection
+Stats are read from visible Tab frames and retain the last confirmed values
+until the next successful read or leaving the match. Hero switches without a readable selection
 screen or Tab remain unconfirmed. The app does not press Tab for you. A Tab press in the foreground game starts
-recognition immediately, with one follow-up while the key remains held. Keep the
-scoreboard open until both reads finish; the first Windows OCR startup can take
-longer. Holding Tab then returns to the configured polling interval.
+a bounded capture burst in a separate thread. Up to three frames are captured
+in memory while the scoreboard is visible, starting after its opening animation.
+Releasing Tab lets OCR finish processing those frames; holding it until OCR
+finishes is unnecessary. Two matching readable observations are still required,
+so an extremely brief tap can miss the scoreboard. Focus loss, pause and settings
+changes discard pending frames. Holding Tab does not repeat the burst.
 
 A supplied Russian Havana scoreboard also validates hero, map, elapsed time and
 E/A/D, including changed palette variants. Mixed Latin nicknames in a Russian
@@ -167,9 +184,10 @@ interface can start a second persistent OCR helper; both helpers stop on pause.
 Large condensed titles on the supplied Portuguese selection screen still leave
 hero/mode unconfirmed even though the scene and map are recognized.
 
-This is experimental. The supplied English screenshots and a Russian search
-screen are the initial validation corpus, not proof across all heroes, skins,
-UI layouts, resolutions, languages, or a live game session. Borderless/windowed
+This is experimental. Supplied English screenshots and Russian 3440×1440 gameplay
+frames cover menus, search, map voting, selection, scoreboards and results.
+These checks do not establish accuracy across all heroes, skins, UI layouts,
+resolutions or languages. Borderless/windowed
 mode is recommended; black captures and unrecognized screens retain manual
 controls. Screenshots and readings are neither uploaded nor saved by the app.
 Legacy Tesseract calibration fields remain readable in saved settings but are
@@ -254,25 +272,33 @@ OverwatchRPC is unofficial and is not affiliated with Blizzard or Discord.
 The interface and standard Discord activity phrases support English, Russian,
 Simplified Chinese, Brazilian Portuguese, Spanish, Traditional Chinese, Korean,
 French and German. The system language is used by default; select a language in
-Settings to switch immediately without resetting the current match or timer.
+Additional to switch immediately without resetting the current match or timer.
 Hero and map identifiers retain their original catalog names. Custom activity
 text is preserved verbatim. Interface language does not change OCR recognition.
 
-Activity contains the everyday controls and a local Discord preview. Settings
-contains language, startup, tray and timer preferences. Advanced groups Discord
-connection, appearance and automatic recognition settings, with explanations.
+Activity contains the everyday controls and a local Discord preview. Additional
+contains language, startup, tray, timer and recognition preferences, with
+expandable Discord connection and activity appearance sections.
 
 ### Optional scoreboard E/A/D
 
-Enable the experimental scoreboard option in Advanced and enter your game
+Enable the experimental scoreboard option under Additional and enter your game
 nickname. Local Windows OCR plus grayscale digit templates read your E/A/D
 row when Tab is visible. No rectangle calibration or Tesseract is required.
-Unknown or ambiguous rows are ignored; stale readings are omitted from
-Discord. Manual state overrides are preserved. Real-game validation remains
+Unknown or ambiguous rows are ignored. Discord keeps the last confirmed values
+until the next successful read or leaving the match. Manual state overrides are preserved. Real-game validation remains
 necessary before treating recognition as reliable for every setup.
 
 
 ### Desktop dashboard
+
+Additional → Activity appearance lets you choose a large map with a small hero
+or a large hero with a small map. Existing artwork switches and custom hero URLs
+apply to either layout. The menu uses the public OWRPC logo by default.
+
+Activity also distinguishes waiting for group roles, hero selection, the winning
+map after voting, and match completion. A confirmed result stops the old timer
+and clears E/A/D; it is not displayed as ongoing gameplay.
 
 The Activity page shows the detected scene, hero, map, fresh party count and
 match timer, with a Discord preview on the right. At smaller widths the cards
@@ -289,6 +315,9 @@ uses local artwork and explains any difference from the published payload.
 Rounded buttons retain native keyboard activation, focus indication and disabled
 states. Card corners are static images; hover feedback stops after its short
 transition. Additional opens with the game nickname and optional E/A/D controls.
+Wheel scrolling works over embedded fields and expanded sections without changing
+closed dropdown selections. Collapsing sections preserves the scroll position;
+the narrow dark scrollbar uses native hover and drag feedback.
 
 
 ## Updates and dynamic data

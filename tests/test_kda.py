@@ -9,14 +9,14 @@ class KdaTests(unittest.TestCase):
         for text in ('12 4', '12 4 3 1500', 'I2 4 3', '-1 4 3', '12.4 3', 'Ana 12 4 3', '1234 1 2'):
             self.assertIsNone(parse_kda(text), text)
 
-    def test_stale_or_wrong_match_stats_are_not_published(self):
+    def test_last_confirmed_stats_remain_until_match_exit(self):
         settings = Settings(kda_enabled=True, ocr_interval=5)
         status = Status(phase='match', hero='Ana', started_at=50, kda=(12, 4, 3), kda_read_at=100)
         self.assertTrue(kda_is_fresh(settings, status, now=110))
-        self.assertFalse(kda_is_fresh(settings, status, now=120))
+        self.assertTrue(kda_is_fresh(settings, status, now=1200))
         self.assertFalse(kda_is_fresh(settings, status, now=90))
         self.assertIn('12/4/3', build_payload(settings, status, now=110)['state'])
-        self.assertNotIn('12/4/3', build_payload(settings, status, now=120)['state'])
+        self.assertIn('12/4/3', build_payload(settings, status, now=1200)['state'])
         self.assertNotIn('12/4/3', build_payload(Settings(), status, now=110)['state'])
         status.transition('menus')
         self.assertIsNone(status.kda)

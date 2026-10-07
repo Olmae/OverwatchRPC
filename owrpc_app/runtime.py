@@ -3,11 +3,13 @@ import logging
 import queue
 import threading
 import time
+import sys
 
 from .model import build_payload, match_catalog, StableMatch, parse_kda
 from .platform import game_running, game_foreground, lower_worker_priority, tab_pressed
-from .ocr import recognize, close_recognition
+from .ocr import recognize, close_recognition, analyze_frame
 from .recognition_schedule import RecognitionSchedule
+from .tab_capture import TabCapture
 
 log = logging.getLogger(__name__)
 
@@ -94,13 +96,20 @@ class Worker(threading.Thread):
         except OSError:
             log.warning("Could not lower recognition worker priority", exc_info=True)
         rpc = RpcSession()
-        stable = {key: StableMatch() for key in ("hero", "map", "kda", "phase", "mode", "nickname", "party")}
+        stable = {key: StableMatch() for key in ("hero", "map", "kda", "phase", "mode", "nickname", "party", "scene")}
         next_rpc = next_process = 0
         schedule = RecognitionSchedule()
         running = False
         previous_running = None
         current_revision = 0
         nickname = ""
+        previous_detection = previous_confirmation = None
+        tab_opened_at = None
+        active_burst = None
+        capture = TabCapture() if sys.platform == "win32" else None
+        if capture is not None:
+            capture.configure(self.settings, current_revision, self.status.paused)
+            capture.start()
         try:
             while not self.stop_event.wait(0.25):
                 while True:
@@ -119,6 +128,8 @@ class Worker(threading.Thread):
                     except queue.Empty:
                         break
                 now = time.monotonic()
+                if capture is not None:
+                    capture.configure(self.settings, current_revision, self.status.paused)
                 if now >= next_process:
                     try:
                         running = game_running(self.settings.game_process)
@@ -152,38 +163,89 @@ class Worker(threading.Thread):
                     foreground = pressed = False
                     log.info("Foreground/key check failed: %s", exc)
                 if not foreground:
+                    tab_opened_at = None
                     for match in stable.values():
                         match.reset()
-                if schedule.due(now, foreground, pressed, self.settings.ocr_interval):
+                elif capture is None and pressed and not schedule.pressed:
+                    tab_opened_at = time.monotonic()
+                    log.info("Recognition timing: Tab opened")
+                sample = capture.take(current_revision, time.monotonic()) if capture is not None and foreground else None
+                due = schedule.due(now, foreground, pressed if capture is None else False, self.settings.ocr_interval)
+                if sample is not None or (due and not (capture is not None and pressed)):
                     try:
-                        readings = dict(recognize(self.settings, self.catalog, nickname))
+                        recognition_started = time.monotonic()
+                        if sample is not None:
+                            tab_opened_at = sample.opened_at
+                            if sample.burst != active_burst:
+                                active_burst = sample.burst
+                                for match in stable.values():
+                                    match.reset()
+                            readings = dict(analyze_frame(self.settings, self.catalog, nickname, sample.image))
+                            if not capture.current(sample) or not game_foreground(self.settings.game_process):
+                                continue
+                        else:
+                            readings = dict(recognize(self.settings, self.catalog, nickname))
                         schedule.completed(time.monotonic(), self.settings.ocr_interval)
                         # A manual edit queued during capture invalidates that capture.
                         if not self.commands.empty():
                             continue
                         scene = readings.pop("__scene__", None)
                         if scene is not None:
+                            detection = (scene.scene, scene.phase, scene.hero, scene.map_name,
+                                         scene.mode, scene.kda, scene.party_size)
+                            if detection != previous_detection:
+                                log.info("Recognition candidate: scene=%s phase=%s hero=%s map=%s mode=%s kda=%s party=%s duration_ms=%.1f",
+                                         *detection, (time.monotonic() - recognition_started) * 1000)
+                                previous_detection = detection
                             detected_nick = stable["nickname"].observe(scene.nickname)
                             if detected_nick:
                                 nickname = detected_nick
                             # Collect match candidates before phase confirmation so two
                             # scoreboard frames confirm both the scene and its fields.
                             accepted_fields = {}
-                            if scene.phase == "match":
+                            if scene.phase in ("match", "map_loading"):
                                 for key, candidate in (("hero", scene.hero), ("map", scene.map_name), ("kda", scene.kda)):
-                                    accepted_fields[key] = stable[key].observe(candidate)
-                            else:
+                                    accepted_fields[key] = (None if sample is not None and candidate is None
+                                                            else stable[key].observe(candidate))
+                            elif sample is None or scene.phase is not None:
                                 for key in ("hero", "map", "kda"):
                                     stable[key].reset()
-                            accepted_phase = stable["phase"].observe(scene.phase)
+                            accepted_phase = (None if sample is not None and scene.phase is None
+                                              else stable["phase"].observe(scene.phase))
+                            if capture is None and pressed and not accepted_fields.get("hero"):
+                                schedule.retry_followup(time.monotonic())
                             if self.settings.ocr_enabled and accepted_phase is not None:
                                 old_phase = self.status.phase
+                                map_changed = (accepted_fields.get("map") and self.status.map_name
+                                               and accepted_fields["map"] != self.status.map_name)
+                                counters_reset = (accepted_fields.get("kda") == (0, 0, 0)
+                                                  and self.status.kda and any(self.status.kda)
+                                                  and scene.elapsed is not None and 0 <= scene.elapsed <= 10
+                                                  and self.status.started_at is not None
+                                                  and time.time() - self.status.started_at >= 60)
+                                if old_phase == accepted_phase == "match" and (map_changed or counters_reset):
+                                    log.info("New match recovered: map_changed=%s counters_reset=%s", bool(map_changed), bool(counters_reset))
+                                    self.status.hero = self.status.map_name = ""
+                                    self.status.mode = self.settings.mode
+                                    self.status.kda = self.status.kda_read_at = None
+                                    self.status.started_at = int(time.time()) - (scene.elapsed or 0)
                                 self.status.transition(accepted_phase)
                                 if old_phase != accepted_phase:
-                                    self.status.hero = self.status.map_name = ""
+                                    if accepted_phase != "results":
+                                        self.status.hero = ""
+                                    if accepted_phase != "results" and not (old_phase == "map_loading" and accepted_phase == "match"):
+                                        self.status.map_name = ""
                                     if accepted_phase == "match" and scene.elapsed is not None:
                                         self.status.started_at = int(time.time()) - scene.elapsed
-                            mode = stable["mode"].observe(scene.mode)
+                            accepted_scene = stable["scene"].observe(scene.scene) if scene.phase else None
+                            if accepted_scene and self.status.phase == scene.phase:
+                                self.status.scene = accepted_scene
+                            if scene.phase == self.status.phase == "map_loading":
+                                loading_map = accepted_fields.get("map")
+                                if loading_map:
+                                    self.status.map_name = loading_map
+                            mode = (None if sample is not None and scene.mode is None
+                                    else stable["mode"].observe(scene.mode))
                             if mode:
                                 self.status.mode = mode
                             if self.status.phase == "match" and scene.phase == "match":
@@ -204,6 +266,19 @@ class Worker(threading.Thread):
                                     self.status.party_read_at = time.time()
                             else:
                                 stable["party"].reset()
+                            confirmation = (self.status.phase, self.status.hero, self.status.map_name,
+                                            self.status.mode, self.status.kda, self.status.party_size)
+                            if confirmation != previous_confirmation:
+                                log.info("Recognition confirmed: phase=%s hero=%s map=%s mode=%s kda=%s party=%s", *confirmation)
+                                if (tab_opened_at is not None and self.status.hero
+                                        and (previous_confirmation is None or self.status.hero != previous_confirmation[1])):
+                                    log.info("Recognition timing: hero=%s tab_to_confirm_ms=%.1f",
+                                             self.status.hero, (time.monotonic() - tab_opened_at) * 1000)
+                                previous_confirmation = confirmation
+                            if (sample is not None and accepted_phase and accepted_fields.get("hero")
+                                    and accepted_fields.get("map") and mode
+                                    and (not self.settings.kda_enabled or accepted_fields.get("kda") is not None)):
+                                capture.discard(sample.burst)
                             self.events.put(("detected", (replace(self.status), current_revision)))
                             self.events.put(("ocr_status", "Automatic recognition: " + scene.scene))
                             continue
@@ -230,6 +305,8 @@ class Worker(threading.Thread):
                         log.info("OCR error: %s", exc)
                         schedule.failed(time.monotonic())
         finally:
+            if capture is not None:
+                capture.close()
             try:
                 rpc.send(self.settings.client_id, None)
             finally:

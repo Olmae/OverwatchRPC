@@ -36,6 +36,7 @@ def resolve_language(language):
 
 # Rows follow LANGUAGES order after English. English text is also the fallback key.
 _ROWS = {
+    'Choosing a map': ('Выбор карты', '选择地图', 'Escolhendo o mapa', 'Eligiendo mapa', '選擇地圖', '전장 선택', 'Choix de la carte', 'Kartenauswahl'),
     'Activity': ('Активность', '活动', 'Atividade', 'Actividad', '活動', '활동', 'Activité', 'Aktivität'),
     'Settings': ('Настройки', '设置', 'Configurações', 'Ajustes', '設定', '설정', 'Paramètres', 'Einstellungen'),
     'Advanced': ('Расширенные', '高级', 'Avançado', 'Avanzado', '進階', '고급', 'Avancé', 'Erweitert'),
@@ -145,6 +146,9 @@ _ROWS = {
     'Custom Game': ('Своя игра', '自定义比赛', 'Jogo personalizado', 'Partida personalizada', '自訂遊戲', '사용자 지정 게임', 'Partie personnalisée', 'Benutzerdefiniertes Spiel'),
     'Mystery Heroes': ('Загадочные герои', '神秘英雄', 'Heróis misteriosos', 'Héroes misteriosos', '神秘英雄', '수수께끼의 영웅', 'Héros mystères', 'Überraschungshelden'),
     'Practice': ('Тренировка', '训练', 'Treino', 'Práctica', '練習', '훈련', 'Entraînement', 'Training'),
+    'Control': ('Контроль', '控制', 'Controle', 'Control', '控制', '쟁탈', 'Contrôle', 'Kontrolle'),
+    'Escort': ('Сопровождение', '护送', 'Escolta', 'Escolta', '護送', '호위', 'Escorte', 'Eskorte'),
+    'Hybrid': ('Гибридный режим', '混合', 'Híbrido', 'Híbrido', '混合', '혼합', 'Hybride', 'Hybrid'),
     'Capture the Flag': ('Захват флага', '勇夺锦旗', 'Capture a bandeira', 'Captura la bandera', '搶旗', '깃발 뺏기', 'Capture du drapeau', 'Flaggeneroberung'),
     'Deathmatch': ('Схватка', '死斗', 'Combate até a morte', 'Combate a muerte', '死鬥', '데스매치', 'Combat à mort', 'Deathmatch'),
     'Team Deathmatch': ('Командная схватка', '团队死斗', 'Combate até a morte em equipe', 'Combate a muerte por equipos', '團隊死鬥', '팀 데스매치', 'Combat à mort par équipe', 'Team-Deathmatch'),
@@ -406,6 +410,24 @@ _ROWS.update({'Additional': ('Дополнительно',
                                                                                                    'Discord '
                                                                                                    'ein.')})
 
+_ROWS.update({
+    'E/A/D is read from your nickname row while Tab is visible. Discord keeps the last confirmed values until the next update or match exit. No region calibration is needed.': (
+        'E/A/D считывается из строки с вашим ником при открытом Tab. Discord сохраняет последние подтверждённые значения до обновления или выхода из матча. Выделять области не нужно.',
+        '打开 Tab 时按昵称读取 E/A/D。Discord 保留最后确认的数值，直到下次更新或离开比赛。无需设置区域。',
+        'Lê E/A/D na linha do seu apelido com Tab aberto. Discord mantém os últimos valores confirmados até atualizar ou sair da partida. Não exige calibrar regiões.',
+        'Lee E/A/D en tu fila con Tab abierto. Discord conserva los últimos valores confirmados hasta actualizar o salir de la partida. No requiere calibrar regiones.',
+        '開啟 Tab 時依暱稱讀取 E/A/D。Discord 保留最後確認的數值，直到下次更新或離開比賽。無須設定區域。',
+        'Tab 화면에서 닉네임 행의 E/A/D를 읽습니다. Discord는 다음 갱신이나 경기 종료까지 마지막 확인 값을 유지합니다. 영역 보정은 필요 없습니다.',
+        'Lit E/A/D sur votre ligne quand Tab est ouvert. Discord conserve les dernières valeurs confirmées jusqu’à la prochaine mise à jour ou la sortie du match. Aucun calibrage requis.',
+        'Liest E/A/D in deiner Zeile bei geöffnetem Tab. Discord behält die zuletzt bestätigten Werte bis zur nächsten Aktualisierung oder zum Verlassen des Matches. Keine Bereichskalibrierung nötig.'),
+    'Choosing a hero': ('Выбор героя', '选择英雄', 'Escolhendo herói', 'Eligiendo héroe', '選擇英雄', '영웅 선택', 'Choix du héros', 'Heldenauswahl'),
+    'Waiting for group': ('Ожидание группы', '等待队伍', 'Aguardando o grupo', 'Esperando al grupo', '等待隊伍', '그룹 대기', 'En attente du groupe', 'Warten auf die Gruppe'),
+    'Loading map': ('Загрузка карты', '加载地图', 'Carregando mapa', 'Cargando mapa', '載入地圖', '지도 로딩', 'Chargement de la carte', 'Karte wird geladen'),
+    'Match finished': ('Матч завершён', '比赛结束', 'Partida encerrada', 'Partida terminada', '比賽結束', '경기 종료', 'Partie terminée', 'Match beendet'),
+    'Discord artwork layout': ('Иконки Discord', 'Discord 图片布局', 'Imagens do Discord', 'Imágenes de Discord', 'Discord 圖片配置', 'Discord 이미지 배치', 'Images Discord', 'Discord-Bildanordnung'),
+    'Large map, small hero': ('Большая карта, маленький герой', '大地图，小英雄', 'Mapa grande, herói pequeno', 'Mapa grande, héroe pequeño', '大地圖，小英雄', '큰 지도, 작은 영웅', 'Grande carte, petit héros', 'Große Karte, kleiner Held'),
+    'Large hero, small map': ('Большой герой, маленькая карта', '大英雄，小地图', 'Herói grande, mapa pequeno', 'Héroe grande, mapa pequeño', '大英雄，小地圖', '큰 영웅, 작은 지도', 'Grand héros, petite carte', 'Großer Held, kleine Karte'),
+})
 TEXT = {key: dict(zip(LANGUAGES, (key, *values))) for key, values in _ROWS.items()}
 
 

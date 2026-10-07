@@ -7,7 +7,8 @@ class ScrollPage(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.canvas = tk.Canvas(self, highlightthickness=0, bg="#15191f")
-        scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview,
+                                  style="OWRPC.Vertical.TScrollbar")
         self.canvas.configure(yscrollcommand=scrollbar.set)
         self.canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
@@ -15,6 +16,23 @@ class ScrollPage(ttk.Frame):
         self.window = self.canvas.create_window((0, 0), window=self.content, anchor="nw")
         self.content.bind("<Configure>", self.resize)
         self.canvas.bind("<Configure>", self.resize)
+        self.wheel_tag = "OWRPCScroll" + str(self)
+        self.bind_class(self.wheel_tag, "<MouseWheel>", self.wheel)
+        self.after_idle(self.install_wheel_bindings)
+        self.bind("<Destroy>", self.clear_wheel_binding)
+
+    def install_wheel_bindings(self):
+        def visit(widget):
+            tags = widget.bindtags()
+            if self.wheel_tag not in tags:
+                widget.bindtags((self.wheel_tag, *tags))
+            for child in widget.winfo_children():
+                visit(child)
+        visit(self)
+
+    def clear_wheel_binding(self, event):
+        if event.widget == self:
+            self.unbind_class(self.wheel_tag, "<MouseWheel>")
 
     def resize(self, event=None):
         if getattr(self, "resize_pending", False):
@@ -30,12 +48,17 @@ class ScrollPage(ttk.Frame):
         if getattr(self, "last_extent", None) == extent:
             return
         self.last_extent = extent
+        top = max(0, self.canvas.canvasy(0))
         self.canvas.itemconfigure(self.window, width=width, height=height)
         self.canvas.configure(scrollregion=(0, 0, width, height))
+        self.canvas.yview_moveto(top / height)
 
     def wheel(self, event):
+        if not event.delta:
+            return "break"
         steps = -1 if event.delta > 0 else 1
         self.canvas.yview_scroll(steps * 3, "units")
+        return "break"
 
 
 class MotionButton(ttk.Button):
