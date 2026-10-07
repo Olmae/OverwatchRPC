@@ -45,6 +45,7 @@ def main():
         app.var("map_name").set("King’s Row")
         app.set_phase("match")
         root.update()
+        assert root.winfo_height() <= max(500, root.winfo_screenheight() - 100)
         assert app.status.hero == "Doctrine"
         assert app.status.started_at
         assert app.hero_preview.cget("image")

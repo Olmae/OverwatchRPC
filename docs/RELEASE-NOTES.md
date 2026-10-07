@@ -1,4 +1,4 @@
-# Desktop refresh · beta 1
+# Desktop refresh · beta 2
 
 The seven-year-old console companion is now a Windows tray application with
 English UI, settings and documentation. Thank you to Tominous and maxicc for
@@ -14,6 +14,7 @@ the original OWRPC code and inspiration.
 - Optional calibrated Tesseract OCR, foreground-only capture and conservative
   matching. This is experimental; it cannot infer match state or read hidden text.
 - Local atomic settings, rotating logs, Windows portable ZIP and build checks.
+- Window size adapts to screen height; settings remain reachable through scrolling.
 
 Extract the entire ZIP. Launch `OverwatchRPC.exe`; Python is not needed. Tesseract
 is needed only for optional OCR. The build is unsigned.

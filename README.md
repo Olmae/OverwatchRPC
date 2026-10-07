@@ -5,7 +5,7 @@ Choose your hero, map and game mode, preview your activity, and keep the app out
 of the way while you play. No Chromium runtime, account login or Discord token.
 
 ![Windows build](https://github.com/Olmae/OverwatchRPC/actions/workflows/windows.yml/badge.svg)
-![Version](https://img.shields.io/badge/version-2.0.0--beta.1-orange)
+![Version](https://img.shields.io/badge/version-2.0.0--beta.2-orange)
 ![Python](https://img.shields.io/badge/python-3.12%2B-blue)
 ![License](https://img.shields.io/badge/code-GPLv3-blue)
 
