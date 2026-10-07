@@ -55,6 +55,19 @@ class HeroParser(HTMLParser):
             self.current = None
 
 
+def preserve_localized_names(catalog, previous):
+    """Retain reviewed translations when refreshing canonical metadata."""
+    for kind in ("heroes", "maps"):
+        by_key = {item["key"]: item for item in previous.get(kind, [])}
+        for item in catalog.get(kind, []):
+            names = by_key.get(item["key"], {}).get("localized_names")
+            if names:
+                item["localized_names"] = dict(names)
+    if previous.get("localization_sources"):
+        from copy import deepcopy
+        catalog["localization_sources"] = deepcopy(previous["localization_sources"])
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--as-of", required=True, help="Content cutoff in YYYY-MM-DD")
@@ -77,6 +90,9 @@ def main():
                "scope": "Official live hero roster; OverFast standard, Arcade, Stadium and Workshop maps. Not a ranked map rotation or a list of every seasonal variant.",
                "heroes": sorted(parsed.heroes, key=lambda x: x["name"]),
                "maps": sorted(maps, key=lambda x: x["name"])}
+    existing = assets / "catalog.json"
+    if existing.exists():
+        preserve_localized_names(catalog, json.loads(existing.read_text(encoding="utf-8")))
     # Prepare every image before replacing catalog, avoiding partially refreshed data.
     def thumbnail(item):
         from PIL import Image

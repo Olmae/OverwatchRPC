@@ -20,7 +20,7 @@ class FakeWorker:
     def start(self):
         pass
 
-    def configure(self, settings, status):
+    def configure(self, settings, status, catalog=None):
         self.revision += 1
         self.status = status
 
@@ -30,7 +30,6 @@ class FakeWorker:
 
 def main():
     import tkinter as tk
-    from tkinter import ttk
     from PIL import ImageGrab
     from owrpc_app.ui import App
     from owrpc_app.catalog import resource_dir
@@ -38,13 +37,37 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"APPDATA": folder}), \
             patch("owrpc_app.ui.Worker", FakeWorker), patch.object(App, "start_tray"):
+        from owrpc_app.platform import enable_dpi_awareness
+        enable_dpi_awareness()
         root = tk.Tk()
         root.geometry("780x710+0+0")
+        ui_started = time.perf_counter()
+        print("Creating native UI", flush=True)
+        App.start_services = lambda self: None
         app = App(root)
+        callback_errors = []
+        root.report_callback_exception = lambda *args: callback_errors.append(str(args[1]))
+        print("Native UI created", flush=True)
+        original_catalog = app.catalog
+        original_rpc_status = app.rpc_status
+        app.events.put(("service", ("catalog", None, None, False)))
+        app.poll()
+        assert app.catalog is original_catalog
+        app.ocr_language_choice.set("Русский")
+        with patch("owrpc_app.ui.set_autostart"):
+            app.save_preferences()
+        assert app.settings.ocr_language == "rus"
+        assert app.rpc_status == original_rpc_status
+        app.events.put(("service", ("catalog", None, "offline", True)))
+        app.poll()
+        assert app.catalog is original_catalog
+
         app.var("hero").set("Doctrine")
         app.var("map_name").set("King’s Row")
         app.set_phase("match")
+        print("Updating layout", flush=True)
         root.update()
+        print("Layout ready in", round(time.perf_counter() - ui_started, 2), "seconds", flush=True)
         assert root.winfo_height() <= max(500, root.winfo_screenheight() - 100)
         assert app.status.hero == "Doctrine"
         assert app.status.started_at
@@ -54,25 +77,128 @@ def main():
             for row in app.catalog[kind]:
                 if row.get("image_available"):
                     assert (resource_dir() / kind / (row["key"] + ".png")).is_file()
-        book = next(w for w in root.winfo_children() if isinstance(w, ttk.Notebook))
-        for tab in range(4):
-            book.select(tab)
+        from owrpc_app.i18n import LANGUAGES
+        from owrpc_app.storage import load_settings
+        print("UI dimensions", root.winfo_width(), root.winfo_height(), "screen", root.winfo_screenwidth(), root.winfo_screenheight(), "scale", app.scale)
+        timer = app.status.started_at
+        app.var("details_override").set("My custom activity")
+        app.display_value = 2
+        app.toggle_pause()
+        for code, name in LANGUAGES.items():
+            language_started = time.perf_counter()
+            print("UI language", code, flush=True)
+            app.language_var.set(name)
+            app.change_language()
+            root.update()
+            print("Language layout seconds", round(time.perf_counter() - language_started, 2), flush=True)
+            assert app.language == code
+            assert app.status.hero == "Doctrine" and app.status.map_name == "King’s Row"
+            assert app.status.started_at == timer and app.status.paused
+            assert app.phase_buttons["match"].cget("background") == "#68451c"
+            assert app.var("details_override").get() == "My custom activity"
+            assert app.display_value == 2
+            assert app.phase_var.get() == "match"
+            assert app.book.tab(0, "text") == app.t("Activity")
+            assert app.preview_state.cget("text") == app.t("Presence paused")
+            app.book.select(1)
+            root.update()
+        app.language_var.set(LANGUAGES["ru"])
+        app.change_language()
+        app.toggle_pause()
+        app.var("only_when_game").set(False)
+        with patch("owrpc_app.ui.set_autostart"):
+            app.save_preferences()
+        saved, warning = load_settings()
+        assert not warning and saved.language == "ru" and saved.display_type == 2
+        assert saved.details_override == "My custom activity"
+        assert not saved.only_when_game
+        assert app.status.started_at == timer
+        app.var("details_override").set("")
+        app.settings.details_override = ""
+        app.settings.kda_enabled = True
+        app.status.kda, app.status.kda_read_at = (12, 4, 3), time.time()
+        app.preview()
+        app.status.party_size, app.status.party_read_at = 3, time.time()
+        app.timer_tick()
+        assert app.activity_values["Party"].cget("text") == "3"
+        app.status.party_read_at = time.time() - 1000
+        app.timer_tick()
+        assert app.activity_values["Party"].cget("text") == "—", "Expired party must disappear without another OCR event"
+        app.status.party_size = app.status.party_read_at = None
+        # Rounded surfaces keep native keyboard activation and disabled state.
+        app.pause_button.focus_force()
+        root.update()
+        paused = app.status.paused
+        app.pause_button.event_generate("<Return>")
+        root.update()
+        assert app.status.paused != paused, "Return must invoke once"
+        app.pause_button.event_generate("<Return>")
+        root.update()
+        assert app.status.paused == paused
+        app.pause_button.configure(state="disabled")
+        app.pause_button.invoke()
+        assert app.status.paused == paused, "Disabled buttons must not invoke"
+        app.pause_button.configure(state="normal")
+        app.pause_button.animate(app.pause_button.hover)
+        deadline = time.monotonic() + 0.5
+        while time.monotonic() < deadline:
+            root.update()
+            time.sleep(0.02)
+        assert app.pause_button.animation is None, "Button animation must stop after transition"
+        app.catalog_picker("heroes", "hero")
+        root.update()
+        for child in root.winfo_children():
+            if isinstance(child, tk.Toplevel):
+                child.destroy()
+        for tab in range(2):
+            app.book.select(tab)
             root.update()
             time.sleep(0.2)
             if sys.platform == "win32":
-                ImageGrab.grab(bbox=(root.winfo_rootx(), root.winfo_rooty(),
-                                    root.winfo_rootx() + root.winfo_width(),
-                                    root.winfo_rooty() + root.winfo_height())).save(output / f"tab-{tab}.png")
-        book.select(0)
+                import ctypes
+                ctypes.windll.user32.SetThreadDpiAwarenessContext(ctypes.c_void_p(-4))
+                hwnd = ctypes.windll.user32.GetAncestor(root.winfo_id(), 2)
+                ImageGrab.grab(window=hwnd).save(output / f"tab-{tab}.png")
+        app.book.select(0)
+        if sys.platform == "win32":
+            def capture(name):
+                root.update()
+                time.sleep(0.15)
+                ImageGrab.grab(window=hwnd).save(output / name)
+            app.show_example("menus")
+            capture("menu-preview.png")
+            app.show_example(None)
+            app.toggle_manual()
+            capture("manual.png")
+            app.toggle_manual()
+            root.geometry(f"{int(760 * app.scale)}x{int(710 * app.scale)}")
+            root.update()
+            assert app.dashboard_right.grid_info()["row"] == 1
+            capture("narrow.png")
+        # Examples must never configure the worker or mutate real activity.
+        revision = app.worker.revision
+        actual = (app.status.phase, app.status.hero, app.status.map_name, app.status.started_at)
+        for phase in ("menus", "queue", "match", None):
+            app.show_example(phase)
+            root.update()
+            assert app.worker.revision == revision
+            assert (app.status.phase, app.status.hero, app.status.map_name, app.status.started_at) == actual
+        app.toggle_manual()
+        root.update()
+        assert app.manual_panel.winfo_ismapped()
+        app.toggle_manual()
+        assert not app.manual_open
         app.hero_gallery()
         root.update()
         app.toggle_pause()
         assert app.status.paused
         app.new_match()
         assert app.status.hero == "" and app.status.map_name == ""
+        app.events.put(("kda", ((12, 4, 3), time.time(), app.worker.revision - 1)))
         app.events.put(("recognized", ("hero", "Ana", app.worker.revision - 1)))
         app.poll()
         assert app.status.hero == "", "Stale OCR must not overwrite a manual change"
+        assert not callback_errors, callback_errors
         root.destroy()
     print("Tk UI smoke passed: widgets, portraits, state transitions and stale OCR rejection")
 

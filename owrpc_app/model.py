@@ -1,11 +1,16 @@
 from dataclasses import dataclass, fields
 from difflib import SequenceMatcher
 import time
+import re
 import unicodedata
 from urllib.parse import urlparse
+from .i18n import LANGUAGES, resolve_language, tr
+
+PROJECT_URL = "https://github.com/Olmae/OverwatchRPC"
 
 DEFAULT_CLIENT = "583356928688783369"
-DEFAULT_LARGE_IMAGE = "https://raw.githubusercontent.com/Olmae/OverwatchRPC/main/assets/overwatch-logo.png"
+LEGACY_LARGE_IMAGE = "https://raw.githubusercontent.com/Olmae/OverwatchRPC/main/assets/overwatch-logo.png"
+DEFAULT_LARGE_IMAGE = LEGACY_LARGE_IMAGE + "?v=20261007"
 PHASES = {"menus": "In menus", "queue": "In queue", "match": "In match"}
 MODES = ["Quick Play", "Competitive", "Stadium", "Arcade", "Custom Game",
          "Mystery Heroes", "Mystery Madness: Graveyard Games", "Practice",
@@ -14,6 +19,7 @@ MODES = ["Quick Play", "Competitive", "Stadium", "Arcade", "Custom Game",
 
 @dataclass
 class Settings:
+    language: str = "auto"
     client_id: str = DEFAULT_CLIENT
     hero: str = ""
     map_name: str = ""
@@ -27,6 +33,7 @@ class Settings:
     show_timer: bool = True
     large_image: str = DEFAULT_LARGE_IMAGE
     hero_image: str = ""
+    menu_image: str = ""
     use_hero_portrait: bool = True
     use_map_art: bool = True
     display_type: int = 0
@@ -34,7 +41,12 @@ class Settings:
     button_url: str = ""
     details_override: str = ""
     state_override: str = ""
-    ocr_enabled: bool = False
+    kda_enabled: bool = False
+    kda_region: list | None = None
+    player_name: str = ""
+    check_updates: bool = True
+    auto_catalog: bool = True
+    ocr_enabled: bool = True
     ocr_interval: int = 5
     ocr_language: str = "eng"
     tesseract_path: str = ""
@@ -70,8 +82,11 @@ class Settings:
         result.display_type = result.display_type if result.display_type in (0, 1, 2) else 0
         if not result.client_id.isdecimal() or not 6 <= len(result.client_id) <= 22:
             result.client_id = DEFAULT_CLIENT
-        if result.large_image == "overwatch":
+        if result.large_image in ("overwatch", LEGACY_LARGE_IMAGE):
             result.large_image = DEFAULT_LARGE_IMAGE
+        if result.language not in (*LANGUAGES, "auto"):
+            result.language = "auto"
+        result.ocr_language = "rus" if result.ocr_language.lower() in ("rus", "ru", "ru-ru", "rus+eng") else "eng"
         return result
 
 
@@ -84,35 +99,80 @@ class Status:
     paused: bool = False
     started_at: int | None = None
 
+    kda: tuple | None = None
+    kda_read_at: float | None = None
+    party_size: int | None = None
+    party_read_at: float | None = None
+
     def transition(self, phase, now=None):
         if phase not in PHASES:
             raise ValueError("Unknown phase")
-        if phase != self.phase:
+        if phase != self.phase or (phase == "match" and self.started_at is None):
+            self.kda = self.kda_read_at = None
             self.started_at = int(time.time() if now is None else now) if phase == "match" else None
+        if phase != self.phase:
+            self.party_size = self.party_read_at = None
         self.phase = phase
 
 
-def build_payload(settings, status, hero_info=None, map_info=None):
+def parse_kda(text):
+    """Accept only a tightly calibrated row of three E/A/D counters."""
+    if not isinstance(text, str) or not re.fullmatch(r"\s*\d{1,3}(?:\s+|\s*/\s*)\d{1,3}(?:\s+|\s*/\s*)\d{1,3}\s*", text):
+        return None
+    return tuple(int(value) for value in re.findall(r"\d+", text))
+
+
+def kda_is_fresh(settings, status, now=None):
+    age = (time.time() if now is None else now) - (status.kda_read_at or 0)
+    return bool(settings.kda_enabled and status.phase == "match" and status.kda is not None
+                and status.kda_read_at is not None and 0 <= age <= max(15, settings.ocr_interval * 3))
+
+
+def party_is_fresh(settings, status, now=None):
+    return bool(settings.ocr_enabled and status.party_size in range(1, 7)
+                and status.party_read_at is not None
+                and 0 <= (time.time() if now is None else now) - status.party_read_at
+                <= max(30, settings.ocr_interval * 3))
+
+
+def build_payload(settings, status, hero_info=None, map_info=None, now=None):
+    language = resolve_language(settings.language)
+    hero_name = (hero_info or {}).get("localized_names", {}).get(language, status.hero)
+    map_name = (map_info or {}).get("localized_names", {}).get(language, status.map_name)
     if status.phase == "match":
-        details = f"{status.mode} · {status.map_name or 'Map not selected'}"
-        state = f"Playing {status.hero}" if status.hero else "In match"
+        details = f"{tr(status.mode, language)} · {map_name or tr('Map not selected', language)}"
+        state = tr("Playing {hero}", language, hero=hero_name) if status.hero else tr("In match", language)
     elif status.phase == "queue":
-        details, state = f"{status.mode}: In Queue", "Waiting for a match"
+        details, state = f"{tr(status.mode, language)}: {tr('In Queue', language)}", tr("Waiting for a match", language)
     else:
-        details, state = "In Menus", "Overwatch"
+        details, state = tr("In Menus", language), "Overwatch"
+    if status.phase == "menus" and party_is_fresh(settings, status, now):
+        if status.party_size == 1:
+            state = tr("Solo", language)
+        else:
+            key = "In a party: {count} players"
+            if language == "ru" and status.party_size in (2, 3, 4):
+                key = "In a party: {count} teammates"
+            state = tr(key, language, count=status.party_size)
+    if kda_is_fresh(settings, status, now):
+        state += " · E/A/D " + "/".join(str(value) for value in status.kda)
     payload = {"details": (settings.details_override or details)[:128],
                "state": (settings.state_override or state)[:128],
                "activity_type": 0, "status_display_type": settings.display_type}
     if settings.large_image:
         payload.update(large_image=settings.large_image[:256],
-                       large_text=(status.map_name if status.phase == "match" else "Overwatch") or "Overwatch")
+                       large_text=(map_name if status.phase == "match" else "Overwatch") or "Overwatch")
     if status.phase == "match" and settings.hero_image and status.hero:
-        payload.update(small_image=settings.hero_image[:256], small_text=status.hero[:128])
+        payload.update(small_image=settings.hero_image[:256], small_text=hero_name[:128])
     elif status.phase == "match" and settings.use_hero_portrait and hero_info:
-        payload.update(small_image=hero_info["portrait"], small_text=status.hero[:128],
+        payload.update(small_image=hero_info["portrait"], small_text=hero_name[:128],
                        small_url=hero_info.get("source"))
     if status.phase == "match" and settings.use_map_art and map_info and map_info.get("image_available", True):
-        payload.update(large_image=map_info["screenshot"], large_text=status.map_name[:128])
+        payload.update(large_image=map_info["screenshot"], large_text=map_name[:128])
+    if status.phase == "menus" and valid_url(settings.menu_image):
+        payload.update(small_image=settings.menu_image[:256], small_text="OWRPC", small_url=PROJECT_URL)
+    if status.phase == "menus" and not settings.button_label:
+        payload["buttons"] = [{"label": "GitHub", "url": PROJECT_URL}]
     if settings.button_label and valid_url(settings.button_url):
         payload["buttons"] = [{"label": settings.button_label[:32], "url": settings.button_url}]
     if settings.show_timer and status.phase == "match" and status.started_at:

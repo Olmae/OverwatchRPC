@@ -72,3 +72,31 @@ def open_folder(path):
         subprocess.Popen(["open", str(path)])
     else:
         subprocess.Popen(["xdg-open", str(path)])
+
+
+def enable_dpi_awareness():
+    """Use physical screen coordinates for Tk layout and OCR calibration."""
+    if sys.platform == "win32":
+        try:
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)
+        except (AttributeError, OSError):
+            pass
+
+
+def lower_worker_priority():
+    """Give the foreground game precedence over local capture/preprocessing."""
+    if sys.platform != "win32":
+        return
+    from ctypes import wintypes
+    kernel = ctypes.windll.kernel32
+    kernel.GetCurrentThread.restype = wintypes.HANDLE
+    kernel.SetThreadPriority.argtypes = [wintypes.HANDLE, ctypes.c_int]
+    if not kernel.SetThreadPriority(kernel.GetCurrentThread(), -1):
+        raise OSError("Could not lower recognition worker priority")
+
+
+def tab_pressed():
+    """Read current Tab state; caller must first verify game foreground."""
+    if sys.platform != "win32":
+        return False
+    return bool(ctypes.windll.user32.GetAsyncKeyState(0x09) & 0x8000)

@@ -1,9 +1,10 @@
 """Explicit primary-monitor OCR calibration; image remains in memory."""
 import tkinter as tk
 from tkinter import messagebox
+from .i18n import tr
 
 
-def choose_region(root, callback):
+def choose_region(root, callback, language="auto"):
     from PIL import ImageGrab, ImageTk
     root.withdraw()
 
@@ -27,7 +28,7 @@ def choose_region(root, callback):
         canvas.image = image
         canvas.create_rectangle(12, 12, 690, 60, fill="#17202c", outline="")
         canvas.create_text(28, 36, anchor="w", fill="white", font=("Segoe UI", 13),
-                           text="Drag around ONE map/hero name. Enter confirms. Esc cancels.")
+                           text=tr("Open the game on the primary monitor. Drag around one visible name, then press Enter. Escape cancels. The screenshot stays local.", language), width=650)
         selection = {"start": None, "end": None, "rectangle": None}
 
         def begin(event):

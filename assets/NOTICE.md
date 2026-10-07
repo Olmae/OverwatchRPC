@@ -1,9 +1,11 @@
 # Artwork and data attribution
 
-The transparent fallback Overwatch logo was supplied by the maintainer as
-`Overwatch_circle_logo.svg.webp` on October 7, 2026. The bundled PNG preserves
-its original 1280 x 1280 pixels and alpha channel without redrawing. The logo
-and associated trademarks belong to Blizzard Entertainment.
+The transparent Overwatch logo was supplied by the maintainer from
+[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Overwatch_circle_logo.svg)
+on October 7, 2026. `overwatch-logo.svg` preserves that original vector source.
+The Discord PNG is rendered at 1280 x 1280 with alpha transparency; the window,
+tray and executable icons use transparent raster versions of the same source.
+The logo and associated trademarks belong to Blizzard Entertainment.
 
 Hero portraits are resized from the official Blizzard Overwatch hero roster.
 Map screenshots and metadata are provided by the MIT-licensed
@@ -26,3 +28,22 @@ Arcade, Stadium, practice and Workshop entries. Seasonal duplicates and current
 ranked rotations are not represented as separate maps; an editable map field
 supports unlisted variants. Sources can change; updating this snapshot requires
 an explicit maintainer review of the requested cutoff.
+
+The small `assets/digits` templates and `tests/fixtures/count-*.png` cells were
+extracted from Overwatch scoreboard screenshots supplied by the user for local
+recognition work. They contain only digits. The original game UI remains
+Blizzard Entertainment's property; it is not covered by the project's code license.
+
+Russian hero names were retrieved from Blizzard's official Russian hero roster
+on 2026-10-07: https://overwatch.blizzard.com/ru-ru/heroes/. The catalog records
+the source hash. Russian map names are an initial curated subset awaiting broader
+in-game screenshot validation; they are not a complete localization of the roster.
+
+`tests/fixtures/party-*.png` contain cropped menu headers from user-provided
+Overwatch screenshots for portrait-strip regression checks. They contain no player
+names. The game interface and profile artwork retain their original ownership;
+they are not covered by the code's GPL license.
+
+The original OWRPC orange and ivory relay mark (`owrpc-logo.png` and
+`owrpc-logo-source.png`) is the application identity. Window, tray and
+executable icons use resized versions of this approved mark.

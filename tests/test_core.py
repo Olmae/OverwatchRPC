@@ -10,11 +10,19 @@ from owrpc_app.runtime import RpcSession
 
 
 class ModelTests(unittest.TestCase):
+    def test_automatic_recognition_is_default_but_explicit_opt_out_is_preserved(self):
+        self.assertTrue(Settings().ocr_enabled)
+        self.assertTrue(Settings.from_dict({}).ocr_enabled)
+        self.assertTrue(Settings.from_dict({"language": "ru"}).ocr_enabled)
+        self.assertFalse(Settings.from_dict({"ocr_enabled": False}).ocr_enabled)
+        self.assertFalse(Settings().kda_enabled)
+
     def test_default_logo_migrates_legacy_settings_and_preserves_custom_art(self):
         expected = Settings().large_image
         self.assertTrue(expected.startswith("https://"))
         self.assertEqual(Settings.from_dict({"large_image": "overwatch"}).large_image, expected)
         self.assertEqual(Settings.from_dict({"large_image": "custom_logo"}).large_image, "custom_logo")
+        self.assertEqual(Settings.from_dict({"large_image": expected.split("?")[0]}).large_image, expected)
 
     def test_payload_uses_names_and_preserves_match_start(self):
         s = Status(phase="match", hero="Ana", map_name="King's Row", started_at=42)
@@ -76,6 +84,24 @@ class ModelTests(unittest.TestCase):
     def test_invalid_button_link_is_not_published(self):
         p = build_payload(Settings(button_label="Open", button_url="file:///secret"), Status())
         self.assertNotIn("buttons", p)
+
+    def test_menu_branding_and_github_default(self):
+        settings = Settings(menu_image="https://example.com/logo.png")
+        menu = build_payload(settings, Status(phase="menus", hero="Ana"))
+        self.assertEqual(menu["small_image"], settings.menu_image)
+        self.assertEqual(menu["small_text"], "OWRPC")
+        self.assertEqual(menu["small_url"], "https://github.com/Olmae/OverwatchRPC")
+        self.assertEqual(menu["buttons"], [{"label": "GitHub", "url": menu["small_url"]}])
+        for phase in ("queue", "match"):
+            payload = build_payload(settings, Status(phase=phase, hero="Ana"), {"portrait": "https://example.com/ana.png"})
+            self.assertNotIn("buttons", payload)
+            self.assertNotEqual(payload.get("small_image"), settings.menu_image)
+
+    def test_menu_branding_requires_public_url_and_keeps_custom_button(self):
+        for image in ("", "file:///local/logo.png", "/local/logo.png"):
+            self.assertNotIn("small_image", build_payload(Settings(menu_image=image), Status()))
+        payload = build_payload(Settings(button_label="Profile", button_url="https://example.com"), Status())
+        self.assertEqual(payload["buttons"], [{"label": "Profile", "url": "https://example.com"}])
 
 
 class StorageTests(unittest.TestCase):

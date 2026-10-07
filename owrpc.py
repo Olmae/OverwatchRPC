@@ -10,8 +10,9 @@ def main():
     parser.add_argument("--hidden", action="store_true", help="Start in the tray, if available")
     parser.add_argument("--self-test", action="store_true", help="Validate dependencies/catalog without Discord or game")
     parser.add_argument("--self-test-report", help="Write self-test result as JSON (for windowless build CI)")
+    parser.add_argument("--self-test-ocr", action="store_true", help="Also validate local Windows OCR and digit assets")
     args = parser.parse_args()
-    if args.self_test:
+    if args.self_test or args.self_test_ocr:
         import importlib
         from owrpc_app.catalog import load_catalog
         from owrpc_app.model import Settings, Status, build_payload
@@ -26,6 +27,19 @@ def main():
         Payload.set_activity(**payload)
         for kind in ("heroes", "maps"):
             assert catalog[kind] and len({x["key"] for x in catalog[kind]}) == len(catalog[kind])
+        if args.self_test_ocr:
+            from PIL import Image, ImageDraw, ImageFont
+            from owrpc_app.native_ocr import _engine
+            from owrpc_app.digits import templates
+            assert len(templates()) == 10
+            image = Image.new("RGB", (600, 100), "white")
+            font = ImageFont.truetype(r"C:\Windows\Fonts\segoeui.ttf", 36)
+            ImageDraw.Draw(image).text((20, 20), "WINDOWS OCR READY 12345", font=font, fill="black")
+            try:
+                text = " ".join(word.text for word in _engine.words(image))
+                assert "12345" in text and "READY" in text, text
+            finally:
+                _engine.close()
         print(f"OWRPC self-test passed: {len(catalog['heroes'])} heroes / {len(catalog['maps'])} maps")
         if args.self_test_report:
             import json
@@ -44,6 +58,8 @@ def main():
     from owrpc_app.platform import SingleInstance
     from owrpc_app.ui import App
     instance = SingleInstance()
+    from owrpc_app.platform import enable_dpi_awareness
+    enable_dpi_awareness()
     root = tk.Tk()
     if instance.already_running:
         root.withdraw()
