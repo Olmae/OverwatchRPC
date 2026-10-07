@@ -5,7 +5,7 @@ Choose your hero, map and game mode, preview your activity, and keep the app out
 of the way while you play. No Chromium runtime, account login or Discord token.
 
 ![Windows build](https://github.com/Olmae/OverwatchRPC/actions/workflows/windows.yml/badge.svg)
-![Version](https://img.shields.io/badge/version-2.0.0--beta.2-orange)
+![Version](https://img.shields.io/badge/version-2.0.0--beta.3-orange)
 ![Python](https://img.shields.io/badge/python-3.12%2B-blue)
 ![License](https://img.shields.io/badge/code-GPLv3-blue)
 
@@ -43,8 +43,10 @@ Closing the window hides it in the tray once the tray is ready. Right-click the
 tray icon for phase controls, Pause/Resume and Quit. **New match** clears old
 selections and resets the timer. Settings are saved to `%APPDATA%\OWRPC`.
 
-This is an **unsigned beta**. A successful build does not prove Windows tray,
-Discord rendering or in-game recognition on your PC. Please use the
+This is an **unsigned beta**. Beta.2 launched in Windows 11 ARM64 under x64
+emulation and published real Discord activity with a hero portrait and match
+timer. Real-game OCR and the full tray/startup lifecycle still need testing on a
+gaming PC. Please use the
 [Windows acceptance checklist](docs/WINDOWS-TESTING.md).
 
 ## What is included

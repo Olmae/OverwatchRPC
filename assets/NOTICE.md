@@ -1,9 +1,9 @@
 # Artwork and data attribution
 
-The transparent fallback Overwatch logo is an unchanged PNG export of Blizzard's
-[official favicon](https://static.playoverwatch.com/images/favicon.988844a2b97828442775a674abf32ada4f722334.ico),
-retrieved on October 7, 2026. It replaces the legacy Discord asset's white square.
-The original favicon is 31 x 31 pixels; Discord may soften it when scaling.
+The transparent fallback Overwatch logo was supplied by the maintainer as
+`Overwatch_circle_logo.svg.webp` on October 7, 2026. The bundled PNG preserves
+its original 1280 x 1280 pixels and alpha channel without redrawing. The logo
+and associated trademarks belong to Blizzard Entertainment.
 
 Hero portraits are resized from the official Blizzard Overwatch hero roster.
 Map screenshots and metadata are provided by the MIT-licensed
