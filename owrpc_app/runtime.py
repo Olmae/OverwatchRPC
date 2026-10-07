@@ -21,7 +21,11 @@ class RpcSession:
     @staticmethod
     def _factory(client_id):
         from pypresence import Presence
-        return Presence(client_id, connection_timeout=3, response_timeout=3)
+        client = Presence(client_id, connection_timeout=3, response_timeout=3)
+        # pypresence 4.6.2 connect() allocates a fresh loop. Release its unused
+        # constructor loop so repeated connection attempts do not leak loops.
+        client.loop.close()
+        return client
 
     def send(self, client_id, payload):
         if self.client and self.client_id != client_id:
@@ -57,7 +61,17 @@ class RpcSession:
             try:
                 self.client.close()
             except Exception:
-                pass
+                log.debug("Discord close failed", exc_info=True)
+            # Library close() can fail before closing the loop on a dead pipe.
+            writer = getattr(self.client, "sock_writer", None)
+            loop = getattr(self.client, "loop", None)
+            try:
+                if writer:
+                    writer.close()
+            except Exception:
+                log.debug("Discord pipe cleanup failed", exc_info=True)
+            if loop and not loop.is_closed():
+                loop.close()
         self.client, self.client_id, self.last = None, None, None
 
 
@@ -74,10 +88,6 @@ class Worker(threading.Thread):
         self.commands.put((replace(settings), replace(status), self.revision))
 
     def run(self):
-        # pypresence needs an asyncio loop on the worker thread in modern Python.
-        import asyncio
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
         rpc = RpcSession()
         stable = {key: StableMatch() for key in ("hero", "map")}
         next_rpc = next_ocr = next_process = 0
@@ -152,4 +162,3 @@ class Worker(threading.Thread):
                 rpc.send(self.settings.client_id, None)
             finally:
                 rpc.close()
-                loop.close()

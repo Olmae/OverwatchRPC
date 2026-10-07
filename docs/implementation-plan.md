@@ -25,10 +25,10 @@ pytesseract; PyInstaller and GitHub Actions for Windows packaging.
 2. [x] Implement validated settings, catalogs, payloads, atomic storage and worker.
 3. [x] Implement Windows integration, optional calibrated OCR and Tkinter/tray UI.
 4. [x] Add packaging, CI, English README, diagnostics and Windows acceptance checklist.
-5. [ ] Run unit tests, dependency checks and available UI verification; fix findings.
+5. [x] Run unit tests, dependency checks and available UI verification; fix findings.
 6. [ ] Commit/push to user fork, verify CI, publish beta release if build succeeds.
 
-Local validation: 19 unit tests and lint passed on macOS. This Python installation
-does not include `_tkinter`; real Tk/frozen smoke checks run in Windows CI after
-publication. GitHub publication requires an authenticated push or a GitHub app
-installation with write access to `Olmae/OverwatchRPC`.
+Local unit tests and lint passed on macOS. Windows CI run 37591735960 passed
+dependency validation, real Tk UI smoke checks, packaging and the frozen executable
+self-test. Source was published to `Olmae/OverwatchRPC` through existing SSH access.
+Game, tray and authenticated Discord rendering still require the Windows checklist.

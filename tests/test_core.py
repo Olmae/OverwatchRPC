@@ -152,6 +152,16 @@ class RpcTests(unittest.TestCase):
             self.assertFalse(rpc.send("1", {"details": "A"}))
         self.assertIsNone(rpc.client)
 
+    def test_failed_close_still_releases_event_loop(self):
+        import asyncio
+        client = FakePresence()
+        client.loop = asyncio.new_event_loop()
+        rpc = RpcSession(lambda _: client)
+        rpc.send("1", {"details": "A"})
+        client.close = lambda: (_ for _ in ()).throw(OSError("Dead pipe"))
+        rpc.close()
+        self.assertTrue(client.loop.is_closed())
+
 
 if __name__ == "__main__":
     unittest.main()
