@@ -1,0 +1,1213 @@
+{
+  "as_of": "2026-10-06",
+  "retrieved_at": "2026-10-07T07:50:08.361837+00:00",
+  "sources": [
+    "https://overwatch.blizzard.com/en-us/heroes/",
+    "https://overfast-api.tekrop.fr/maps",
+    "https://overwatch.blizzard.com/en-us/news/patch-notes/"
+  ],
+  "source_hashes": {
+    "heroes": "9e90886ea09e94f154ec5db66aa29a43b3b7ec37deb2998ee9696b56fc261cd8",
+    "maps": "f1c7ae0cc7485a37623fed00ba87555991343b96f14ce7a356cabc072c27eafb"
+  },
+  "scope": "Official live hero roster; OverFast standard, Arcade, Stadium and Workshop maps. Not a ranked map rotation or a list of every seasonal variant.",
+  "heroes": [
+    {
+      "key": "ana",
+      "name": "Ana",
+      "role": "support",
+      "subrole": "tactician",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/ana",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/985b06beae46b7ba3ca87d1512d0fc62ca7f206ceca58ef16fc44d43a1cc84ed.png",
+      "image_available": true
+    },
+    {
+      "key": "anran",
+      "name": "Anran",
+      "role": "damage",
+      "subrole": "flanker",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/anran",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2c38b41d79a1ce9a08b9ad8eb7edf3ff819bd448af16a5815be8c7fdb7203aa0.png",
+      "image_available": true
+    },
+    {
+      "key": "ashe",
+      "name": "Ashe",
+      "role": "damage",
+      "subrole": "sharpshooter",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/ashe",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4076bbaa2eb52a0bfe612434071e56e7702d5454473dbbea2f9e392a9d997a94.png",
+      "image_available": true
+    },
+    {
+      "key": "baptiste",
+      "name": "Baptiste",
+      "role": "support",
+      "subrole": "tactician",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/baptiste",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d4e6f1ca45d9f88fa89260787397f141a6f007b14e5b26698883b6a17bab9680.png",
+      "image_available": true
+    },
+    {
+      "key": "bastion",
+      "name": "Bastion",
+      "role": "damage",
+      "subrole": "specialist",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/bastion",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4ede795c2a681aaccfa72d0c901cba0cb8a2c292fd6a97b2ba9faed161c2d184.png",
+      "image_available": true
+    },
+    {
+      "key": "brigitte",
+      "name": "Brigitte",
+      "role": "support",
+      "subrole": "survivor",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/brigitte",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/795fba91376d87d441a7f359ae12a3175dfa95825ccc4414cc6b95b129fc4cb0.png",
+      "image_available": true
+    },
+    {
+      "key": "cassidy",
+      "name": "Cassidy",
+      "role": "damage",
+      "subrole": "sharpshooter",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/cassidy",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9240cd64cc8ef58df9acbf55204ab1b5d8578f743fda5931f0dbccbd75ab841b.png",
+      "image_available": true
+    },
+    {
+      "key": "dmon",
+      "name": "D.Mon",
+      "role": "tank",
+      "subrole": "stalwart",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/dmon",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a46c60b8562fdbd0b8308396d0808f7606fba208bc67cccf3f82fe56d2c73b9d.png",
+      "image_available": true
+    },
+    {
+      "key": "dva",
+      "name": "D.Va",
+      "role": "tank",
+      "subrole": "initiator",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/dva",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/df5a5532862d9292634fb3dc0e51a4705aa601de65e5e815513ccc663d84de56.png",
+      "image_available": true
+    },
+    {
+      "key": "doctrine",
+      "name": "Doctrine",
+      "role": "support",
+      "subrole": "survivor",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/doctrine",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2492a15c575c12314907d0d77501ec337b4d56796bc7f03e5dfb50d415612bae.png",
+      "image_available": true
+    },
+    {
+      "key": "domina",
+      "name": "Domina",
+      "role": "tank",
+      "subrole": "stalwart",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/domina",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1161c112292c56c052c0ae711792fcde06e3251b98bc9709e582dd7585b5dcd6.png",
+      "image_available": true
+    },
+    {
+      "key": "doomfist",
+      "name": "Doomfist",
+      "role": "tank",
+      "subrole": "initiator",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/doomfist",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ff5c54f43ad253c7faeda9c4ed31d42582ea6b19205d197866f3dd0c0aa14c16.png",
+      "image_available": true
+    },
+    {
+      "key": "echo",
+      "name": "Echo",
+      "role": "damage",
+      "subrole": "recon",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/echo",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d4f2d5b0c2b7e82d61353186c5f23152ccba9d3569b50839aa580dca3e9114ba.png",
+      "image_available": true
+    },
+    {
+      "key": "emre",
+      "name": "Emre",
+      "role": "damage",
+      "subrole": "specialist",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/emre",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c51e2f698138861c0e3b6cfab3c3ca9d67fd709be175e7c397aa6f2649712a30.png",
+      "image_available": true
+    },
+    {
+      "key": "freja",
+      "name": "Freja",
+      "role": "damage",
+      "subrole": "recon",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/freja",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/811963897c352d9f178bec882d94bd0281074feee7c429c5145b6b8ea8ebe862.png",
+      "image_available": true
+    },
+    {
+      "key": "genji",
+      "name": "Genji",
+      "role": "damage",
+      "subrole": "flanker",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/genji",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/156b12c20b1aea872c1eeb5bb37a7de1047b2ab30ecefd0663a8925badde1ea8.png",
+      "image_available": true
+    },
+    {
+      "key": "hanzo",
+      "name": "Hanzo",
+      "role": "damage",
+      "subrole": "sharpshooter",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/hanzo",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/78b61c3e806fb26b02b8980fba62189155074fc15bd865b0883268e546030be5.png",
+      "image_available": true
+    },
+    {
+      "key": "hazard",
+      "name": "Hazard",
+      "role": "tank",
+      "subrole": "initiator",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/hazard",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ca48b96dbae6ea7f58ce8a5e73513c8c62b1685bdbf258020fb78bb21a008b5f.png",
+      "image_available": true
+    },
+    {
+      "key": "illari",
+      "name": "Illari",
+      "role": "support",
+      "subrole": "survivor",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/illari",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ce42d1455e03e79f321345fea84b27a8918b5db8bd7ab9b2ca9e569606ede9e4.png",
+      "image_available": true
+    },
+    {
+      "key": "jetpack-cat",
+      "name": "Jetpack Cat",
+      "role": "support",
+      "subrole": "tactician",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/jetpack-cat",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/03a184cd0de27091e0099ac22635ad9615a8f6997881a5c25cc5f2444764f729.png",
+      "image_available": true
+    },
+    {
+      "key": "junker-queen",
+      "name": "Junker Queen",
+      "role": "tank",
+      "subrole": "stalwart",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/junker-queen",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/06eeecb359f311f43a8f5121d4f9f3a93c565d70b30e94ef543c05596c9a39dc.png",
+      "image_available": true
+    },
+    {
+      "key": "junkrat",
+      "name": "Junkrat",
+      "role": "damage",
+      "subrole": "specialist",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/junkrat",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7660b9fc6f25f30858fdd8797fe0d52b2306f1e78fef99843f58a274e69af046.png",
+      "image_available": true
+    },
+    {
+      "key": "juno",
+      "name": "Juno",
+      "role": "support",
+      "subrole": "survivor",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/juno",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c0167d251e57b0aa2b1e16c37d87f0e7c77263db9dd0503d77b5f2589bf3e4a0.png",
+      "image_available": true
+    },
+    {
+      "key": "kiriko",
+      "name": "Kiriko",
+      "role": "support",
+      "subrole": "medic",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/kiriko",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/408603fe037e8576078eaac5eab2fb251489ced4003b11f5f522776d43d0b83d.png",
+      "image_available": true
+    },
+    {
+      "key": "lifeweaver",
+      "name": "Lifeweaver",
+      "role": "support",
+      "subrole": "medic",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/lifeweaver",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3376515cebed0904012e67e956f6d1b9c12e03da642845eeaf787b7e4c7b339d.png",
+      "image_available": true
+    },
+    {
+      "key": "lucio",
+      "name": "Lúcio",
+      "role": "support",
+      "subrole": "tactician",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/lucio",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/040bb13f5123ab93faad2f95627ba184608aef4b2469a4d3003859c7087df044.png",
+      "image_available": true
+    },
+    {
+      "key": "mauga",
+      "name": "Mauga",
+      "role": "tank",
+      "subrole": "bruiser",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/mauga",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/33d39bb439c08975197fc52eff4874716839711b5356c4fdc174f9c24bac1d0e.png",
+      "image_available": true
+    },
+    {
+      "key": "mei",
+      "name": "Mei",
+      "role": "damage",
+      "subrole": "specialist",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/mei",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4a55ced3bd597fb08e0fde9dc007f8543ac616ba98ca3db9b0e4d871a8ae17f8.png",
+      "image_available": true
+    },
+    {
+      "key": "mercy",
+      "name": "Mercy",
+      "role": "support",
+      "subrole": "medic",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/mercy",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3bfb8bd8ec827e53d870f1238ab73d8aa1f5dbfbcfaaf7f96ffcd35b5c6102ab.png",
+      "image_available": true
+    },
+    {
+      "key": "mizuki",
+      "name": "Mizuki",
+      "role": "support",
+      "subrole": "survivor",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/mizuki",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a9733c2367e0cbd70b9316fd2e1e17028653ec56d0051ea6ff098531dc4f99fc.png",
+      "image_available": true
+    },
+    {
+      "key": "moira",
+      "name": "Moira",
+      "role": "support",
+      "subrole": "medic",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/moira",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f48f8485056d5d00dad195859188d23e50f7126b8b08b5646f46ef1b42f5e1de.png",
+      "image_available": true
+    },
+    {
+      "key": "orisa",
+      "name": "Orisa",
+      "role": "tank",
+      "subrole": "bruiser",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/orisa",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a73958a28551f5254f3ab3f97c5f5f8d698a95c0b6a515d1a2b1caac169205a6.png",
+      "image_available": true
+    },
+    {
+      "key": "pharah",
+      "name": "Pharah",
+      "role": "damage",
+      "subrole": "recon",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/pharah",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/60ac2d5de4a6d34644d8872233da402f1436c87f804bb11a21661bb30bf4a51f.png",
+      "image_available": true
+    },
+    {
+      "key": "ramattra",
+      "name": "Ramattra",
+      "role": "tank",
+      "subrole": "stalwart",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/ramattra",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ddef7c9fb8ce4256e8508196b486f81950efe7aaa6cf27fec4668beb4cd15774.png",
+      "image_available": true
+    },
+    {
+      "key": "reaper",
+      "name": "Reaper",
+      "role": "damage",
+      "subrole": "flanker",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/reaper",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/dc6ff07ac790c00dc95a40882449617bb6e0e38906b353a630cffe0c815270a9.png",
+      "image_available": true
+    },
+    {
+      "key": "reinhardt",
+      "name": "Reinhardt",
+      "role": "tank",
+      "subrole": "stalwart",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/reinhardt",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/551fbe070c16fdfcc17f7f1de63af22c53e7d2f1340fc2f3172441504527bc4e.png",
+      "image_available": true
+    },
+    {
+      "key": "roadhog",
+      "name": "Roadhog",
+      "role": "tank",
+      "subrole": "bruiser",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/roadhog",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/89ddf07e4b619ed96169042e296a1b8856d102746f35add88284b44a9a5a6a03.png",
+      "image_available": true
+    },
+    {
+      "key": "shion",
+      "name": "Shion",
+      "role": "damage",
+      "subrole": "flanker",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/shion",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/070481cf871590a2b45a51d1335f9fe3d65eb4e4d361ecdd998b34fae2ed65d5.png",
+      "image_available": true
+    },
+    {
+      "key": "sierra",
+      "name": "Sierra",
+      "role": "damage",
+      "subrole": "recon",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/sierra",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4bfd3d8b95844231115cb5bf4db03344c71bc3e865189c52403b2dc51438e63a.png",
+      "image_available": true
+    },
+    {
+      "key": "sigma",
+      "name": "Sigma",
+      "role": "tank",
+      "subrole": "stalwart",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/sigma",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a4c032fa466c9a6d9c6974747635d7ef910027f91cd58892af0c899db565f92d.png",
+      "image_available": true
+    },
+    {
+      "key": "sojourn",
+      "name": "Sojourn",
+      "role": "damage",
+      "subrole": "sharpshooter",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/sojourn",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/82b8c1b8765dcb9a0ba16e343c3516bf324c771ac81e9878473280216e70a889.png",
+      "image_available": true
+    },
+    {
+      "key": "soldier-76",
+      "name": "Soldier: 76",
+      "role": "damage",
+      "subrole": "specialist",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/soldier-76",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c93b5f0a528c40473188f77cc2a267aee7d5b6cf5c9e104105d634b4388674e2.png",
+      "image_available": true
+    },
+    {
+      "key": "sombra",
+      "name": "Sombra",
+      "role": "support",
+      "subrole": "tactician",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/sombra",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/47727b02a16e3bd7b2447d86ae1edf11587bc320b2aecb4f2f16a7ca4ad4e8a0.png",
+      "image_available": true
+    },
+    {
+      "key": "symmetra",
+      "name": "Symmetra",
+      "role": "damage",
+      "subrole": "specialist",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/symmetra",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ebec57e8bd68b3d4383edfeb34f8f52dd0b94a6467d594c2fee722e8a97c32aa.png",
+      "image_available": true
+    },
+    {
+      "key": "torbjorn",
+      "name": "Torbjörn",
+      "role": "damage",
+      "subrole": "specialist",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/torbjorn",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ce17118cedc29b0d2ac1e059666bed36b9531c85079b0b894bb402d12c917ba9.png",
+      "image_available": true
+    },
+    {
+      "key": "tracer",
+      "name": "Tracer",
+      "role": "damage",
+      "subrole": "flanker",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/tracer",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4504f6f15cb3feaa92ecd38e01dcf751cb5abdac2e0bb52d0555727e53277502.png",
+      "image_available": true
+    },
+    {
+      "key": "vendetta",
+      "name": "Vendetta",
+      "role": "damage",
+      "subrole": "flanker",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/vendetta",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/cf8ffb52b6f315546d5e94e9d6defad5a2c570798776956de23f47536f9529da.png",
+      "image_available": true
+    },
+    {
+      "key": "venture",
+      "name": "Venture",
+      "role": "damage",
+      "subrole": "flanker",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/venture",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/dcab9123f5f55df22e54d4e797de43c71b917e0149dd059a7fd6136f48464cd0.png",
+      "image_available": true
+    },
+    {
+      "key": "widowmaker",
+      "name": "Widowmaker",
+      "role": "damage",
+      "subrole": "sharpshooter",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/widowmaker",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/6e4702b45f196aaf51555cf57327322721f45458b17f5f0643ed008a88378259.png",
+      "image_available": true
+    },
+    {
+      "key": "winston",
+      "name": "Winston",
+      "role": "tank",
+      "subrole": "initiator",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/winston",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/46a10db3aa908c590ddc4e7606376a88143d1f1306ecfbea043263040f9529a5.png",
+      "image_available": true
+    },
+    {
+      "key": "wrecking-ball",
+      "name": "Wrecking Ball",
+      "role": "tank",
+      "subrole": "initiator",
+      "stadium": false,
+      "source": "https://overwatch.blizzard.com/heroes/wrecking-ball",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9ef1d58867136e0b26f928d896000b9dab216118f6e2f59e53f2e975e1e27afa.png",
+      "image_available": true
+    },
+    {
+      "key": "wuyang",
+      "name": "Wuyang",
+      "role": "support",
+      "subrole": "survivor",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/wuyang",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4959500b495b35c0908be2abda56b53f2601b2c5cc39a1cfde8df1bffd38d66d.png",
+      "image_available": true
+    },
+    {
+      "key": "zarya",
+      "name": "Zarya",
+      "role": "tank",
+      "subrole": "bruiser",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/zarya",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9b6f63cc66ddf9d5e0862173c733cc0d2e574c5c89357798d91b93b2f95a7080.png",
+      "image_available": true
+    },
+    {
+      "key": "zenyatta",
+      "name": "Zenyatta",
+      "role": "support",
+      "subrole": "tactician",
+      "stadium": true,
+      "source": "https://overwatch.blizzard.com/heroes/zenyatta",
+      "portrait": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7d1546b1541a8afc39353f9337a408d6275a141b0432b7e560ef61579996b0fc.png",
+      "image_available": true
+    }
+  ],
+  "maps": [
+    {
+      "key": "aatlis",
+      "name": "Aatlis",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/aatlis.jpg",
+      "gamemodes": [
+        "flashpoint"
+      ],
+      "location": "Morocco",
+      "country_code": "MA",
+      "image_available": true
+    },
+    {
+      "key": "antarctic-peninsula",
+      "name": "Antarctic Peninsula",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/antarctic-peninsula.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "Antarctica",
+      "country_code": "AQ",
+      "image_available": true
+    },
+    {
+      "key": "arena-victoriae",
+      "name": "Arena Victoriae",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/arena-victoriae.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "Colosseo, Rome, Italy",
+      "country_code": "IT",
+      "image_available": true
+    },
+    {
+      "key": "ayutthaya",
+      "name": "Ayutthaya",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/ayutthaya.jpg",
+      "gamemodes": [
+        "capture-the-flag"
+      ],
+      "location": "Thailand",
+      "country_code": "TH",
+      "image_available": true
+    },
+    {
+      "key": "black-forest",
+      "name": "Black Forest",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/black-forest.jpg",
+      "gamemodes": [
+        "elimination"
+      ],
+      "location": "Germany",
+      "country_code": "DE",
+      "image_available": true
+    },
+    {
+      "key": "blizzard-world",
+      "name": "Blizzard World",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/blizzard-world.jpg",
+      "gamemodes": [
+        "hybrid"
+      ],
+      "location": "Irvine, California, United States",
+      "country_code": "US",
+      "image_available": true
+    },
+    {
+      "key": "busan",
+      "name": "Busan",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/busan.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "South Korea",
+      "country_code": "KR",
+      "image_available": true
+    },
+    {
+      "key": "castillo",
+      "name": "Castillo",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/castillo.jpg",
+      "gamemodes": [
+        "elimination"
+      ],
+      "location": "Mexico",
+      "country_code": "MX",
+      "image_available": true
+    },
+    {
+      "key": "chateau-guillard",
+      "name": "Château Guillard",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/chateau-guillard.jpg",
+      "gamemodes": [
+        "deathmatch",
+        "team-deathmatch"
+      ],
+      "location": "Annecy, France",
+      "country_code": "FR",
+      "image_available": true
+    },
+    {
+      "key": "circuit-royal",
+      "name": "Circuit Royal",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/circuit-royal.jpg",
+      "gamemodes": [
+        "escort"
+      ],
+      "location": "Monte Carlo, Monaco",
+      "country_code": "MC",
+      "image_available": true
+    },
+    {
+      "key": "colosseo",
+      "name": "Colosseo",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/colosseo.jpg",
+      "gamemodes": [
+        "push"
+      ],
+      "location": "Rome, Italy",
+      "country_code": "IT",
+      "image_available": true
+    },
+    {
+      "key": "dorado",
+      "name": "Dorado",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/dorado.jpg",
+      "gamemodes": [
+        "escort"
+      ],
+      "location": "Mexico",
+      "country_code": "MX",
+      "image_available": true
+    },
+    {
+      "key": "ecopoint-antarctica",
+      "name": "Ecopoint: Antarctica",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/ecopoint-antarctica.jpg",
+      "gamemodes": [
+        "elimination"
+      ],
+      "location": "Antarctica",
+      "country_code": "AQ",
+      "image_available": true
+    },
+    {
+      "key": "eichenwalde",
+      "name": "Eichenwalde",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/eichenwalde.jpg",
+      "gamemodes": [
+        "hybrid"
+      ],
+      "location": "Stuttgart, Germany",
+      "country_code": "DE",
+      "image_available": true
+    },
+    {
+      "key": "esperanca",
+      "name": "Esperança",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/esperanca.jpg",
+      "gamemodes": [
+        "push"
+      ],
+      "location": "Portugal",
+      "country_code": "PT",
+      "image_available": true
+    },
+    {
+      "key": "gogadoro",
+      "name": "Gogadoro",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/gogadoro.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "Busan, South Korea",
+      "country_code": "KR",
+      "image_available": true
+    },
+    {
+      "key": "hanamura",
+      "name": "Hanamura",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/hanamura.jpg",
+      "gamemodes": [
+        "assault"
+      ],
+      "location": "Tokyo, Japan",
+      "country_code": "JP",
+      "image_available": true
+    },
+    {
+      "key": "hanaoka",
+      "name": "Hanaoka",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/hanaoka.jpg",
+      "gamemodes": [
+        "clash"
+      ],
+      "location": "Tokyo, Japan",
+      "country_code": "JP",
+      "image_available": true
+    },
+    {
+      "key": "havana",
+      "name": "Havana",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/havana.jpg",
+      "gamemodes": [
+        "escort"
+      ],
+      "location": "Havana, Cuba",
+      "country_code": "CU",
+      "image_available": true
+    },
+    {
+      "key": "hollywood",
+      "name": "Hollywood",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/hollywood.jpg",
+      "gamemodes": [
+        "hybrid"
+      ],
+      "location": "Los Angeles, United States",
+      "country_code": "US",
+      "image_available": true
+    },
+    {
+      "key": "horizon",
+      "name": "Horizon Lunar Colony",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/horizon.jpg",
+      "gamemodes": [
+        "assault"
+      ],
+      "location": "Earth's moon",
+      "country_code": null,
+      "image_available": true
+    },
+    {
+      "key": "ilios",
+      "name": "Ilios",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/ilios.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "Greece",
+      "country_code": "GR",
+      "image_available": true
+    },
+    {
+      "key": "junkertown",
+      "name": "Junkertown",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/junkertown.jpg",
+      "gamemodes": [
+        "escort"
+      ],
+      "location": "Central Australia",
+      "country_code": "AU",
+      "image_available": true
+    },
+    {
+      "key": "kanezaka",
+      "name": "Kanezaka",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/kanezaka.jpg",
+      "gamemodes": [
+        "deathmatch",
+        "team-deathmatch"
+      ],
+      "location": "Tokyo, Japan",
+      "country_code": "JP",
+      "image_available": true
+    },
+    {
+      "key": "kings-row",
+      "name": "King’s Row",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/kings-row.jpg",
+      "gamemodes": [
+        "hybrid"
+      ],
+      "location": "London, United Kingdom",
+      "country_code": "UK",
+      "image_available": true
+    },
+    {
+      "key": "lijiang-tower",
+      "name": "Lijiang Tower",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/lijiang-tower.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "China",
+      "country_code": "CN",
+      "image_available": true
+    },
+    {
+      "key": "malevento",
+      "name": "Malevento",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/malevento.jpg",
+      "gamemodes": [
+        "deathmatch",
+        "team-deathmatch"
+      ],
+      "location": "Italy",
+      "country_code": "IT",
+      "image_available": true
+    },
+    {
+      "key": "midtown",
+      "name": "Midtown",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/midtown.jpg",
+      "gamemodes": [
+        "hybrid"
+      ],
+      "location": "New York, United States",
+      "country_code": "US",
+      "image_available": true
+    },
+    {
+      "key": "necropolis",
+      "name": "Necropolis",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/necropolis.jpg",
+      "gamemodes": [
+        "elimination"
+      ],
+      "location": "Egypt",
+      "country_code": "EG",
+      "image_available": true
+    },
+    {
+      "key": "neon-junction",
+      "name": "Neon Junction",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/neon-junction.jpg",
+      "gamemodes": [
+        "hybrid"
+      ],
+      "location": "Japan",
+      "country_code": "JP",
+      "image_available": false,
+      "image_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "key": "nepal",
+      "name": "Nepal",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/nepal.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "Nepal",
+      "country_code": "NP",
+      "image_available": true
+    },
+    {
+      "key": "new-junk-city",
+      "name": "New Junk City",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/new-junk-city.jpg",
+      "gamemodes": [
+        "flashpoint"
+      ],
+      "location": "Central Australia",
+      "country_code": "AU",
+      "image_available": true
+    },
+    {
+      "key": "new-queen-street",
+      "name": "New Queen Street",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/new-queen-street.jpg",
+      "gamemodes": [
+        "push"
+      ],
+      "location": "Toronto, Canada",
+      "country_code": "CA",
+      "image_available": true
+    },
+    {
+      "key": "numbani",
+      "name": "Numbani",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/numbani.jpg",
+      "gamemodes": [
+        "hybrid"
+      ],
+      "location": "Numbani (near Nigeria)",
+      "country_code": null,
+      "image_available": true
+    },
+    {
+      "key": "oasis",
+      "name": "Oasis",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/oasis.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "Iraq",
+      "country_code": "IQ",
+      "image_available": true
+    },
+    {
+      "key": "paraiso",
+      "name": "Paraíso",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/paraiso.jpg",
+      "gamemodes": [
+        "hybrid"
+      ],
+      "location": "Rio de Janeiro, Brazil",
+      "country_code": "BR",
+      "image_available": true
+    },
+    {
+      "key": "paris",
+      "name": "Paris",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/paris.jpg",
+      "gamemodes": [
+        "assault"
+      ],
+      "location": "Paris, France",
+      "country_code": "FR",
+      "image_available": true
+    },
+    {
+      "key": "petra",
+      "name": "Petra",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/petra.jpg",
+      "gamemodes": [
+        "deathmatch",
+        "team-deathmatch"
+      ],
+      "location": "Southern Jordan",
+      "country_code": "JO",
+      "image_available": true
+    },
+    {
+      "key": "place-lacroix",
+      "name": "Place Lacroix",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/place-lacroix.jpg",
+      "gamemodes": [
+        "push"
+      ],
+      "location": "Paris, France",
+      "country_code": "FR",
+      "image_available": true
+    },
+    {
+      "key": "powder-keg-mine",
+      "name": "Powder Keg Mine",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/powder-keg-mine.jpg",
+      "gamemodes": [
+        "payload-race"
+      ],
+      "location": "Deadlock Gorge, Arizona, United States",
+      "country_code": "US",
+      "image_available": true
+    },
+    {
+      "key": "practice-range",
+      "name": "Practice Range",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/practice-range.jpg",
+      "gamemodes": [
+        "practice-range"
+      ],
+      "location": "Swiss HQ",
+      "country_code": "CH",
+      "image_available": true
+    },
+    {
+      "key": "redwood-dam",
+      "name": "Redwood Dam",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/redwood-dam.jpg",
+      "gamemodes": [
+        "push"
+      ],
+      "location": "Gibraltar",
+      "country_code": "GI",
+      "image_available": true
+    },
+    {
+      "key": "rialto",
+      "name": "Rialto",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/rialto.jpg",
+      "gamemodes": [
+        "escort"
+      ],
+      "location": "Venice, Italy",
+      "country_code": "IT",
+      "image_available": true
+    },
+    {
+      "key": "route-66",
+      "name": "Route 66",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/route-66.jpg",
+      "gamemodes": [
+        "escort"
+      ],
+      "location": "Albuquerque, New Mexico, United States",
+      "country_code": "US",
+      "image_available": true
+    },
+    {
+      "key": "runasapi",
+      "name": "Runasapi",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/runasapi.jpg",
+      "gamemodes": [
+        "push"
+      ],
+      "location": "Peru",
+      "country_code": "PE",
+      "image_available": true
+    },
+    {
+      "key": "samoa",
+      "name": "Samoa",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/samoa.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "Samoa",
+      "country_code": "WS",
+      "image_available": true
+    },
+    {
+      "key": "shambali-monastery",
+      "name": "Shambali Monastery",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/shambali-monastery.jpg",
+      "gamemodes": [
+        "escort"
+      ],
+      "location": "Nepal",
+      "country_code": "NP",
+      "image_available": true
+    },
+    {
+      "key": "suravasa",
+      "name": "Suravasa",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/suravasa.jpg",
+      "gamemodes": [
+        "flashpoint"
+      ],
+      "location": "India",
+      "country_code": "IN",
+      "image_available": true
+    },
+    {
+      "key": "anubis",
+      "name": "Temple of Anubis",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/anubis.jpg",
+      "gamemodes": [
+        "assault"
+      ],
+      "location": "Giza Plateau, Egypt",
+      "country_code": "EG",
+      "image_available": true
+    },
+    {
+      "key": "thames-district",
+      "name": "Thames District",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/thames-district.jpg",
+      "gamemodes": [
+        "payload-race"
+      ],
+      "location": "London, United Kingdom",
+      "country_code": "UK",
+      "image_available": true
+    },
+    {
+      "key": "throne-of-anubis",
+      "name": "Throne of Anubis",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/throne-of-anubis.jpg",
+      "gamemodes": [
+        "clash"
+      ],
+      "location": "Giza Plateau, Egypt",
+      "country_code": "EG",
+      "image_available": true
+    },
+    {
+      "key": "volskaya",
+      "name": "Volskaya Industries",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/volskaya.jpg",
+      "gamemodes": [
+        "assault"
+      ],
+      "location": "St. Petersburg, Russia",
+      "country_code": "RU",
+      "image_available": true
+    },
+    {
+      "key": "watchpoint-gibraltar",
+      "name": "Watchpoint: Gibraltar",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/watchpoint-gibraltar.jpg",
+      "gamemodes": [
+        "escort"
+      ],
+      "location": "Gibraltar",
+      "country_code": "GI",
+      "image_available": true
+    },
+    {
+      "key": "watchpoint-grimsvotn",
+      "name": "Watchpoint: Grimsvotn",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/watchpoint-grimsvotn.jpg",
+      "gamemodes": [
+        "escort"
+      ],
+      "location": "Iceland",
+      "country_code": "IS",
+      "image_available": false,
+      "image_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "key": "workshop-chamber",
+      "name": "Workshop Chamber",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/workshop-chamber.jpg",
+      "gamemodes": [
+        "workshop"
+      ],
+      "location": "Earth",
+      "country_code": null,
+      "image_available": true
+    },
+    {
+      "key": "workshop-expanse",
+      "name": "Workshop Expanse",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/workshop-expanse.jpg",
+      "gamemodes": [
+        "workshop"
+      ],
+      "location": "Earth",
+      "country_code": null,
+      "image_available": true
+    },
+    {
+      "key": "workshop-green-screen",
+      "name": "Workshop Green Screen",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/workshop-green-screen.jpg",
+      "gamemodes": [
+        "workshop"
+      ],
+      "location": "Earth",
+      "country_code": null,
+      "image_available": true
+    },
+    {
+      "key": "workshop-island",
+      "name": "Workshop Island",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/workshop-island.jpg",
+      "gamemodes": [
+        "workshop"
+      ],
+      "location": "Earth",
+      "country_code": null,
+      "image_available": true
+    },
+    {
+      "key": "wuxing-university",
+      "name": "Wuxing University",
+      "screenshot": "https://overfast-api.tekrop.fr/static/maps/wuxing-university.jpg",
+      "gamemodes": [
+        "control"
+      ],
+      "location": "Chengdu, Sichuan, China",
+      "country_code": "CN",
+      "image_available": true
+    }
+  ]
+}

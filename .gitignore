@@ -1,3 +1,9 @@
-
-*.pyc
-*.zip
+__pycache__/
+*.py[cod]
+.venv/
+build/
+dist/
+*.spec
+*.log
+.DS_Store
+.nocol

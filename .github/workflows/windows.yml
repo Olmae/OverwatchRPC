@@ -1,0 +1,72 @@
+name: Windows build and tests
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt -r requirements-build.txt
+      - name: Lint and unit tests
+        run: |
+          python -m ruff check owrpc.py owrpc_app scripts tests
+          python -m unittest discover -s tests -v
+      - name: Source dependency and catalog smoke test
+        run: python owrpc.py --self-test
+      - name: Render and test Tk interface
+        run: python scripts/smoke_ui.py
+      - name: Build portable application
+        run: python scripts/build_windows.py
+      - name: Verify frozen application
+        shell: pwsh
+        run: |
+          $reportPath = Join-Path $PWD 'build/frozen-smoke.json'
+          $app = Start-Process -FilePath 'dist/OverwatchRPC/OverwatchRPC.exe' -ArgumentList @('--self-test', '--self-test-report', $reportPath) -PassThru
+          if (-not $app.WaitForExit(60000)) { $app.Kill(); throw 'Frozen self-test timed out' }
+          if ($app.ExitCode -ne 0) { throw "Frozen self-test failed: $($app.ExitCode)" }
+          $report = Get-Content $reportPath | ConvertFrom-Json
+          if (-not $report.ok -or $report.heroes -lt 54) { throw 'Invalid frozen self-test report' }
+      - name: Package portable ZIP and license notices
+        shell: pwsh
+        run: |
+          Copy-Item LICENSE,README.md -Destination dist/OverwatchRPC
+          Copy-Item assets/NOTICE.md -Destination dist/OverwatchRPC/ARTWORK-NOTICE.md
+          Copy-Item docs/WINDOWS-TESTING.md -Destination dist/OverwatchRPC
+          Compress-Archive -Path dist/OverwatchRPC -DestinationPath dist/OverwatchRPC-Windows.zip
+          (Get-FileHash dist/OverwatchRPC-Windows.zip -Algorithm SHA256).Hash | Set-Content dist/OverwatchRPC-Windows.zip.sha256
+      - name: Upload Windows portable build
+        uses: actions/upload-artifact@v4
+        with:
+          name: OverwatchRPC-Windows
+          path: |
+            dist/OverwatchRPC-Windows.zip
+            dist/OverwatchRPC-Windows.zip.sha256
+      - name: Upload interface previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: UI-previews
+          path: build/ui-smoke/*.png
+          if-no-files-found: ignore
+      - name: Publish beta release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: gh release create $env:GITHUB_REF_NAME dist/OverwatchRPC-Windows.zip dist/OverwatchRPC-Windows.zip.sha256 --title "OverwatchRPC $env:GITHUB_REF_NAME" --notes-file docs/RELEASE-NOTES.md --prerelease
+    permissions:
+      contents: write
