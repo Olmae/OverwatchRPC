@@ -11,6 +11,18 @@ def game_running(process_name):
                for p in psutil.process_iter(["name"]))
 
 
+def game_started_at(process_name):
+    """Conservative lower bound for a game clock, without reading game memory."""
+    import psutil
+    starts = []
+    for process in psutil.process_iter(["name", "create_time"]):
+        if (process.info.get("name") or "").casefold() == process_name.casefold():
+            created = process.info.get("create_time")
+            if created is not None:
+                starts.append(created)
+    return min(starts) if starts else None
+
+
 def game_foreground(process_name):
     if sys.platform != "win32":
         return False

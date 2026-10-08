@@ -48,13 +48,7 @@ class TabCapture(threading.Thread):
             enabled, process, revision = self.config
         foreground = enabled and game_foreground(process)
         pressed = foreground and tab_pressed()
-        if not foreground:
-            with self.lock:
-                self.samples.clear()
         if pressed and not self.pressed:
-            with self.lock:
-                self.samples.clear()
-                self.burst += 1
             self.opened_at, self.count = now, 0
             log.info("Recognition timing: Tab opened (capture thread)")
         if self.pressed and not pressed and foreground:
@@ -71,6 +65,9 @@ class TabCapture(threading.Thread):
         if image is not None and game_foreground(process):
             with self.lock:
                 if not self.stop_event.is_set() and self.config == (enabled, process, revision):
+                    if self.count == 0:
+                        self.samples.clear()
+                        self.burst += 1
                     self.samples.append(Sample(image, revision, self.burst,
                                                self.opened_at, captured_at))
         self.count += 1
@@ -81,7 +78,7 @@ class TabCapture(threading.Thread):
         with self.lock:
             while self.samples:
                 sample = self.samples.popleft()
-                if sample.revision == revision and 0 <= now - sample.captured_at <= 10:
+                if sample.revision == revision and 0 <= now - sample.captured_at <= 20:
                     return sample
         return None
 

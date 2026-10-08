@@ -1111,6 +1111,7 @@
     {
       "key": "new-queen-street",
       "name": "New Queen Street",
+      "localized_names": {"ru": "Нью-Квин-стрит"},
       "screenshot": "https://overfast-api.tekrop.fr/static/maps/new-queen-street.jpg",
       "gamemodes": [
         "push"
@@ -1383,6 +1384,7 @@
       "key": "watchpoint-grimsvotn",
       "name": "Watchpoint: Grimsvotn",
       "localized_names": {
+        "en": "Grímsvötn",
         "ru": "Гримсвотн"
       },
       "screenshot": "https://overfast-api.tekrop.fr/static/maps/watchpoint-grimsvotn.jpg",

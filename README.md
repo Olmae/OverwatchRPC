@@ -9,7 +9,7 @@ Choose your hero, map and game mode, preview your activity, and keep the app out
 of the way while you play. No Chromium runtime, account login or Discord token.
 
 ![Windows build](https://github.com/Olmae/OverwatchRPC/actions/workflows/windows.yml/badge.svg)
-![Version](https://img.shields.io/badge/version-2.0.0--beta.4-orange)
+![Version](https://img.shields.io/badge/version-2.0.0--beta.5-orange)
 ![Python](https://img.shields.io/badge/python-3.12%2B-blue)
 ![License](https://img.shields.io/badge/code-GPLv3-blue)
 
@@ -39,6 +39,9 @@ its old network checks and catalogs are not part of the supported desktop flow.
    [Releases](https://github.com/Olmae/OverwatchRPC/releases).
 2. Extract the **entire folder** to a permanent location. Keep `OverwatchRPC.exe`
    and its `_internal` directory together; Python is not required.
+   Alternatively, download the standalone **OverwatchRPC.exe** from the same
+   release. It extracts its runtime to a temporary folder at launch, so startup
+   can take longer than the ZIP version.
 3. Open the desktop Discord client and enable **Activity Privacy → Share your
    detected activities with others**. Browser-only Discord cannot accept local RPC.
 4. Launch `OverwatchRPC.exe`, start Overwatch, and select the game's OCR language
@@ -55,8 +58,9 @@ selections and resets the timer. Settings are saved to `%APPDATA%\OWRPC`.
 This is an **unsigned beta**. Beta.2 launched in Windows 11 ARM64 under x64
 emulation and published real Discord activity with a hero portrait and match
 timer. Subsequent testing on a Windows gaming PC covers Russian 3440×1440
-gameplay and supplied screenshots. Recognition is still experimental: every
-hero, 16:9, and comparable FPS measurements remain unverified. Please use the
+gameplay and supplied English/Russian 16:9 and 21:9 screenshots. Recognition is
+still experimental: every hero/skin and controlled live FPS comparisons remain
+unverified. Please use the
 [Windows acceptance checklist](docs/WINDOWS-TESTING.md).
 
 ## What is included
@@ -175,8 +179,10 @@ a bounded capture burst in a separate thread. Up to three frames are captured
 in memory while the scoreboard is visible, starting after its opening animation.
 Releasing Tab lets OCR finish processing those frames; holding it until OCR
 finishes is unnecessary. Two matching readable observations are still required,
-so an extremely brief tap can miss the scoreboard. Focus loss, pause and settings
-changes discard pending frames. Holding Tab does not repeat the burst.
+so an extremely brief tap can miss the scoreboard. Already captured game frames
+can finish processing after switching to the app; no new frames are captured
+outside the foreground game. Pause, settings changes and a new valid burst
+discard pending frames. Holding Tab does not repeat the burst.
 
 A supplied Russian Havana scoreboard also validates hero, map, elapsed time and
 E/A/D, including changed palette variants. Mixed Latin nicknames in a Russian

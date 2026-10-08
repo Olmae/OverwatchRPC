@@ -1,0 +1,322 @@
+[
+  {
+    "key": "ana",
+    "name": "Ana",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Ana.png",
+    "source_sha256": "3486423d396fdb0611bff7a302cf46c9c8cb840f195ea3512b68c181a43a2cae"
+  },
+  {
+    "key": "ashe",
+    "name": "Ashe",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Ashe.png",
+    "source_sha256": "4d8c7da1eead28454ef9c6225431bd74931b432c9a2ed7f15527b2ccc89abe0f"
+  },
+  {
+    "key": "baptiste",
+    "name": "Baptiste",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Baptiste.png",
+    "source_sha256": "e3ce9cb1f32401941d25673968f56e397415dc9cc7ab0ce057faad8574214c58"
+  },
+  {
+    "key": "bastion",
+    "name": "Bastion",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Bastion.png",
+    "source_sha256": "c49749f199b58a3ff6728d2be6c55cf7bb8f23963f0707ca4ca1149b2408b86b"
+  },
+  {
+    "key": "brigitte",
+    "name": "Brigitte",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Brigitte.png",
+    "source_sha256": "deabeafda7afa9207ae3388bbe10c0e0f730f321b008a77bf0b75c13a4005758"
+  },
+  {
+    "key": "cassidy",
+    "name": "Cassidy",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Cassidy.png",
+    "source_sha256": "5890e07b8a81e3f84c66bdb2c05f09f359fbff65bdf1a3261742621452a09a38"
+  },
+  {
+    "key": "dva",
+    "name": "D.Va",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/D.Va.png",
+    "source_sha256": "363463d514b213fad070892c0870774de8ba2e0094471bbe00f8f53050bf5396"
+  },
+  {
+    "key": "doomfist",
+    "name": "Doomfist",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Doomfist.png",
+    "source_sha256": "5fa087ac15a90a70b363eb8fe7f543b0ef040acacbe566c52be8f31b3f594b70"
+  },
+  {
+    "key": "echo",
+    "name": "Echo",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Echo.png",
+    "source_sha256": "ac0c75ddb1213a40982bbd50efe03b3d3fd71f0475c9ee55b9128dbbfe335858"
+  },
+  {
+    "key": "genji",
+    "name": "Genji",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Genji.png",
+    "source_sha256": "6542256dc1ee135315b600ed0c3c9a9044cc5debf503788d3b04a6232199c599"
+  },
+  {
+    "key": "hanzo",
+    "name": "Hanzo",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Hanzo.png",
+    "source_sha256": "ee9ec0b07d07142df1d0c73d78b907ce3e315b4d09a677f7b404b43f7dfb3851"
+  },
+  {
+    "key": "junker-queen",
+    "name": "Junker Queen",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/JunkerQueen.png",
+    "source_sha256": "ac9402005f6ee115184a08c551ee5c912f8c82612af1841a6b1478c61ec8a50b"
+  },
+  {
+    "key": "junkrat",
+    "name": "Junkrat",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Junkrat.png",
+    "source_sha256": "c40d6d9123bcf5f5538368cf46e1dd339bf0e706a666edc3cfd361faecd18000"
+  },
+  {
+    "key": "kiriko",
+    "name": "Kiriko",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Kiriko.png",
+    "source_sha256": "2e677626f27e01536f48a0df75037ae3238dd03b1e9b518fe2be7094effbcdbc"
+  },
+  {
+    "key": "lucio",
+    "name": "Lúcio",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/L%C3%BAcio.png",
+    "source_sha256": "76bfd3bd4b85194ab5d22549853fd57c941b09e5a847d3028817b346c4129978"
+  },
+  {
+    "key": "mei",
+    "name": "Mei",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Mei.png",
+    "source_sha256": "d6585e41856aa812ffabce8fe039192d01a328786a62374eaf2110142b766d9c"
+  },
+  {
+    "key": "mercy",
+    "name": "Mercy",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Mercy.png",
+    "source_sha256": "8064931b39b38b4a9ac142e25b619bd95f500aa4d7dbb986011eedcb6bcdebc2"
+  },
+  {
+    "key": "moira",
+    "name": "Moira",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Moira.png",
+    "source_sha256": "68c8c72ffbc2e45760caf51602dc9a959ae56e012ba56fc280e31f0bf93bfd7a"
+  },
+  {
+    "key": "orisa",
+    "name": "Orisa",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Orisa.png",
+    "source_sha256": "3422930df22dd020e580b8b830f5be573d2a8b5f0eaf7f7c02baadba67b6648d"
+  },
+  {
+    "key": "pharah",
+    "name": "Pharah",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Pharah.png",
+    "source_sha256": "ac09ff9dfcf5fa6a31101735f3f236c7363ed0b11911561eb08245bf80c587ba"
+  },
+  {
+    "key": "reaper",
+    "name": "Reaper",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Reaper.png",
+    "source_sha256": "e5876d6d31a0f8cedaf45c5d08ce7486615b08f27e1784efe0a4a7cf6711b0cb"
+  },
+  {
+    "key": "reinhardt",
+    "name": "Reinhardt",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Reinhardt.png",
+    "source_sha256": "93a5a6999cdae3237f41fa724d5688e9484bb2a3dda5619e13546a7b453cf22e"
+  },
+  {
+    "key": "roadhog",
+    "name": "Roadhog",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Roadhog.png",
+    "source_sha256": "f5d6711889bc7408a6444a0a21d209ccd0060fb9e4413a84e2386d2e881c90ce"
+  },
+  {
+    "key": "sigma",
+    "name": "Sigma",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Sigma.png",
+    "source_sha256": "aec270d915adffea088111901fa49b18d46f6377ae540163be1a1ea6d1f421bc"
+  },
+  {
+    "key": "sojourn",
+    "name": "Sojourn",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Sojourn.png",
+    "source_sha256": "11dc62e021cf1238964e646c7a9ba4126a3387d4e332bd54734d2a7546798762"
+  },
+  {
+    "key": "soldier-76",
+    "name": "Soldier: 76",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Soldier76.png",
+    "source_sha256": "719c4ac466f1d1c00b150ec20fec4a5f6474553d6f55f8b12936ac3a79aa2f0f"
+  },
+  {
+    "key": "sombra",
+    "name": "Sombra",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Sombra.png",
+    "source_sha256": "816ea5841f9745e10389d1ca947f036b5ec54bf7919b42236c69461f7918c301"
+  },
+  {
+    "key": "symmetra",
+    "name": "Symmetra",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Symmetra.png",
+    "source_sha256": "e9033c20aa529633ec2877f0dff8e57b9232c96d6629b8760e5fcd17d2063835"
+  },
+  {
+    "key": "torbjorn",
+    "name": "Torbjörn",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Torbj%C3%B6rn.png",
+    "source_sha256": "5676add847689a89673610661b8d5e33e23d5a3e77e229771a2e862626a0b45e"
+  },
+  {
+    "key": "tracer",
+    "name": "Tracer",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Tracer.png",
+    "source_sha256": "e0795217a89d8e526d069284e58ba131bba1dc04b6fc50efde4f823478790611"
+  },
+  {
+    "key": "widowmaker",
+    "name": "Widowmaker",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Widowmaker.png",
+    "source_sha256": "12b3efd544ca60a4c3f064a66ec4bcd876d7d837c2a75bfb9cede1749f9e9648"
+  },
+  {
+    "key": "winston",
+    "name": "Winston",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Winston.png",
+    "source_sha256": "a5ced203a747deba152da972f744e87416fb8e4c506ef68f9514b8fc9174d8fd"
+  },
+  {
+    "key": "wrecking-ball",
+    "name": "Wrecking Ball",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Wrecking%20Ball.png",
+    "source_sha256": "4b0443f6149a8e5e171d50ce82b8d1ef1ffdf0177ed8e0dfb2d707bc2dddd091"
+  },
+  {
+    "key": "zarya",
+    "name": "Zarya",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Zarya.png",
+    "source_sha256": "e0e85714572c88c2c8b2d92e095fc7ab8719512a91a7161e08e5f5bc3211e209"
+  },
+  {
+    "key": "zenyatta",
+    "name": "Zenyatta",
+    "source": "https://raw.githubusercontent.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations/a58b07279cffe506f3a4fa1c36c71d6316afa0e2/Zenyatta.png",
+    "source_sha256": "1aa1177b3c9f2dea8d0940446b3915be7b4631cce0d4911c0eae03e07afe8a40"
+  },
+  {
+    "key": "juno",
+    "name": "Juno",
+    "source": "Maintainer-supplied scoreboard portrait crop, 2026-10-08"
+  },
+  {
+    "key": "dmon",
+    "name": "D.Mon",
+    "source": "Maintainer-supplied scoreboard portrait crop, 2026-10-08"
+  },
+  {
+    "key": "doctrine",
+    "name": "Doctrine",
+    "source": "Maintainer-supplied scoreboard portrait crop, 2026-10-08"
+  },
+  {
+    "key": "ramattra",
+    "name": "Ramattra",
+    "source": "Maintainer-supplied scoreboard portrait crop, 2026-10-07"
+  },
+  {
+    "key": "anran",
+    "name": "Anran",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/anran.png",
+    "source_sha256": "28d8d74c0abbdf2bc249a59b31c8e7c12b7679a86968dfb8948b8ebc5d427646"
+  },
+  {
+    "key": "domina",
+    "name": "Domina",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/domina.png",
+    "source_sha256": "d559b18a4dba94cf7f0c9235f2dd4d0a669a444250e8a7730473a411e628579f"
+  },
+  {
+    "key": "emre",
+    "name": "Emre",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/emre.png",
+    "source_sha256": "78b57a888df96f7f4b4e3879f545723d954b7f0debc8dc108dd60a91f784e835"
+  },
+  {
+    "key": "freja",
+    "name": "Freja",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/freja.png",
+    "source_sha256": "a33fb652c928ce97626714efd1522b4952e4bc431ca3f8c39d34a64203b0ac6d"
+  },
+  {
+    "key": "hazard",
+    "name": "Hazard",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/hazard.png",
+    "source_sha256": "1d9eab16f23de27020ef2313c5c2814dd5549aa98a8d33da2e4ee752f69d7465"
+  },
+  {
+    "key": "illari",
+    "name": "Illari",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/illari.png",
+    "source_sha256": "bed06dd0061a6595c756406c90d206633533d40df755c692f0d8864e6a247e66"
+  },
+  {
+    "key": "jetpack-cat",
+    "name": "Jetpack Cat",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/jetpack-cat.png",
+    "source_sha256": "0fd3b9fab92de36533b482fac145de69da799a09bfde3986f45168f1f7458ad5"
+  },
+  {
+    "key": "lifeweaver",
+    "name": "Lifeweaver",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/lifeweaver.png",
+    "source_sha256": "687f8ebb1ed74ad8b8d22193c154c0b067a0c9e2a27efaedec34fb9dd48afdb7"
+  },
+  {
+    "key": "mauga",
+    "name": "Mauga",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/mauga.png",
+    "source_sha256": "6574ef434e027a2f2d4c16c2317cdbf90974e10375c838edf0b284fc819d9124"
+  },
+  {
+    "key": "mizuki",
+    "name": "Mizuki",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/mizuki.png",
+    "source_sha256": "4262ad05e8172b4e1505c8d1ac2968e6041f004aee4c95102d76b5a2888b198f"
+  },
+  {
+    "key": "shion",
+    "name": "Shion",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/shion.png",
+    "source_sha256": "81e7d8ea151674d12ba2dfd1ee97ba46a434a8f579d5aeea22aaeb0d161a3750"
+  },
+  {
+    "key": "sierra",
+    "name": "Sierra",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/sierra.png",
+    "source_sha256": "8a0b26c286c47c4e9dc01be303324b6c9f37319d5ce94f8866d0ccb80df3fcb9"
+  },
+  {
+    "key": "vendetta",
+    "name": "Vendetta",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/vendetta.png",
+    "source_sha256": "21553bfe2ba42e12f681594a135803a8bc268aa3ece349f4263edc6fb90ff622"
+  },
+  {
+    "key": "venture",
+    "name": "Venture",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/venture.png",
+    "source_sha256": "aa031497e14100a1453197161a959c9269d451d835fd208822abc1e874de5285"
+  },
+  {
+    "key": "wuyang",
+    "name": "Wuyang",
+    "source": "https://raw.githubusercontent.com/drippinghere/overwatch-hero-icons/f4ddc06cf07d0741c40beda77eeeb1a81a99a279/2d/wuyang.png",
+    "source_sha256": "0c99e5da0cc8db90f913c7526eff690ff9d3de750fa92ad0b1017f5b2d0c1f48"
+  }
+]

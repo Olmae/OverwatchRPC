@@ -1,0 +1,9 @@
+{
+  "source": "Maintainer-supplied scoreboard mode glyph crops, 2026-10-07/08",
+  "modes": [
+    "Control",
+    "Escort",
+    "Hybrid",
+    "Push"
+  ]
+}

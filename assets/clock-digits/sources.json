@@ -1,0 +1,327 @@
+{
+  "0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "03-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "1": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "01-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "14-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Juno",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "4": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "01-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "5": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "tracer-live",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "6": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "paraiso-later",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "7": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "paraiso-later",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "8": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "01-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "9": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "codex-clipboard-23a18f42-9987-4bdb-8913-e51064a5c6c3",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "1-0-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "01-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "4-0-1": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "01-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "4-0-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "01-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "8-0-4": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "01-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "1-2-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "03-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "5-2-1": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "03-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-2-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "03-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "4-2-4": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "03-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-12-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "13-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-12-2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "13-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-12-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "13-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2-13-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "14-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2-13-2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "14-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-13-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "14-scoreboard",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-14-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "paraiso-zero",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-14-2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "paraiso-zero",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-14-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "paraiso-zero",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "5-18-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "tracer-live",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "5-18-2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "tracer-live",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "4-18-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "tracer-live",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "1-19-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "pending-escort-ashe",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "4-19-2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "pending-escort-ashe",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-19-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "pending-escort-ashe",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-22-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "23-grimsvotn-new-match",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-22-2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "23-grimsvotn-new-match",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-22-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "23-grimsvotn-new-match",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "1-25-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "tab",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "3-25-2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "tab",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "3-25-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "tab",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2-28-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Juno",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "1-28-1": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Juno",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2-28-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Juno",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "3-28-4": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Juno",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2-29-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "D.Mon",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "1-29-1": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "D.Mon",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "5-29-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "D.Mon",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "5-29-4": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "D.Mon",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2-30-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "D.Va",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2-30-1": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "D.Va",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "1-30-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "D.Va",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "5-30-4": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "D.Va",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2-31-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Mei",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "2-31-1": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Mei",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "3-31-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Mei",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "1-31-4": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Mei",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "3-32-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Doctrine",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "4-32-1": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Doctrine",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "3-32-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Doctrine",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-32-4": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "Doctrine",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-33-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "new-queen-street",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-33-2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "new-queen-street",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-33-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "new-queen-street",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-34-0": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "nepal-mystery",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-34-2": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "nepal-mystery",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "0-34-3": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "nepal-mystery",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  }
+}

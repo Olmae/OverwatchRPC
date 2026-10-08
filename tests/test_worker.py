@@ -34,11 +34,14 @@ CATALOG = {"heroes": [{"name": "Ana", "portrait": "https://example.com/ana.png"}
 
 class WorkerTests(unittest.TestCase):
     def setUp(self):
+        process_patch = patch('owrpc_app.runtime.game_started_at', return_value=None)
+        process_patch.start()
+        self.addCleanup(process_patch.stop)
         capture_patch = patch('owrpc_app.runtime.TabCapture', return_value=None)
         capture_patch.start()
         self.addCleanup(capture_patch.stop)
 
-    def test_two_buffered_frames_confirm_after_tab_is_released(self):
+    def test_verified_buffered_frames_confirm_after_switching_to_app(self):
         from owrpc_app.tab_capture import Sample
         from owrpc_app.detection import Detection
         capture = unittest.mock.Mock()
@@ -49,13 +52,14 @@ class WorkerTests(unittest.TestCase):
         worker.stop_event = Ticks(3)
         with patch('owrpc_app.runtime.TabCapture', return_value=capture), \
                 patch('owrpc_app.runtime.game_running', return_value=True), \
-                patch('owrpc_app.runtime.game_foreground', return_value=True), \
+                patch('owrpc_app.runtime.game_foreground', return_value=False), \
                 patch('owrpc_app.runtime.tab_pressed', return_value=False), \
                 patch('owrpc_app.runtime.analyze_frame', return_value={'__scene__': Detection(phase='match', hero='Ana')}), \
-                patch('owrpc_app.runtime.recognize', return_value={}), \
+                patch('owrpc_app.runtime.recognize', return_value={}) as new_capture, \
                 patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()):
             worker.run()
         self.assertEqual(worker.status.hero, 'Ana')
+        new_capture.assert_not_called()
         capture.close.assert_called_once()
 
     def make_worker(self, foreground=True, callback=None, status=None):
@@ -201,12 +205,33 @@ class WorkerTests(unittest.TestCase):
                      patch("owrpc_app.runtime.time.time", return_value=200), \
                      patch("owrpc_app.runtime.time.monotonic", side_effect=lambda: worker.stop_event.tick * 10):
                     worker.run()
-                self.assertEqual(worker.status.started_at, 200 if changed else 100)
+                # A confirmed game clock may reset at a round boundary without
+                # clearing cumulative match fields or implying a new match.
+                self.assertEqual(worker.status.started_at, 200 if changed or (frames == 2 and elapsed is not None) else 100)
                 self.assertEqual(worker.status.hero, "" if changed else "Ana")
                 self.assertEqual(worker.status.party_size, 5)
                 if changed:
                     self.assertEqual(worker.status.kda, kda)
                     self.assertEqual(worker.status.mode, "Quick Play")
+
+    def test_confirmed_real_map_mode_clears_stale_practice_without_map_ocr(self):
+        from owrpc_app.detection import Detection
+        for frames in (1,2):
+            status = Status(phase='match',map_name='Practice Range',mode='Practice',
+                            hero='Ana',kda=(5,1,0),kda_read_at=190,started_at=180)
+            worker = Worker(Settings(ocr_enabled=True,kda_enabled=True),status,CATALOG,queue.Queue())
+            worker.stop_event = Ticks(frames)
+            scene = Detection(phase='match',mode='Escort',scene='scoreboard')
+            with patch('owrpc_app.runtime.RpcSession',return_value=FakeRpc()), \
+                 patch('owrpc_app.runtime.game_running',return_value=True), \
+                 patch('owrpc_app.runtime.game_foreground',return_value=True), \
+                 patch('owrpc_app.runtime.recognize',return_value={'__scene__':scene}), \
+                 patch('owrpc_app.runtime.time.time',return_value=200), \
+                 patch('owrpc_app.runtime.time.monotonic',side_effect=lambda:worker.stop_event.tick*10):
+                worker.run()
+            self.assertEqual(worker.status.map_name,'' if frames==2 else 'Practice Range')
+            self.assertEqual(worker.status.mode,'Escort' if frames==2 else 'Practice')
+            self.assertEqual(worker.status.kda,None if frames==2 else (5,1,0))
 
     def test_background_or_pause_does_not_read_tab_state(self):
         for paused, foreground in ((False, False), (True, True)):

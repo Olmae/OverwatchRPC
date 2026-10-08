@@ -1,6 +1,7 @@
 """Spatial game text parsing. Team colors and character models are never evidence."""
 from dataclasses import dataclass
 import re
+import unicodedata
 from difflib import SequenceMatcher
 from .model import normalize
 
@@ -51,12 +52,16 @@ def text_in(words, box):
 
 def catalog_name(text, catalog, fuzzy=False):
     # Whole phrases only: never fuzzy-match noisy menu text to a hero or map.
-    haystack = ' ' + re.sub(r'[^\w]+', ' ', text.casefold()) + ' '
+    def phrase(value):
+        folded = ''.join(c for c in unicodedata.normalize('NFKD', value).casefold()
+                         if not unicodedata.combining(c))
+        return ' ' + re.sub(r'[^\w]+', ' ', folded) + ' '
+    haystack = phrase(text)
     matches = []
     for item in catalog:
         name = item if isinstance(item, str) else item['name']
         aliases = [name] if isinstance(item, str) else [name, *item.get('localized_names', {}).values()]
-        if any(' ' + re.sub(r'[^\w]+', ' ', alias.casefold()) + ' ' in haystack for alias in aliases):
+        if any(phrase(alias) in haystack for alias in aliases):
             matches.append(name)
     if len(matches) == 1:
         return matches[0]
@@ -91,11 +96,12 @@ def catalog_name(text, catalog, fuzzy=False):
 
 
 def mode_from(text):
-    for mode, aliases in [('Stadium', ('STADIUM', 'СТАДИОН')), ('Competitive', ('COMPETITIVE', 'СОРЕВНОВАТЕЛ')),
+    for mode, aliases in [('Mystery Madness', ('MYSTERY MADNESS', 'ЗАГАДОЧНОЕ БЕЗУМИЕ')),
+                         ('Stadium', ('STADIUM', 'СТАДИОН')), ('Competitive', ('COMPETITIVE', 'СОРЕВНОВАТЕЛ')),
                           ('Quick Play', ('QUICK PLAY', 'БЫСТРАЯ ИГРА', 'НЕРЕЙТИНГОВАЯ ИГРА', 'JOGO CASUAL')), ('Practice', ('PRACTICE', 'ТРЕНИРОВОЧ', 'УЧЕБНЫЙ ПОЛИГОН')),
                           ('Arcade', ('ARCADE', 'АРКАДА')), ('Custom Game', ('CUSTOM GAME', 'СВОЯ ИГРА')),
                           ('Control', ('CONTROL', 'КОНТРОЛЬ')), ('Escort', ('ESCORT', 'СОПРОВОЖДЕНИЕ')),
-                          ('Hybrid', ('HYBRID', 'ГИБРИДНЫЙ РЕЖИМ'))]:
+                          ('Hybrid', ('HYBRID', 'ГИБРИДНЫЙ РЕЖИМ')), ('Push', ('PUSH', 'НАТИСК'))]:
         if any(alias in text for alias in aliases):
             return mode
     return None
@@ -212,8 +218,8 @@ def detect(words, heroes, maps, nickname=''):
     scoreboard = len(headers) == 3 and headers[0].x < headers[1].x < headers[2].x
     if scoreboard:
         hero = catalog_name(text_in(words, (.58, .29, .86, .39)), heroes, fuzzy=True)
-        map_name = catalog_name(text_in(words, (.65, 0, 1, .09)), maps)
-        timer_text = text_in(words, (.91, .025, 1, .085)).replace('O', '0').replace('О', '0')
+        map_name = catalog_name(text_in(words, (.65, 0, 1, .09)), maps, fuzzy=True)
+        timer_text = text_in(words, (.65 if practice else .91, .025, 1, .085)).replace('O', '0').replace('О', '0')
         timer = re.findall(r'(?<!\d)(\d{1,3}):([0-5]\d)(?!\d)', timer_text)
         elapsed = int(timer[0][0])*60+int(timer[0][1]) if len(timer)==1 else None
         return Detection(phase='match', hero=hero, map_name=map_name, mode=mode_from(top),

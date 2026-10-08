@@ -7,6 +7,24 @@ def word(text, x, y, w=.1, h=.025):
 
 
 class DetectionTests(unittest.TestCase):
+    def test_short_grimsvotn_header_with_partial_diacritics(self):
+        from owrpc_app.catalog import load_catalog
+        from owrpc_app.detection import catalog_name
+        maps = load_catalog()['maps']
+        for spelling in ('GRÍMSVÖTN','GRIMSVÖTN','GRIMSVOTN','ГРИМСВОТН'):
+            self.assertEqual(catalog_name('ESCORT | '+spelling+' TIME:0:00', maps),
+                             'Watchpoint: Grimsvotn')
+        self.assertIsNone(catalog_name('GRIM FPS 120', maps))
+
+    def test_long_mystery_playlist_takes_priority_over_map_type(self):
+        from owrpc_app.detection import mode_from, catalog_name
+        self.assertEqual(mode_from('КОНТРОЛЬ – ЗАГАДОЧНОЕ БЕЗУМИЕ | НЕПАЛ'), 'Mystery Madness')
+        self.assertEqual(mode_from('НАТИСК | НЬЮ-КВИН-СТРИТ'), 'Push')
+        maps = [{'name': 'New Queen Street', 'localized_names': {'ru': 'Нью-Квин-стрит'}},
+                {'name': 'Nepal', 'localized_names': {'ru': 'Непал'}}]
+        self.assertEqual(catalog_name('НЬЮ-КВИЊСТРИТ', maps, fuzzy=True), 'New Queen Street')
+        self.assertIsNone(catalog_name('0:00 FPS', maps, fuzzy=True))
+
     def test_search_in_gallery_does_not_set_playing_hero(self):
         result = detect([word('SEARCHING', .46, .055), word('MERCY', .85, .25)], ['Mercy'], [])
         self.assertEqual(result.phase, 'queue')

@@ -149,6 +149,8 @@ _ROWS = {
     'Control': ('Контроль', '控制', 'Controle', 'Control', '控制', '쟁탈', 'Contrôle', 'Kontrolle'),
     'Escort': ('Сопровождение', '护送', 'Escolta', 'Escolta', '護送', '호위', 'Escorte', 'Eskorte'),
     'Hybrid': ('Гибридный режим', '混合', 'Híbrido', 'Híbrido', '混合', '혼합', 'Hybride', 'Hybrid'),
+    'Push': ('Натиск', '推进', 'Avanço', 'Avance', '推進', '밀기', 'Avancée', 'Schub'),
+    'Mystery Madness': ('Загадочное безумие', '神秘狂欢', 'Loucura misteriosa', 'Locura misteriosa', '神秘狂歡', '수수께끼 광기', 'Folie mystère', 'Überraschungswahnsinn'),
     'Capture the Flag': ('Захват флага', '勇夺锦旗', 'Capture a bandeira', 'Captura la bandera', '搶旗', '깃발 뺏기', 'Capture du drapeau', 'Flaggeneroberung'),
     'Deathmatch': ('Схватка', '死斗', 'Combate até a morte', 'Combate a muerte', '死鬥', '데스매치', 'Combat à mort', 'Deathmatch'),
     'Team Deathmatch': ('Командная схватка', '团队死斗', 'Combate até a morte em equipe', 'Combate a muerte por equipos', '團隊死鬥', '팀 데스매치', 'Combat à mort par équipe', 'Team-Deathmatch'),

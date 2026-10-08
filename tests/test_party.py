@@ -22,11 +22,11 @@ class PartyTests(unittest.TestCase):
     def test_unknown_or_hidden_header_is_not_reported_as_solo(self):
         self.assertIsNone(party_size(Image.new('RGB', (1920, 1080), 'black')))
 
-    def test_menu_presence_includes_fresh_count_only(self):
+    def test_confirmed_menu_count_survives_opening_the_app(self):
         status = Status(party_size=2, party_read_at=100)
         payload = build_payload(Settings(language='ru', ocr_enabled=True), status, now=110)
         self.assertEqual(payload['state'], 'В группе: 2 игрока')
-        self.assertNotIn('группе', build_payload(Settings(language='ru', ocr_enabled=True), status, now=200)['state'])
+        self.assertIn('В группе: 2 игрока', build_payload(Settings(language='ru', ocr_enabled=True), status, now=200)['state'])
         status.phase = 'match'
         self.assertIn('В группе: 2 игрока', build_payload(Settings(language='ru', ocr_enabled=True), status, now=110)['state'])
 

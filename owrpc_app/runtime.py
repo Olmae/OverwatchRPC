@@ -5,8 +5,8 @@ import threading
 import time
 import sys
 
-from .model import build_payload, match_catalog, StableMatch, parse_kda
-from .platform import game_running, game_foreground, lower_worker_priority, tab_pressed
+from .model import build_payload, match_catalog, StableMatch, parse_kda, ScoreboardClock
+from .platform import game_running, game_started_at, game_foreground, lower_worker_priority, tab_pressed
 from .ocr import recognize, close_recognition, analyze_frame
 from .recognition_schedule import RecognitionSchedule
 from .tab_capture import TabCapture
@@ -97,9 +97,11 @@ class Worker(threading.Thread):
             log.warning("Could not lower recognition worker priority", exc_info=True)
         rpc = RpcSession()
         stable = {key: StableMatch() for key in ("hero", "map", "kda", "phase", "mode", "nickname", "party", "scene")}
+        scoreboard_clock = ScoreboardClock()
         next_rpc = next_process = 0
         schedule = RecognitionSchedule()
         running = False
+        game_start = None
         previous_running = None
         current_revision = 0
         nickname = ""
@@ -118,6 +120,7 @@ class Worker(threading.Thread):
                         if catalog is not None:
                             self.catalog = catalog
                         schedule = RecognitionSchedule()
+                        scoreboard_clock = ScoreboardClock()
                         for match in stable.values():
                             match.reset()
                         if self.status.paused or not (self.settings.ocr_enabled or self.settings.kda_enabled):
@@ -133,12 +136,16 @@ class Worker(threading.Thread):
                 if now >= next_process:
                     try:
                         running = game_running(self.settings.game_process)
+                        game_start = game_started_at(self.settings.game_process) if running else None
                     except Exception as exc:
                         running = False
+                        game_start = None
                         log.warning("Process detection failed: %s", exc)
                     next_process = now + 5
                     self.events.put(("game", running))
                     if previous_running and not running:
+                        if capture is not None:
+                            capture.configure(self.settings, current_revision, True)
                         self.status.transition("menus")
                         self.status.hero = self.status.map_name = ""
                         self.status.party_size = self.status.party_read_at = None
@@ -162,18 +169,20 @@ class Worker(threading.Thread):
                 except Exception as exc:
                     foreground = pressed = False
                     log.info("Foreground/key check failed: %s", exc)
-                if not foreground:
+                sample = capture.take(current_revision, time.monotonic()) if capture is not None and enabled and running else None
+                if not foreground and sample is None:
+                    scoreboard_clock = ScoreboardClock()
                     tab_opened_at = None
                     for match in stable.values():
                         match.reset()
                 elif capture is None and pressed and not schedule.pressed:
                     tab_opened_at = time.monotonic()
                     log.info("Recognition timing: Tab opened")
-                sample = capture.take(current_revision, time.monotonic()) if capture is not None and foreground else None
                 due = schedule.due(now, foreground, pressed if capture is None else False, self.settings.ocr_interval)
                 if sample is not None or (due and not (capture is not None and pressed)):
                     try:
                         recognition_started = time.monotonic()
+                        captured_at = time.time() - (max(0, recognition_started-sample.captured_at) if sample is not None else 0)
                         if sample is not None:
                             tab_opened_at = sample.opened_at
                             if sample.burst != active_burst:
@@ -181,7 +190,7 @@ class Worker(threading.Thread):
                                 for match in stable.values():
                                     match.reset()
                             readings = dict(analyze_frame(self.settings, self.catalog, nickname, sample.image))
-                            if not capture.current(sample) or not game_foreground(self.settings.game_process):
+                            if not capture.current(sample):
                                 continue
                         else:
                             readings = dict(recognize(self.settings, self.catalog, nickname))
@@ -190,11 +199,22 @@ class Worker(threading.Thread):
                         if not self.commands.empty():
                             continue
                         scene = readings.pop("__scene__", None)
+                        evidence = readings.pop("__ocr_evidence__", None)
                         if scene is not None:
+                            if sample is not None and scene.scene == 'scoreboard' and evidence:
+                                log.info("Scoreboard OCR: burst=%s hero_title=%r timer=%r text_ms=%s parse_ms=%s", sample.burst,
+                                         evidence['hero_title'], evidence['timer'],
+                                         evidence.get('text_ms'), evidence.get('parse_ms'))
+                            if (scene.elapsed is not None and game_start is not None
+                                    and captured_at-scene.elapsed < game_start-3):
+                                log.info("Game timer rejected: elapsed=%s exceeds game process age=%.1f",
+                                         scene.elapsed, captured_at-game_start)
+                            confirmed_start = scoreboard_clock.observe(
+                                scene.elapsed if scene.phase == "match" else None, captured_at, game_start)
                             detection = (scene.scene, scene.phase, scene.hero, scene.map_name,
-                                         scene.mode, scene.kda, scene.party_size)
+                                         scene.mode, scene.kda, scene.party_size, scene.elapsed)
                             if detection != previous_detection:
-                                log.info("Recognition candidate: scene=%s phase=%s hero=%s map=%s mode=%s kda=%s party=%s duration_ms=%.1f",
+                                log.info("Recognition candidate: scene=%s phase=%s hero=%s map=%s mode=%s kda=%s party=%s elapsed=%s duration_ms=%.1f",
                                          *detection, (time.monotonic() - recognition_started) * 1000)
                                 previous_detection = detection
                             detected_nick = stable["nickname"].observe(scene.nickname)
@@ -212,6 +232,8 @@ class Worker(threading.Thread):
                                     stable[key].reset()
                             accepted_phase = (None if sample is not None and scene.phase is None
                                               else stable["phase"].observe(scene.phase))
+                            mode = (None if sample is not None and scene.mode is None
+                                    else stable["mode"].observe(scene.mode))
                             if capture is None and pressed and not accepted_fields.get("hero"):
                                 schedule.retry_followup(time.monotonic())
                             if self.settings.ocr_enabled and accepted_phase is not None:
@@ -223,20 +245,25 @@ class Worker(threading.Thread):
                                                   and scene.elapsed is not None and 0 <= scene.elapsed <= 10
                                                   and self.status.started_at is not None
                                                   and time.time() - self.status.started_at >= 60)
-                                if old_phase == accepted_phase == "match" and (map_changed or counters_reset):
-                                    log.info("New match recovered: map_changed=%s counters_reset=%s", bool(map_changed), bool(counters_reset))
+                                practice_exit = (self.status.map_name == 'Practice Range'
+                                                 and scene.scene == 'scoreboard'
+                                                 and mode in ('Control','Escort','Hybrid','Push','Mystery Madness'))
+                                if old_phase == accepted_phase == "match" and (map_changed or counters_reset or practice_exit):
+                                    log.info("New match recovered: map_changed=%s counters_reset=%s practice_exit=%s", bool(map_changed), bool(counters_reset), practice_exit)
                                     self.status.hero = self.status.map_name = ""
                                     self.status.mode = self.settings.mode
                                     self.status.kda = self.status.kda_read_at = None
-                                    self.status.started_at = int(time.time()) - (scene.elapsed or 0)
+                                    self.status.started_at = confirmed_start or int(time.time())
                                 self.status.transition(accepted_phase)
                                 if old_phase != accepted_phase:
                                     if accepted_phase != "results":
                                         self.status.hero = ""
                                     if accepted_phase != "results" and not (old_phase == "map_loading" and accepted_phase == "match"):
                                         self.status.map_name = ""
-                                    if accepted_phase == "match" and scene.elapsed is not None:
-                                        self.status.started_at = int(time.time()) - scene.elapsed
+                            if self.status.phase == scene.phase == "match" and confirmed_start is not None:
+                                if self.status.started_at is None or abs(self.status.started_at-confirmed_start) > 2:
+                                    log.info("Game timer synchronized: elapsed=%s start=%s", scene.elapsed, confirmed_start)
+                                    self.status.started_at = confirmed_start
                             accepted_scene = stable["scene"].observe(scene.scene) if scene.phase else None
                             if accepted_scene and self.status.phase == scene.phase:
                                 self.status.scene = accepted_scene
@@ -244,8 +271,6 @@ class Worker(threading.Thread):
                                 loading_map = accepted_fields.get("map")
                                 if loading_map:
                                     self.status.map_name = loading_map
-                            mode = (None if sample is not None and scene.mode is None
-                                    else stable["mode"].observe(scene.mode))
                             if mode:
                                 self.status.mode = mode
                             if self.status.phase == "match" and scene.phase == "match":
@@ -261,6 +286,9 @@ class Worker(threading.Thread):
                                         self.status.kda_read_at = time.time()
                             if scene.phase in ("menus", "queue") and self.settings.ocr_enabled:
                                 size = stable["party"].observe(scene.party_size)
+                                if scene.party_size is not None and stable["party"].count == 1:
+                                    # One prompt confirmation, then resume normal polling.
+                                    schedule.next_poll = min(schedule.next_poll, time.monotonic() + .25)
                                 if size is not None and self.status.phase == scene.phase:
                                     self.status.party_size = size
                                     self.status.party_read_at = time.time()

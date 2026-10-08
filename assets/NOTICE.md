@@ -21,6 +21,20 @@ The bundled small images allow the interface to work without network downloads.
 Discord uses the original HTTPS hero portrait URL when the user enables it;
 local files cannot be used as Discord Rich Presence assets.
 
+`assets/tab-portraits` contains separate scoreboard illustrations used only for
+local recognition. Thirty-five exported illustrations come from
+https://github.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations at revision
+`a58b07279cffe506f3a4fa1c36c71d6316afa0e2`; `sources.json` records individual
+source URLs and SHA-256 hashes. Four additional portrait-only crops (Juno,
+D.Mon, Doctrine and Ramattra) come from screenshots supplied by the maintainer.
+These crops contain no account names or statistics. They remain Blizzard game
+artwork and are not covered by this project's code license.
+`assets/mode-icons` similarly contains only four scoreboard header glyphs from
+maintainer-supplied screenshots: Control, Escort, Hybrid and Push.
+`tests/fixtures/tab-portraits` and `tests/fixtures/mode-icons` contain isolated
+portrait/header crops from separate supplied frames for regression checks.
+They contain no player names; Blizzard retains ownership of the game artwork.
+
 Catalog cutoff: 2026-10-06. Heroes were checked against Blizzard's live roster and
 the official October 6 patch, including Doctrine, which was absent in the API
 hero list at retrieval. Map catalog follows OverFast's 59 entries, including
@@ -55,3 +69,18 @@ no official Overwatch font file is bundled. The cover translates the Discord
 card header to English. Activity values in these documentation images are
 illustrative and do not represent measured recognition accuracy or performance.
 The original captures are stored separately under `docs/screenshots`.
+
+Scoreboard illustration templates in `tab-portraits` retain Blizzard Entertainment's
+ownership and are not covered by the code license. The initial 35 exports are from
+https://github.com/Pukima-MacroDeck/Icons-Overwatch-HeroIllustrations ; 15 additional
+2D exports are from https://github.com/drippinghere/overwatch-hero-icons . Four
+portrait-only crops were supplied by the maintainer. `sources.json` records pinned
+source URLs and original SHA-256 hashes. Mode templates and isolated regression
+fixtures also contain only cropped game artwork from maintainer screenshots.
+
+`clock-digits` contains isolated masked timer glyphs from maintainer-supplied
+Overwatch scoreboard screenshots, with source and transformation records in
+`sources.json`. `tests/fixtures/clock` contains cropped scoreboard headers without
+player identities. These game UI extracts retain Blizzard Entertainment's
+ownership and are not covered by the code license. Full source frames remain
+outside distributable assets.

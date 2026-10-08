@@ -1,7 +1,7 @@
-# OverwatchRPC 2.0.0-beta.4
+# OverwatchRPC 2.0.0-beta.5
 
 A native Windows tray companion for Overwatch and Discord Rich Presence.
-This beta improves local recognition, desktop responsiveness and activity artwork.
+This beta improves English/Russian recognition, scoreboard geometry and match transitions.
 Thank you to Tominous and maxicc for the original OWRPC code and inspiration.
 
 - Activity dashboard with a Discord preview, compact rounded controls, nine
@@ -23,20 +23,38 @@ Thank you to Tominous and maxicc for the original OWRPC code and inspiration.
 - Background release checks and validated daily hero/map reference updates, with
   a local cache. No automatic EXE replacement or live-statistics database.
 - 54 bundled heroes and 59 map entries, with reviewed Russian aliases.
-- English README with the new cover and one native application screenshot.
+- Tab portrait templates for all 54 catalog heroes, with ambiguous matches rejected.
+- Scoreboard geometry and wider nickname crops improve E/A/D recognition,
+  including initial 0/0/0 rows and English practice scoreboards.
+- Separate numeric timer recognition reads previously missed 0:29 and 0:42
+  clocks. Capture-time confirmation and process-age checks reject implausible
+  readings. Window borders and pillarboxed headers receive separate handling.
+- Mode icons supplement text for Control, Escort, Hybrid and Push, while
+  Mystery Madness remains a distinct playlist.
+- English Grímsvötn headers match Watchpoint: Grimsvotn, including partially
+  omitted accents. A confirmed exit from Practice clears its retained map even
+  when the next map name is unreadable.
+- Captured Tab frames can finish after switching to the application, with
+  bounded queues and stale-work rejection. Logs include recognition-stage timing.
 
-Validation: 101 unit tests, lint, native UI smoke checks in nine languages and
+Validation: 118 unit tests, lint, native UI smoke checks in nine languages and
 the frozen Windows OCR/dependency self-test passed on the maintainer's PC.
-Real Windows OCR on 25 supplied 3440×1440 screenshots matched the declared
+Real Windows OCR on 41 supplied English/Russian 16:9 and 21:9 frames matched the declared
 expectations, including documented unavailable fields. Live short-Tab checks and
 an actual Discord activity capture were also performed. Documentation activity
-values are illustrative, not recognition benchmarks.
+values are illustrative, not recognition benchmarks. Some clock fixtures are
+calibration data, rather than independent accuracy measurements.
 
-Recognition remains experimental. Every hero/skin, 16:9, live rechecks of the
-latest transition changes and controlled app-off/tray/open-window FPS comparisons
+Recognition remains experimental. Every hero/skin, every layout and controlled
+app-off/tray/open-window FPS comparisons
 are still pending. Desktop latency measurements do not prove zero FPS impact.
 
-Download `OverwatchRPC-Windows.zip` and extract the entire folder. Keep
+Download **OverwatchRPC.exe** for the standalone application, or
+**OverwatchRPC-Windows.zip** for the recommended portable folder. The standalone
+EXE extracts its runtime to a temporary directory at launch, so startup can take
+longer. No screenshots are attached to this release.
+
+For the ZIP download, extract the entire folder. Keep
 `OverwatchRPC.exe` and `_internal` together; Python is not required. Open the
 desktop Discord client, enable activity sharing, and select the game's OCR
 language under Additional. This is an unsigned Windows beta.

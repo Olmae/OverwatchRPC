@@ -35,13 +35,26 @@ class TabCaptureTests(unittest.TestCase):
         self.assertEqual(len(self.capture.samples), 3)
         self.step(31, pressed=False)
         self.step(32)
-        self.assertEqual(len(self.capture.samples), 0)
+        self.assertEqual(len(self.capture.samples), 3)
+        self.step(32.2)
+        self.assertEqual(len(self.capture.samples), 1)
+        self.assertEqual(self.capture.samples[0].burst, 2)
 
-    def test_background_and_manual_revision_clear_samples(self):
+    def test_brief_repeat_does_not_cancel_captured_frames(self):
+        self.step(0)
+        self.step(.2)
+        sample = self.capture.samples[0]
+        self.step(.3, pressed=False)
+        self.step(.4)
+        self.step(.5, pressed=False)
+        self.assertTrue(self.capture.current(sample))
+        self.assertIs(self.capture.take(4, .6), sample)
+
+    def test_safe_captured_frames_survive_focus_loss_but_not_manual_revision(self):
         self.step(0)
         self.step(.2)
         self.step(.3, foreground=False)
-        self.assertIsNone(self.capture.take(4, .3))
+        self.assertIsNotNone(self.capture.take(4, .3))
         self.step(1)
         self.step(1.2)
         self.capture.configure(Settings(), 5, False)
@@ -50,4 +63,4 @@ class TabCaptureTests(unittest.TestCase):
     def test_old_or_wrong_revision_samples_are_not_used(self):
         self.capture.samples.extend([Sample(object(), 3, 1, 0, 0),
                                      Sample(object(), 4, 1, 0, 0)])
-        self.assertIsNone(self.capture.take(4, 11))
+        self.assertIsNone(self.capture.take(4, 21))

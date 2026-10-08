@@ -16,8 +16,8 @@ DEFAULT_MENU_IMAGE = "https://raw.githubusercontent.com/Olmae/OverwatchRPC/main/
 PHASES = {"menus": "In menus", "queue": "In queue", "match": "In match", "map_vote": "Choosing a map",
           "results": "Match finished", "map_loading": "Loading map"}
 MODES = ["Quick Play", "Competitive", "Stadium", "Arcade", "Custom Game",
-         "Mystery Heroes", "Mystery Madness: Graveyard Games", "Practice",
-         "Capture the Flag", "Deathmatch", "Team Deathmatch", "Elimination", "Payload Race", "Workshop", "Control", "Escort", "Hybrid"]
+         "Mystery Heroes", "Mystery Madness", "Mystery Madness: Graveyard Games", "Practice",
+         "Capture the Flag", "Deathmatch", "Team Deathmatch", "Elimination", "Payload Race", "Workshop", "Control", "Escort", "Hybrid", "Push"]
 
 
 @dataclass
@@ -126,6 +126,24 @@ class Status:
         self.phase = phase
 
 
+class ScoreboardClock:
+    """Confirm a game timer from two consistent capture-time estimates."""
+    def __init__(self):
+        self.pending = None
+
+    def observe(self, elapsed, captured_at, earliest_start=None):
+        if (elapsed is None or elapsed < 0
+                or (earliest_start is not None and captured_at-elapsed < earliest_start-3)):
+            self.pending = None
+            return None
+        estimate = captured_at - elapsed
+        previous = self.pending
+        self.pending = (estimate, captured_at)
+        if previous is not None and 0 <= captured_at-previous[1] <= 20 and abs(estimate-previous[0]) <= 3:
+            return int(estimate)
+        return None
+
+
 def parse_kda(text):
     """Accept only a tightly calibrated row of three E/A/D counters."""
     if not isinstance(text, str) or not re.fullmatch(r"\s*\d{1,3}(?:\s+|\s*/\s*)\d{1,3}(?:\s+|\s*/\s*)\d{1,3}\s*", text):
@@ -143,8 +161,7 @@ def party_is_fresh(settings, status, now=None):
     age = (time.time() if now is None else now) - (status.party_read_at or 0)
     return bool(settings.ocr_enabled and status.party_size in range(1, 7)
                 and status.party_read_at is not None
-                and age >= 0
-                and (status.phase in ("queue", "map_vote", "map_loading", "results", "match") or age <= max(30, settings.ocr_interval * 3)))
+                and age >= 0)
 
 
 def build_payload(settings, status, hero_info=None, map_info=None, now=None):
