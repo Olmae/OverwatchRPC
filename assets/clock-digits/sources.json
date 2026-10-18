@@ -323,5 +323,23 @@
     "source": "Maintainer-supplied Overwatch scoreboard screenshot",
     "fixture": "nepal-mystery",
     "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32"
+  },
+  "3-ilios": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "20261015-002853-238661",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32",
+    "sha256": "09d5a39615b17d2817cff35b6fe4422de35a7f27c8d9be9631267cc38fe6a18d"
+  },
+  "6-nepal": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "20261015-000210-217297",
+    "transform": "Saturated foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32",
+    "sha256": "736133e4bbbe4375c5e3525a5f901066c38ae8676750dc50e7e409521877fb4b"
+  },
+  "8-ilios": {
+    "source": "Maintainer-supplied Overwatch scoreboard screenshot",
+    "fixture": "20261015-003712-477666",
+    "transform": "Dim grayscale foreground mask, italic shear -0.22, tight glyph crop, nearest 16x32",
+    "sha256": "7e24890debb4b3b1e9f0f1c03604e8a5273a9947a9dca87221fc95344b9d9678"
   }
 }

@@ -89,7 +89,7 @@ def client_image(image, size, offset, window_size):
     return None
 
 
-def analyze_frame(settings, catalog, nickname, image):
+def analyze_frame(settings, catalog, nickname, image, tab_sample=False, record=True):
     """Parse a captured frame; all OCR stays on the recognition worker."""
     from .native_ocr import _engine
     import time
@@ -100,9 +100,14 @@ def analyze_frame(settings, catalog, nickname, image):
     scene = analyze_image(image, words, catalog, settings.player_name or nickname)
     from .detection import text_in
     evidence = {"hero_title": text_in(words, (.58, .29, .86, .39))[:160],
+                "hero_source": 'hud_icons' if scene.scene == 'hud' and scene.hero else 'text_or_portrait',
+                "interface_ocr_language": _interface_ocr_language or settings.ocr_language,
                 "timer": text_in(words, (.91, .025, 1, .085))[:80],
                 "text_ms": round((text_done-started)*1000, 1),
                 "parse_ms": round((time.monotonic()-text_done)*1000, 1)}
+    from .recognition_diagnostics import recorder
+    if record:
+        recorder.save(image, scene, settings, evidence, tab_sample=tab_sample)
     return {"__scene__": scene, "__ocr_evidence__": evidence}
 
 
@@ -111,27 +116,108 @@ def recognize_frame(settings, catalog, nickname=""):
     return analyze_frame(settings, catalog, nickname, image) if image is not None else {}
 
 
+_interface_ocr_language = None
+
+
+def escape_menu_layout(image):
+    """Cheap OCR trigger only: three neutral button interiors, never a scene verdict."""
+    for y in (.37, .43, .54):
+        crop = image.crop((round(.60*image.width), round((y-.006)*image.height),
+                           round(.625*image.width), round((y+.006)*image.height)))
+        pixels = list(crop.convert('RGB').resize((8, 4)).get_flattened_data())
+        if sum(min(p) >= 180 and max(p)-min(p) < 45 for p in pixels) < 26:
+            return False
+    return True
+
+
+def interface_language(words):
+    """Require multiple fixed interface labels, never player names or chat."""
+    from .detection import text_in, normalize
+    from difflib import SequenceMatcher
+    header = text_in(words, (0, 0, .35, .09))
+    for language, labels in (
+        ('rus', ('ГЕРОИ', 'СОБЫТИЯ', 'БОЕВОЙ ПРОПУСК', 'МАГАЗИН')),
+        ('eng', ('HEROES', 'EVENTS', 'BATTLE PASS', 'SHOP')),
+    ):
+        if sum(label in header for label in labels) >= 2:
+            return language
+    if 'СТАТИСТИКА' in header and 'ГЕРО' in header:
+        return 'rus'
+    if 'SCOREBOARD' in header and 'HERO INFO' in header:
+        return 'eng'
+    left = text_in(words, (0, .08, .48, .31))
+    right = text_in(words, (.65, .08, 1, .29))
+    skin_tokens = right.split()
+    skin_label = any(SequenceMatcher(None, normalize(' '.join(skin_tokens[i:i+count])), 'selectskin').ratio() >= .8
+                     for i in range(len(skin_tokens)) for count in (1, 2))
+    if (skin_label and any(t in left for t in ('SEMBLE YOUR TEAM', 'SELECT A HERO', 'SELECT YOUR HERO'))):
+        return 'eng'
+    if 'В МАТЧЕ' in left and 'УЧЕБНЫЙ ПОЛИГОН' in left:
+        return 'rus'
+    if 'СБОР КОМАНД' in left and 'ОБЛИК' in right:
+        return 'rus'
+    if 'PRACTICE RANGE' in left and 'IN MATCH' in left:
+        return 'eng'
+    menu = text_in(words, (.44, .27, .66, .59))
+    if all(label in menu for label in ('МЕНЮ', 'ПРОФИЛЬ', 'НАСТРОЙКИ')):
+        return 'rus'
+    if 'MENU' in menu and 'PROFILE' in menu and any(label in menu for label in ('OPTIONS', 'SETTINGS')):
+        return 'eng'
+    vote_title = text_in(words, (.4, .12, .6, .19))
+    vote_hint = text_in(words, (.32, .19, .75, .25))
+    russian_vote_hint = all(label in vote_hint for label in ('БОЛЬШЕ', 'ГОЛОСОВ', 'ПОЛЯ', 'ВЕРОЯТНОСТЬ', 'ВЫБРАНО'))
+    if ('ГОЛОС' in vote_title and 'БОЛЬШЕ' in vote_hint and 'ГОЛОСОВ' in vote_hint) or russian_vote_hint:
+        return 'rus'
+    if 'VOTE' in vote_title and 'MAP' in vote_title and 'VOTES' in vote_hint and 'CHANCE' in vote_hint:
+        return 'eng'
+    return None
+
+
+def nickname_language(nickname):
+    import re
+    return 'rus' if re.search('[А-Яа-яЁё]', nickname) else 'eng'
+
+
 def close_recognition():
-    from .native_ocr import _engine, _latin_engine
+    global _interface_ocr_language
+    from .native_ocr import _engine, _latin_engine, _russian_engine
     _engine.close()
     _latin_engine.close()
+    _russian_engine.close()
+    _interface_ocr_language = None
 
 
 def frame_words(image, read_names=False, nickname=""):
     """Read small UI text in enlarged fixed areas, independent of its palette."""
     from PIL import ImageOps
-    from .native_ocr import _engine, _latin_engine
+    from .native_ocr import _engine, _latin_engine, _russian_engine
     from .detection import Word
+    global _interface_ocr_language
+    _russian_engine.configure('rus')
+    automatic = _engine.language in ('en-US', 'ru-RU')
+    primary_engine = ({'rus': _russian_engine, 'eng': _latin_engine}.get(_interface_ocr_language, _engine)
+                      if automatic else _engine)
     words = []
     from .detection import text_in
 
-    def read(box, upright=False, scale=3, latin=False, padded=False, shear=None):
+    def read(box, upright=False, scale=3, latin=False, padded=False, shear=None, white=False, orange=False, russian=False):
         x1, y1, x2, y2 = box
         crop = image.crop((round(x1*image.width), round(y1*image.height),
                            round(x2*image.width), round(y2*image.height)))
-        crop = ImageOps.autocontrast(ImageOps.grayscale(crop))
+        if orange:
+            rgb = crop.convert('RGB')
+            crop = rgb.convert('L')
+            crop.putdata([255 if r > 180 and 45 < g < 190 and b < 130 and r > g*1.3 else 0
+                          for r, g, b in rgb.get_flattened_data()])
+        elif white:
+            rgb = crop.convert('RGB')
+            crop = ImageOps.grayscale(rgb)
+            crop.putdata([255 if min(pixel)>160 and max(pixel)-min(pixel)<50 else 0
+                          for pixel in rgb.get_flattened_data()])
+        else:
+            crop = ImageOps.autocontrast(ImageOps.grayscale(crop))
         if not padded:
-            crop = crop.resize((crop.width*scale, crop.height*scale))
+            crop = crop.resize((round(crop.width*scale), round(crop.height*scale)))
         padding = 40 if padded else 0
         if padding:
             crop = ImageOps.expand(crop, border=padding, fill=0)
@@ -142,9 +228,12 @@ def frame_words(image, read_names=False, nickname=""):
                                   (1, slope, -slope*crop.height/(2 if padded else 1), 0, 1, 0),
                                   resample=ImageOps.Image.Resampling.BICUBIC, fillcolor=0)
         if padded:
-            crop = crop.resize((crop.width*scale, crop.height*scale))
+            crop = crop.resize((round(crop.width*scale), round(crop.height*scale)))
         padding *= scale
-        engine = _latin_engine if latin and _engine.language != "en-US" else _engine
+        engine = _latin_engine if latin else primary_engine
+        if russian:
+            _russian_engine.configure('rus')
+            engine = _russian_engine
         for w in engine.words(crop):
             inner_width, inner_height = crop.width - 2*padding, crop.height - 2*padding
             mapped = Word(w.text, x1+(w.x*crop.width-padding)/inner_width*(x2-x1),
@@ -153,8 +242,72 @@ def frame_words(image, read_names=False, nickname=""):
                           w.height*crop.height/inner_height*(y2-y1))
             if not any(normalized_overlap(mapped, old) for old in words):
                 words.append(mapped)
+
+    def read_name(box, **options):
+        # The user's name can use a different alphabet from the game's UI.
+        language = nickname_language(nickname)
+        read(box, latin=language == 'eng', russian=language == 'rus', **options)
     read((0, 0, .65, .12))
     read((.65, 0, 1, .14))
+    escape_controls = escape_menu_layout(image)
+    if escape_controls:
+        read((.44, .27, .66, .59), scale=1)
+        read((.44, .72, .66, .80), scale=2)
+    from .queue_banner import queue_banner
+    warmup_queue = queue_banner(image, words)
+    if warmup_queue:
+        mode, box = warmup_queue
+        words.append(Word('SEARCHING', box[0], box[1], .03, .02))
+        words.append(Word(mode.upper(), box[0], box[1], .03, .02))
+        return words
+    from .loading_screen import loading_footer
+    if loading_footer(image):
+        read((.70, .80, .93, .90), upright=True, scale=.5, padded=True, shear=-.20, white=True)
+        read((.80, .74, .94, .81), upright=True, scale=.5, padded=True, shear=-.20, orange=True)
+        from .catalog import load_catalog
+        from .detection import loading_map
+        if loading_map(words, load_catalog()['maps']):
+            return words
+    top = text_in(words, (0, 0, 1, .14))
+    language = interface_language(words) if automatic else None
+    if automatic and language is None:
+        # Probe the other alphabet in interface-only bounds. A single label
+        # or words outside this header cannot change the game OCR language.
+        before = len(words)
+        try:
+            read((0, 0, .35, .09), scale=2, russian=primary_engine.language == 'en-US',
+                 latin=primary_engine.language != 'en-US')
+            language = interface_language(words[before:])
+            if language is None and escape_controls:
+                read((.44, .27, .66, .59), scale=1, russian=primary_engine.language == 'en-US',
+                     latin=primary_engine.language != 'en-US')
+                read((.44, .72, .66, .80), scale=2, russian=primary_engine.language == 'en-US',
+                     latin=primary_engine.language != 'en-US')
+                language = interface_language(words[before:])
+            if language is None:
+                read((0, .08, .47, .31), scale=3, russian=primary_engine.language == 'en-US',
+                     latin=primary_engine.language != 'en-US')
+                read((.65, .08, 1, .28), scale=3, russian=primary_engine.language == 'en-US',
+                     latin=primary_engine.language != 'en-US')
+                language = interface_language(words[before:])
+            if language is None:
+                read((.32, .12, .75, .25), scale=2, russian=primary_engine.language == 'en-US',
+                     latin=primary_engine.language != 'en-US')
+                language = interface_language(words[before:])
+            if language is None:
+                del words[before:]
+        except RuntimeError:
+            del words[before:]
+    if language:
+        if _interface_ocr_language != language:
+            import logging
+            logging.getLogger(__name__).info('Game OCR language detected: %s', language)
+        _interface_ocr_language = language
+        primary_engine = _russian_engine if language == 'rus' else _latin_engine
+        # Re-read the search banner with the detected language before menu
+        # early-return; the surrounding navigation is not queue evidence.
+        read((.40, 0, .61, .20), scale=2)
+        read((.025, .245, .40, .29), scale=2)
     top = text_in(words, (0, 0, 1, .14))
     if 'SCOREBOARD' in top and 'RANGE' in top and 'PRACTICE RANGE' not in top:
         # The Russian OCR engine can read the English PRACTICE label as
@@ -163,11 +316,24 @@ def frame_words(image, read_names=False, nickname=""):
         read((.65, .025, 1, .065), latin=True)
         top = text_in(words, (0, 0, 1, .14))
     practice = 'УЧЕБНЫЙ ПОЛИГОН' in top or 'PRACTICE RANGE' in top
+    if 'SEARCHING' in top:
+        # The expanded queue type sits below the navigation/header OCR crop.
+        read((.40, .10, .61, .15), scale=2, latin=True)
+        # The collapsed header only says SEARCHING. Its actual playlist is
+        # printed beneath the left heading, outside the header/navigation ROI.
+        read((.025, .245, .40, .29), scale=2, latin=True)
     # Avoid reading the table during menu/search screens.
-    if any(t in top for t in ('SEARCHING', 'STADIUM COMPETITIVE', 'HISTORY', 'SHOP', 'BATTLE PASS')):
+    if any(t in top for t in ('SEARCHING', 'STADIUM COMPETITIVE', 'HISTORY', 'SHOP', 'BATTLE PASS', 'ГЕРОИ', 'МАГАЗИН')):
         return words
     from .scoreboard import locate_table
-    table = locate_table(image) if any(t in top for t in ('SCOREBOARD', 'СТАТИСТИКА')) else None
+    table = locate_table(image)
+    if table and not any(t in top for t in ('SCOREBOARD', 'СТАТИСТИКА')):
+        # Other screens can contain a pale band too. Require a real statistic
+        # heading before using geometry when the Tab caption is missing.
+        read((table.left, table.top, table.right, table.bottom), latin=True, scale=2)
+        if not any(w.text.upper() in ('DMG', 'УРОН') and table.top-.005 < w.cy < table.bottom+.005
+                   for w in words):
+            table = None
     heading_box = (.32, max(.1, table.top-.005), .62, table.bottom+.005) if table else (.32, .12, .62, .4 if practice else .19)
     if table is None:
         read(heading_box, latin=practice and 'PRACTICE RANGE' in top)
@@ -187,7 +353,9 @@ def frame_words(image, read_names=False, nickname=""):
     heading = text_in(words, heading_box)
     if 'DMG' in heading or 'УРОН' in heading:
         geometry_headers = [w for w in words if table and table.top-.005<w.cy<table.bottom+.005]
-        read((.12, .17, .6, .89))
+        # Only friendly statistics are needed; enemy rows add OCR work.
+        numeric_left = table.right-offset*unit-.014 if table else .32
+        read((numeric_left, .17, .6, .65 if practice else .52))
         if table:
             words[:] = [w for w in words if not (table.left<w.x<table.right and table.top-.005<w.cy<table.bottom+.005)]
             words.extend(geometry_headers)
@@ -196,6 +364,14 @@ def frame_words(image, read_names=False, nickname=""):
         portrait_hero = scoreboard_hero(image)
         if image.width / image.height > 2 and not practice:
             read((.815, .025, .935, .055), upright=True, scale=2, padded=True)
+            from .catalog import load_catalog
+            from .detection import catalog_name
+            if catalog_name(text_in(words, (.65, 0, 1, .09)), load_catalog()['maps'], fuzzy=True) is None:
+                # Keep dim compact map captions at native size; enlarging a
+                # long header can merge the map with the adjacent TIME label.
+                russian_header = 'СТАТИСТИКА' in top
+                read((.88 if russian_header else .925, .025, .948, .065),
+                     scale=2, padded=True, russian=russian_header, latin=not russian_header)
         if portrait_hero:
             import logging
             logging.getLogger(__name__).info('Scoreboard portrait: hero=%s', portrait_hero)
@@ -266,8 +442,14 @@ def frame_words(image, read_names=False, nickname=""):
             for w in sorted(words, key=lambda w: w.cy):
                 if .35 < w.x < .60 and .17 < w.cy < .89 and w.text.isdigit() and not any(abs(w.cy-y)<.02 for y in rows):
                     rows.append(w.cy)
-            if table and not any(abs(table.first_row-y)<.02 for y in rows):
-                rows.append(table.first_row)
+            if table:
+                # Single zeros and comma-separated totals may all be missed.
+                # The neutral header still anchors every friendly row.
+                step = .0667 if table.top > .25 else .0611
+                for index in range(5):
+                    center = table.first_row + index*step
+                    if not any(abs(center-y)<.02 for y in rows):
+                        rows.append(center)
             elif practice:
                 anchor = next((w.cy for w in words if w.text.upper() in ('УРОН', 'DMG')), None)
                 if anchor is not None and not any(abs(anchor + .048-y)<.02 for y in rows):
@@ -276,15 +458,24 @@ def frame_words(image, read_names=False, nickname=""):
             for y in rows:
                 if y > (.65 if practice else .52):
                     continue
-                read((name_left, max(.17,y-.025), name_right, min(.89,y+.02)), upright=True,
-                     latin=any("a" <= c.lower() <= "z" for c in nickname))
+                read_name((name_left, max(.17,y-.025), name_right, min(.89,y+.02)), upright=True)
+            from .detection import own_row
+            if own_row(words, nickname) is None:
+                # Tight italic nameplates sometimes need native-size padding.
+                for y in rows:
+                    if y <= (.65 if practice else .52):
+                        read_name((name_left, max(.17,y-.025), name_right, min(.89,y+.02)),
+                                  upright=True, scale=1, padded=True, shear=-.20)
     elif 'SUMMARY' in top or 'REWARDS' in top:
         pass
     else:
         read((0, .08, .47, .31))
         read((.65, .08, 1, .28))
         read((.085, .80, .23, .865))
-        read((.085, .88, .25, .94))
+        if nickname:
+            read_name((.085, .88, .25, .94))
+        else:
+            read((.085, .88, .25, .94))
         read((.90, .86, 1, .94))
         # Tiny ammo glyphs may be missed by native OCR. Match both separate
         # counters conservatively; their offsets follow viewport height.
@@ -303,21 +494,76 @@ def frame_words(image, read_names=False, nickname=""):
                     words.append(Word(str(value), x1/image.width, y1/image.height,
                                       (x2-x1)/image.width, (y2-y1)/image.height))
         left = text_in(words, (0, .08, .48, .31))
+        if nickname and len(hp) >= 2:
+            from .hud_icons import own_hud
+            if not own_hud(words, nickname):
+                read_name((.05, .875, .24, .945), upright=True,
+                          scale=2, padded=True, shear=-.20)
         right = text_in(words, (.65, .08, 1, .28))
         if not any(t in top for t in ('HEROES', 'SHOP', 'BATTLE PASS', 'ГЕРОИ', 'МАГАЗИН', 'ПОРАЖЕНИЕ', 'VICTORY', 'DEFEAT')):
             # Short transition titles otherwise lie outside the normal HUD ROIs.
             read((.32, .14, .75, .27), upright=True, scale=1, padded=True)
+            vote_title = text_in(words, (.4, .12, .6, .19))
+            if any(token in vote_title for token in ('VOTE', 'SELECTING')):
+                read((.39, .205, .64, .233), latin=True, scale=2, white=True)
             if 'ГОЛОСОВ' in text_in(words, (.32, .14, .75, .27)):
                 read((.93, .025, .99, .095), upright=True, scale=1, padded=True)
-            if len(hp) >= 2:
-                read((.3, .4, .72, .58), upright=True, scale=1, padded=True)
-        if ('В МАТЧЕ' in left and 'УЧЕБНЫЙ ПОЛИГОН' in left) or 'СБОР КОМАНДЫ' in left:
+            read((.3, .4, .72, .58), upright=True, scale=1, padded=True,
+                 shear=-.20 if primary_engine.language == 'en-US' else -.30)
+            if len(hp) < 2:
+                read((.84, .92, 1, .995), scale=1, latin=True, padded=True)
+                # Post-match lineups and highlight playback keep this footer.
+                read((.44, .945, .56, .995), scale=2, latin=True)
+        if 'PLAY' in left or 'PIW' in left:
+            words[:] = [w for w in words if not (.02 < w.x < .23 and .15 < w.cy < .25)]
+            read((.02, .15, .23, .25), upright=True, scale=1, padded=True, latin=True, shear=-.20)
+        if (('В МАТЧЕ' in left and 'УЧЕБНЫЙ ПОЛИГОН' in left)
+                or ('IN MATCH' in left and 'PRACTICE RANGE' in left) or 'СБОР КОМАНДЫ' in left):
             # The large condensed titles can be unreadable; the selected
             # portrait label and Continue button provide separate evidence.
             read((.42, .72, .57, .96))
             read((.83, .04, .99, .135), upright=True, scale=1, padded=True)
             if 'СБОР КОМАНДЫ' in left:
                 read((.46, .83, .57, .89), upright=True, scale=1, padded=True)
+        if ('TEAM' in left or 'СБОР КОМАНДЫ' in left
+                or ('УЧЕБНЫЙ ПОЛИГОН' in left and ('В МАТЧЕ' in left or 'ВЫБЕРИТЕ' in left))
+                or ('PRACTICE RANGE' in left and ('IN MATCH' in left or 'SELECT' in left))):
+            # Only the highlighted grid card has a name label; it can be in
+            # any role column, independently of the large model's skin.
+            read((.15, .76, .85, .87), scale=2, upright=True, padded=True, shear=-.20)
+            if primary_engine.language != 'ru-RU':
+                read((.46, .88, .54, .945), scale=2)
+            read((.42, .72, .57, .82), scale=1, upright=True, padded=True)
+            if primary_engine.language != 'ru-RU':
+                read((.03, .235, .21, .268), scale=2, white=True)
+            # The small map caption needs separation from the hero artwork.
+            if primary_engine.language != 'ru-RU':
+                read((.44, .88, .56, .945), scale=1, upright=True, padded=True, shear=-.20)
+            from .catalog import load_catalog
+            from .detection import catalog_name
+            if catalog_name(text_in(words, (0, .16, .3, .21)), load_catalog()['maps']) is None:
+                read((.04, .17, .30, .205), scale=2, white=True)
+            from .portraits import assembly_layout
+            layout = assembly_layout(image, words)
+            if nickname and layout:
+                wide = image.width/image.height > 2
+                for center in layout[0]:
+                    read_name((center-(.04 if wide else .05), .62 if wide else .635,
+                          center+(.04 if wide else .05), .66 if wide else .68),
+                         scale=2 if wide else 1,
+                         upright=True, padded=True, shear=-.20)
+                from .portraits import assembly_owner
+                if wide and assembly_owner(image, words, nickname) is None:
+                    compact = layout[1][0] > .47
+                    for center in layout[0]:
+                        read_name((center-.05, .615 if compact else .635, center+.05, .67 if compact else .68),
+                                  scale=2 if compact else 1, upright=True, padded=True, shear=-.20)
+                    if compact and assembly_owner(image, words, nickname) is None:
+                        # Tight nameplates exclude the animated portrait glow
+                        # without weakening nickname ownership verification.
+                        for center in layout[0]:
+                            read_name((center-.025, .625, center+.020, .65),
+                                 scale=2, upright=True, padded=True, shear=-.20)
         if 'SUA EQUIPE' in left and 'SELECIONAR VISUAL' in right:
             read((.07, .16, .21, .205), scale=5)
     return words
@@ -327,11 +573,40 @@ def normalized_overlap(a, b):
     return a.text.casefold() == b.text.casefold() and abs(a.x-b.x) < .008 and abs(a.cy-b.cy) < .008
 
 
+def read_counter_crop(crop):
+    """Use a separate OCR observation when a digit shape is ambiguous."""
+    from PIL import ImageOps
+    from .native_ocr import _engine
+    from .digits import read_digits
+    import re
+    value = read_digits(crop)
+    if value is not None:
+        return value
+    # A tiny isolated counter can be missed in the whole numeric table. Keep
+    # the shape thresholds unchanged and require one complete numeric token.
+    prepared = ImageOps.expand(ImageOps.autocontrast(ImageOps.grayscale(crop)), border=16, fill=0)
+    prepared = prepared.resize((prepared.width*2, prepared.height*2))
+    words = _engine.words(prepared)
+    if len(words) == 1 and re.fullmatch(r'[0-9]{1,3}', words[0].text):
+        return int(words[0].text)
+    return None
+
+
 def analyze_image(image, words, catalog, nickname=''):
     from dataclasses import replace
     from .detection import detect, own_row
-    from .digits import read_digits
     result = detect(words, catalog['heroes'], catalog['maps'], nickname)
+    if (result.scene == 'hud' or result.phase is None) and result.hero is None:
+        from .hud_icons import hud_hero, own_hud
+        if own_hud(words, nickname):
+            hero = hud_hero(image)
+            if hero and any(item['name'] == hero for item in catalog['heroes']):
+                result = replace(result, phase='match', scene='hud', hero=hero)
+    if result.scene == 'hero_select':
+        from .portraits import assembly_hero
+        hero = assembly_hero(image, words, nickname)
+        if hero and any(item['name'] == hero for item in catalog['heroes']):
+            result = replace(result, hero=hero)
     if result.scene == 'scoreboard':
         from .mode_icons import scoreboard_mode
         icon_mode = scoreboard_mode(image)
@@ -343,7 +618,7 @@ def analyze_image(image, words, catalog, nickname=''):
         from .party import party_size
         from .detection import text_in
         navigation = text_in(words, (0, 0, .8, .09))
-        if any(marker in navigation for marker in ('HEROES', 'BATTLE PASS', 'SHOP', 'HISTORY', 'ГЕРОИ', 'МАГАЗИН', 'HÉROES', 'EVENTOS', 'TIENDA', 'HISTORIA')):
+        if any(marker in navigation for marker in ('HEROES', 'BATTLE PASS', 'SHOP', 'HISTORY', 'ГЕРОИ', 'МАГАЗИН', 'HÉROES', 'EVENTOS', 'TIENDA', 'HISTORIA', 'BACK', 'НАЗАД')):
             result = replace(result, party_size=party_size(image))
     if result.scene != 'scoreboard' or result.kda is not None or not nickname:
         return result
@@ -355,22 +630,31 @@ def analyze_image(image, words, catalog, nickname=''):
         return result
     center = dmg.x+dmg.width/2
     spacing = mit.x+mit.width/2-center if mit else dmg.width*5.3
-    columns = []
+    columns, stat_headers = [], []
     for aliases in (('E','УБ'),('A','СОД'),('D','С')):
         headers = [w for w in words if .3<w.x<.55 and .1<w.cy<header_bottom and w.text.upper() in aliases]
         if len(headers)!=1:
             columns = []
             break
         columns.append(headers[0].x+headers[0].width/2)
+        stat_headers.append(headers[0])
     if not columns:
+        stat_headers = []
         columns = [center-factor*spacing for factor in (1,.72,.45)]
     # Digits sit slightly below the italic nickname baseline.
     y = row.cy+.007
     values = []
-    for x in columns:
+    for index, x in enumerate(columns):
+        # Keep independently verified OCR columns. A digit-template miss in
+        # one already-readable counter must not discard the other counters.
+        from .detection import own_stat
+        native_value = own_stat(words, stat_headers, stat_headers[index], row) if stat_headers else None
+        if native_value is not None:
+            values.append(native_value)
+            continue
         crop = image.crop((round((x-.011)*image.width),round((y-.014)*image.height),
                            round((x+.011)*image.width),round((y+.014)*image.height)))
-        value = read_digits(crop)
+        value = read_counter_crop(crop)
         if value is None:
             return result
         values.append(value)

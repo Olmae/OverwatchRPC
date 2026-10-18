@@ -36,12 +36,22 @@ def templates():
     return {str(i): list(Image.open(root/f'{i}.png').convert('L').get_flattened_data()) for i in range(10)}
 
 
+@lru_cache(maxsize=1)
+def template_variants():
+    root = Path(__file__).resolve().parent.parent/'assets'/'digits'
+    return [(path.name.split('-')[0], list(Image.open(path).convert('L').get_flattened_data()))
+            for path in sorted(root.glob('[0-9]-*.png'))]
+
+
 def read_digits(image):
     result = ''
     for glyph in glyphs(image):
         values = list(glyph.get_flattened_data())
-        scores = sorted((sum(a!=b for a,b in zip(values, pixels))/len(values), digit)
-                        for digit,pixels in templates().items())
+        by_digit = {}
+        for digit, pixels in list(templates().items()) + template_variants():
+            score = sum(a != b for a, b in zip(values, pixels))/len(values)
+            by_digit[digit] = min(score, by_digit.get(digit, 1))
+        scores = sorted((score, digit) for digit, score in by_digit.items())
         if scores[0][0] > .28 or scores[1][0]-scores[0][0] < .035:
             return None
         result += scores[0][1]

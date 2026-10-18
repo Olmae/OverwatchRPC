@@ -37,7 +37,7 @@ class Settings:
     large_image: str = DEFAULT_LARGE_IMAGE
     hero_image: str = ""
     menu_image: str = DEFAULT_MENU_IMAGE
-    artwork_layout: str = "map_large"
+    artwork_layout: str = "hero_large"
     use_hero_portrait: bool = True
     use_map_art: bool = True
     display_type: int = 0
@@ -51,6 +51,8 @@ class Settings:
     check_updates: bool = True
     auto_catalog: bool = True
     ocr_enabled: bool = True
+    recognition_diagnostics: bool = False
+    recognition_minute_snapshots: bool = False
     ocr_interval: int = 5
     ocr_language: str = "eng"
     tesseract_path: str = ""
@@ -91,7 +93,7 @@ class Settings:
         if not result.menu_image:
             result.menu_image = DEFAULT_MENU_IMAGE
         if result.artwork_layout not in ("map_large", "hero_large"):
-            result.artwork_layout = "map_large"
+            result.artwork_layout = "hero_large"
         if result.language not in (*LANGUAGES, "auto"):
             result.language = "auto"
         result.ocr_language = "rus" if result.ocr_language.lower() in ("rus", "ru", "ru-ru", "rus+eng") else "eng"
@@ -164,21 +166,35 @@ def party_is_fresh(settings, status, now=None):
                 and age >= 0)
 
 
+def selection_label(status):
+    if status.phase == "map_vote":
+        return "Choosing a map"
+    if status.phase == "map_loading":
+        return "Loading map"
+    if status.phase == "match" and status.scene == "hero_select":
+        return "Choosing a hero"
+    return None
+
+
 def build_payload(settings, status, hero_info=None, map_info=None, now=None):
     language = resolve_language(settings.language)
     hero_name = (hero_info or {}).get("localized_names", {}).get(language, status.hero)
     map_name = (map_info or {}).get("localized_names", {}).get(language, status.map_name)
-    if status.phase == "match":
-        details = f"{tr(status.mode, language)} · {map_name or tr('Map not selected', language)}"
+    stage = selection_label(status)
+    if stage:
+        details, state = tr("In match", language), tr(stage, language)
+        if status.phase != "map_vote" and map_name:
+            state += " · " + map_name
+        if status.scene == "hero_select" and status.hero:
+            state += " · " + hero_name
+    elif status.phase == "match":
+        details = tr(status.mode, language) if status.mode else tr('In match', language)
+        if map_name or status.mode:
+            details += " · " + (map_name or tr('Map not selected', language))
         state = tr("Playing {hero}", language, hero=hero_name) if status.hero else tr("In match", language)
-        if status.scene == "hero_select":
-            state = tr("Choosing a hero", language)
     elif status.phase == "queue":
-        details, state = f"{tr(status.mode, language)}: {tr('In Queue', language)}", tr("Waiting for a match", language)
-    elif status.phase == "map_vote":
-        details, state = tr("Choosing a map", language), tr("Choosing a map", language)
-    elif status.phase == "map_loading":
-        details, state = tr("Loading map", language), map_name or tr("Loading map", language)
+        details = (f"{tr(status.mode, language)}: " if status.mode else "") + tr("In Queue", language)
+        state = tr("Waiting for a match", language)
     elif status.phase == "results":
         details, state = tr("Match finished", language), map_name or "Overwatch"
     else:
@@ -195,7 +211,11 @@ def build_payload(settings, status, hero_info=None, map_info=None, now=None):
             party_label = tr(key, language, count=status.party_size)
         state = party_label if status.phase == "menus" and status.scene != "waiting_for_group" else state + " · " + party_label
     if kda_is_fresh(settings, status, now):
-        state += " · E/A/D " + "/".join(str(value) for value in status.kda)
+        values = "/".join(str(value) for value in status.kda)
+        age = (time.time() if now is None else now) - status.kda_read_at
+        label = (tr('E/A/D {values} · {minutes}m ago', language, values=values, minutes=int(age//60))
+                 if age >= 120 else 'E/A/D ' + values)
+        state += " · " + label
     payload = {"details": (settings.details_override or details)[:128],
                "state": (settings.state_override or state)[:128],
                "activity_type": 0, "status_display_type": settings.display_type}

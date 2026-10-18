@@ -8,6 +8,14 @@ class RecognitionSchedule:
         self.pressed = False
         self.cooldown = 0
         self.burst_attempt = 0
+        self.boundary_retry_at = 0
+
+    def confirm_transition(self, now):
+        # At most one extra poll per five seconds, even if conflicting scene
+        # candidates alternate. Existing Tab bursts already confirm quickly.
+        if now >= self.boundary_retry_at:
+            self.next_poll = min(self.next_poll, now + .25)
+            self.boundary_retry_at = now + 5
 
     def due(self, now, active, tab, interval):
         rising = active and tab and not self.pressed

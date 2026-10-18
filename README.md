@@ -9,7 +9,7 @@ Choose your hero, map and game mode, preview your activity, and keep the app out
 of the way while you play. No Chromium runtime, account login or Discord token.
 
 ![Windows build](https://github.com/Olmae/OverwatchRPC/actions/workflows/windows.yml/badge.svg)
-![Version](https://img.shields.io/badge/version-2.0.0--beta.5-orange)
+![Version](https://img.shields.io/badge/version-2.0.0--beta.6-orange)
 ![Python](https://img.shields.io/badge/python-3.12%2B-blue)
 ![License](https://img.shields.io/badge/code-GPLv3-blue)
 
@@ -288,7 +288,7 @@ expandable Discord connection and activity appearance sections.
 
 ### Optional scoreboard E/A/D
 
-Enable the experimental scoreboard option under Additional and enter your game
+Enable Show E/A/D from the scoreboard under Additional and enter your game
 nickname. Local Windows OCR plus grayscale digit templates read your E/A/D
 row when Tab is visible. No rectangle calibration or Tesseract is required.
 Unknown or ambiguous rows are ignored. Discord keeps the last confirmed values
@@ -297,6 +297,13 @@ necessary before treating recognition as reliable for every setup.
 
 
 ### Desktop dashboard
+
+Press **Right Alt+]** while Overwatch is foreground to save a diagnostic game
+frame and recognition metadata locally. The tray menu also offers **Save game
+frame**; switch back to the game to complete that request. A notification confirms
+saving. Open the frames folder from the tray or Additional → Recognition
+diagnostics. Manual captures work with automatic recording disabled, are bounded
+by the same retention limits, and are never uploaded automatically.
 
 Additional → Activity appearance lets you choose a large map with a small hero
 or a large hero with a small map. Existing artwork switches and custom hero URLs
@@ -351,3 +358,35 @@ For freezes, describe which action triggered them and whether only the app or
 the whole computer stopped responding. Relevant excerpts from
 `%APPDATA%\OWRPC\owrpc.log` are useful. Remove nicknames, personal paths and any
 other private information before sharing logs or screenshots.
+
+Map voting, loading and hero selection are shown as **In match** with the current
+stage. Candidate vote cards are not published as the selected map; a confirmed
+loading/selection screen supplies the map name.
+
+## Recognition development
+
+Keep full game screenshots in ignored `build/` folders. To freeze the input
+images before a long OCR run (the application's diagnostic retention can remove
+old sources), run:
+
+```powershell
+.venv/Scripts/python.exe scripts/check_recognition.py build/recognition-fixtures/cases.json --snapshot-dir build/recognition-review/inputs --report build/recognition-review/report.json
+```
+
+The snapshot contains a reusable `cases.json`, original source labels and
+SHA-256-named images. Variants share the same source image. For a targeted
+iteration, add `--filter kiriko` or `--filter scoreboard`; repeat the option to
+select either name. Filtering also works on original labels after snapshotting.
+
+Results distinguish `OK`, `FAIL`, `ERROR` (missing/unreadable input or OCR error)
+and `REVIEW` (no manually checked expectations). A report is saved after each
+case. Empty filters and unlabelled cases never count as successful runs. Exit
+codes are 0 for all verified matches, 1 for failures/errors and 2 for cases
+awaiting review or invalid selection. Expected values must come from inspecting
+the screenshot, not copying the application's previous detection.
+
+Minute snapshots plus bounded failure captures normally suffice. For a missed
+transition, use Right Alt+] before and after the change, at least two seconds
+apart. For E/A/D problems, include a capture with Tab fully visible. The exact
+nickname, game language, resolution and UI scale are more useful than a large
+number of similar frames. Full captures remain local unless explicitly shared.

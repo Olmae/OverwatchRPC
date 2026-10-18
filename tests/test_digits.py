@@ -13,6 +13,11 @@ class DigitTests(unittest.TestCase):
                 self.assertEqual(read_digits(ImageOps.invert(image.convert('RGB'))), value)
                 self.assertEqual(read_digits(ImageOps.grayscale(image)), value)
 
+    def test_reviewed_one_variant_is_accepted_without_relaxing_thresholds(self):
+        with Image.open(Path(__file__).parent/'fixtures'/'kda-eichenwalde-one.png') as image:
+            self.assertEqual(read_digits(image), 1)
+            self.assertEqual(read_digits(ImageOps.invert(image.convert('RGB'))), 1)
+
     def test_background_is_not_zero(self):
         self.assertIsNone(read_digits(Image.new('RGB',(40,30),(40,150,180))))
 

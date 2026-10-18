@@ -42,9 +42,37 @@ def digit(image):
         score = sum(a!=b for a,b in zip(pixels, template))/len(pixels)
         by_digit[label] = min(score, by_digit.get(label, 1))
     scores = sorted((score, label) for label, score in by_digit.items())
-    if len(scores)<2 or scores[0][0]>.20 or scores[1][0]-scores[0][0]<.035:
+    if len(scores)<2 or scores[0][0]>.20:
         return None
+    if scores[1][0]-scores[0][0]<.035:
+        # Rasterized 6 and 8 can be nearly identical by pixel distance. Only
+        # accept the leading candidate when its enclosed spaces corroborate it.
+        pair = {scores[0][1], scores[1][1]}
+        if (pair != {'6', '8'} or scores[1][0]-scores[0][0]<.003
+                or enclosed_spaces(pixels, 16, 32) != {'6': 1, '8': 2}[scores[0][1]]):
+            return None
     return scores[0][1]
+
+
+def enclosed_spaces(pixels, width, height):
+    remaining = {i for i, value in enumerate(pixels) if value < 128}
+    holes = 0
+    while remaining:
+        start = remaining.pop()
+        pending, region, edge = [start], 0, False
+        while pending:
+            index = pending.pop()
+            x, y = index % width, index // width
+            region += 1
+            edge |= x in (0, width-1) or y in (0, height-1)
+            for nx, ny in ((x-1,y), (x+1,y), (x,y-1), (x,y+1)):
+                neighbor = ny*width+nx
+                if 0<=nx<width and 0<=ny<height and neighbor in remaining:
+                    remaining.remove(neighbor)
+                    pending.append(neighbor)
+        if not edge and region >= 4:
+            holes += 1
+    return holes
 
 
 def is_colon(image):

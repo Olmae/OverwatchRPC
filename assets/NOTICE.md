@@ -84,3 +84,10 @@ Overwatch scoreboard screenshots, with source and transformation records in
 player identities. These game UI extracts retain Blizzard Entertainment's
 ownership and are not covered by the code license. Full source frames remain
 outside distributable assets.
+
+`assets/hud-icons` contains 276 ability and weapon icons for local recognition.
+Mappings were retrieved through OverFast; original Blizzard CDN URLs and hashes
+are recorded in `sources.json`. Blizzard retains ownership of these images.
+`assets/assembly-*.png` and the small HUD regression fixtures are sanitized
+portrait/glyph-only crops supplied by the maintainer; they contain no player
+names or chat. Full diagnostic captures are excluded from source and releases.

@@ -42,8 +42,13 @@ Approved visual direction: graphite surfaces, orange Overwatch accents, native
 Tk controls, searchable selection dialogs, event-driven button transitions and
 a two-column Discord preview. No WebView.
 
-Optional scoreboard E/A/D is opt-in. Read only a calibrated rectangle while
+Optional scoreboard E/A/D is opt-in. Read only the nickname-verified scoreboard row while
 Overwatch is foreground and the phase is match. Accept exactly three numeric
 counters after two consecutive matching samples; track reading time, retain the
 last confirmed values until the next update or match exit, and reset on a new match. Reject events from prior worker
-revisions. This is an experimental OCR convenience, not a live game API.
+revisions. This optional feature uses local OCR rather than a live game API; ambiguous readings are ignored.
+
+OCR language and interface/presence language are independent. English canonical
+identities can be displayed in Russian in Discord. The reviewed Eichenwalde
+translation is Айхенвальд, matching [Blizzard’s Russian map list](https://news.blizzard.com/ru-ru/article/21963964/igrajte-v-overwatch-besplatno-s-26-po-30-iyulya-na-pc).
+Maps without a reviewed translation continue using their canonical name.

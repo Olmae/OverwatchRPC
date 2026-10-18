@@ -1,0 +1,1934 @@
+[
+  {
+    "hero": "Ana",
+    "key": "ana-0",
+    "name": "Biotic Rifle",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/db33c39f25d96a2cabcacb778cf784535279180f6d9119ef56311bdcdf6077df.png",
+    "sha256": "db33c39f25d96a2cabcacb778cf784535279180f6d9119ef56311bdcdf6077df"
+  },
+  {
+    "hero": "Ana",
+    "key": "ana-1",
+    "name": "Sleep Dart",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/620a97282b81ea178951b565e8249361e67c868387e61a4297261ffa11bace13.png",
+    "sha256": "620a97282b81ea178951b565e8249361e67c868387e61a4297261ffa11bace13"
+  },
+  {
+    "hero": "Ana",
+    "key": "ana-2",
+    "name": "Biotic Grenade",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/886454bdb7df9ad8a47c4a3a8fa5dd488f5b2996e311f16d42a5f022942c4d18.png",
+    "sha256": "886454bdb7df9ad8a47c4a3a8fa5dd488f5b2996e311f16d42a5f022942c4d18"
+  },
+  {
+    "hero": "Ana",
+    "key": "ana-3",
+    "name": "Nano Boost",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/726f2fa5b149e5ac58310f11893db1850a7312270db4f88c164bb43a84f962cf.png",
+    "sha256": "726f2fa5b149e5ac58310f11893db1850a7312270db4f88c164bb43a84f962cf"
+  },
+  {
+    "hero": "Anran",
+    "key": "anran-0",
+    "name": "Zhuque Fans",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b575eb7daebdb64b81b0942c466b00117b31925678d10ab8739781e0ccf1bd69.png",
+    "sha256": "b575eb7daebdb64b81b0942c466b00117b31925678d10ab8739781e0ccf1bd69"
+  },
+  {
+    "hero": "Anran",
+    "key": "anran-1",
+    "name": "Fan the Flames",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/66ed3af8219952edc022c4ef08c65191cdd6839aae0a2c451f70f8f61d2bc7de.png",
+    "sha256": "66ed3af8219952edc022c4ef08c65191cdd6839aae0a2c451f70f8f61d2bc7de"
+  },
+  {
+    "hero": "Anran",
+    "key": "anran-2",
+    "name": "Dancing Blaze",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c8a106a2acae1b9edf47495af102cf17fd7e8320c76b201d533f5723afc45d14.png",
+    "sha256": "c8a106a2acae1b9edf47495af102cf17fd7e8320c76b201d533f5723afc45d14"
+  },
+  {
+    "hero": "Anran",
+    "key": "anran-3",
+    "name": "Inferno Rush",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/92cd63b84d95581dfbe8c3974be31c9f303db4d25bfd117474f93ab5bc9cca4b.png",
+    "sha256": "92cd63b84d95581dfbe8c3974be31c9f303db4d25bfd117474f93ab5bc9cca4b"
+  },
+  {
+    "hero": "Anran",
+    "key": "anran-4",
+    "name": "Vermillion Ascent",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a7f971f4e0c7c898e634d0787f4a0da48ae78b7adbdc7b71149efa0352319c76.png",
+    "sha256": "a7f971f4e0c7c898e634d0787f4a0da48ae78b7adbdc7b71149efa0352319c76"
+  },
+  {
+    "hero": "Anran",
+    "key": "anran-5",
+    "name": "Vermillion Revival",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9060d9e2e407a31ab95948e6512373a4318ebd8883aefa91e9f2fa9bbffb7076.png",
+    "sha256": "9060d9e2e407a31ab95948e6512373a4318ebd8883aefa91e9f2fa9bbffb7076"
+  },
+  {
+    "hero": "Anran",
+    "key": "anran-6",
+    "name": "Ignition",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f4a70d5eacbfa0f6e8290ad352df6e06e72e5dc755ecc650e120697bf59fa7ad.png",
+    "sha256": "f4a70d5eacbfa0f6e8290ad352df6e06e72e5dc755ecc650e120697bf59fa7ad"
+  },
+  {
+    "hero": "Ashe",
+    "key": "ashe-0",
+    "name": "The Viper",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1e5c0d3360d2357d28d4c5eacb6727589ac3d4ca99b09e3f8fd67846b6b2ef4e.png",
+    "sha256": "1e5c0d3360d2357d28d4c5eacb6727589ac3d4ca99b09e3f8fd67846b6b2ef4e"
+  },
+  {
+    "hero": "Ashe",
+    "key": "ashe-1",
+    "name": "Coach Gun",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/834538cfbc7c2eb7f9fd18aea7ba91264446af706199d716526060e6e34b48ed.png",
+    "sha256": "834538cfbc7c2eb7f9fd18aea7ba91264446af706199d716526060e6e34b48ed"
+  },
+  {
+    "hero": "Ashe",
+    "key": "ashe-2",
+    "name": "Dynamite",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/0e2cc18253fc824f3eac3df4623dfb03210937e27901cc868a8694a4a65e68ad.png",
+    "sha256": "0e2cc18253fc824f3eac3df4623dfb03210937e27901cc868a8694a4a65e68ad"
+  },
+  {
+    "hero": "Ashe",
+    "key": "ashe-3",
+    "name": "B.O.B.",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/224dd7fd039ee71e2633520cac81186fddabe4d399a64650263514829b936295.png",
+    "sha256": "224dd7fd039ee71e2633520cac81186fddabe4d399a64650263514829b936295"
+  },
+  {
+    "hero": "Baptiste",
+    "key": "baptiste-0",
+    "name": "Biotic Launcher",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3c6e635c598b687805163bd2173624d18e3c989ca3c0f7b37e7dadd5179a59c1.png",
+    "sha256": "3c6e635c598b687805163bd2173624d18e3c989ca3c0f7b37e7dadd5179a59c1"
+  },
+  {
+    "hero": "Baptiste",
+    "key": "baptiste-1",
+    "name": "Regenerative Burst",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/995d4c830cd4d6d458333a645561fefb75aab4f5228fe6b7923ea55b29f0496d.png",
+    "sha256": "995d4c830cd4d6d458333a645561fefb75aab4f5228fe6b7923ea55b29f0496d"
+  },
+  {
+    "hero": "Baptiste",
+    "key": "baptiste-2",
+    "name": "Immortality Field",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/8e586114b79ae8281255d8e5a5a48d3a855be6e88b3d7abeda93288f4fffe909.png",
+    "sha256": "8e586114b79ae8281255d8e5a5a48d3a855be6e88b3d7abeda93288f4fffe909"
+  },
+  {
+    "hero": "Baptiste",
+    "key": "baptiste-3",
+    "name": "Amplification Matrix",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/35311fd3b5a6bdd90d9e58101685675e0ee3562b2d63eb0c5775dd1f7b86cc3b.png",
+    "sha256": "35311fd3b5a6bdd90d9e58101685675e0ee3562b2d63eb0c5775dd1f7b86cc3b"
+  },
+  {
+    "hero": "Baptiste",
+    "key": "baptiste-4",
+    "name": "Exo Boots",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b3451a608be2eea1a38669721c9cd96ef9114172cec10b06c27e8048f42614bd.png",
+    "sha256": "b3451a608be2eea1a38669721c9cd96ef9114172cec10b06c27e8048f42614bd"
+  },
+  {
+    "hero": "Bastion",
+    "key": "bastion-0",
+    "name": "Configuration: Assault",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c3391c7eb4ce0ac2483d1821299fa684072e2ace043ac6ae7839f81f09c187f9.png",
+    "sha256": "c3391c7eb4ce0ac2483d1821299fa684072e2ace043ac6ae7839f81f09c187f9"
+  },
+  {
+    "hero": "Bastion",
+    "key": "bastion-1",
+    "name": "Configuration: Recon",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9febc039b8d8f7743539e8743f78b15495e3ea619615ab763dc747acd29b9615.png",
+    "sha256": "9febc039b8d8f7743539e8743f78b15495e3ea619615ab763dc747acd29b9615"
+  },
+  {
+    "hero": "Bastion",
+    "key": "bastion-2",
+    "name": "A-36 Tactical Grenade",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/80deb4f0bd0d41f4f9747c3728e31758dee523821abded024b6c242c659ff454.png",
+    "sha256": "80deb4f0bd0d41f4f9747c3728e31758dee523821abded024b6c242c659ff454"
+  },
+  {
+    "hero": "Bastion",
+    "key": "bastion-3",
+    "name": "Reconfigure",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/eb87350ce8e74c06df5b7fb33cfc2904cbb918777d3740f9e0ee87ff5260265f.png",
+    "sha256": "eb87350ce8e74c06df5b7fb33cfc2904cbb918777d3740f9e0ee87ff5260265f"
+  },
+  {
+    "hero": "Bastion",
+    "key": "bastion-4",
+    "name": "Configuration: Artillery",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/891396b354d31ef404bf525651f8f95048da8f8816a381021ce8d6e8ccabfafa.png",
+    "sha256": "891396b354d31ef404bf525651f8f95048da8f8816a381021ce8d6e8ccabfafa"
+  },
+  {
+    "hero": "Brigitte",
+    "key": "brigitte-0",
+    "name": "Rocket Flail",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/e75775c837abbf4aa1ec944fb08f3978819699a27242c64e27f3d52201dee5dc.png",
+    "sha256": "e75775c837abbf4aa1ec944fb08f3978819699a27242c64e27f3d52201dee5dc"
+  },
+  {
+    "hero": "Brigitte",
+    "key": "brigitte-1",
+    "name": "Repair Pack",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/6a2c40a4d0a87dfb1d07dada2a3aa4bc46e8361e76f10294585fcb28008903b8.png",
+    "sha256": "6a2c40a4d0a87dfb1d07dada2a3aa4bc46e8361e76f10294585fcb28008903b8"
+  },
+  {
+    "hero": "Brigitte",
+    "key": "brigitte-2",
+    "name": "Whip Shot",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b1f72a2f8c1c8df901af39ec7fa33ab69d79c8b92d7bf3319e4a2081e4712dac.png",
+    "sha256": "b1f72a2f8c1c8df901af39ec7fa33ab69d79c8b92d7bf3319e4a2081e4712dac"
+  },
+  {
+    "hero": "Brigitte",
+    "key": "brigitte-3",
+    "name": "Barrier Shield",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d90077573a1495f77345c56ea9231366bac05d3750053e26ccf0b733225ea4c1.png",
+    "sha256": "d90077573a1495f77345c56ea9231366bac05d3750053e26ccf0b733225ea4c1"
+  },
+  {
+    "hero": "Brigitte",
+    "key": "brigitte-4",
+    "name": "Shield Bash",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/da7bcc6cd41e74adbe68450d5afc7809745717e8bdac3fd9cba22f12d6419297.png",
+    "sha256": "da7bcc6cd41e74adbe68450d5afc7809745717e8bdac3fd9cba22f12d6419297"
+  },
+  {
+    "hero": "Brigitte",
+    "key": "brigitte-5",
+    "name": "Rally",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/28664c18171b484aefc61836b34d749dac8971f1393c6a17c88ccb60b8c2d0b3.png",
+    "sha256": "28664c18171b484aefc61836b34d749dac8971f1393c6a17c88ccb60b8c2d0b3"
+  },
+  {
+    "hero": "Brigitte",
+    "key": "brigitte-6",
+    "name": "Inspire",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2d239f8ca1265f4c5f7be415edc5568481ca347e70a6e2dbf5790551fe63ea9b.png",
+    "sha256": "2d239f8ca1265f4c5f7be415edc5568481ca347e70a6e2dbf5790551fe63ea9b"
+  },
+  {
+    "hero": "Cassidy",
+    "key": "cassidy-0",
+    "name": "Peacekeeper",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/96aadaed5019913a61810e895d9c17d38d369f7c3a3213ced78ef562147a83a5.png",
+    "sha256": "96aadaed5019913a61810e895d9c17d38d369f7c3a3213ced78ef562147a83a5"
+  },
+  {
+    "hero": "Cassidy",
+    "key": "cassidy-1",
+    "name": "Combat Roll",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b22144e644a4a63963e063fc8cc969cfb9061e29993d713b0c64a89b1ac9f280.png",
+    "sha256": "b22144e644a4a63963e063fc8cc969cfb9061e29993d713b0c64a89b1ac9f280"
+  },
+  {
+    "hero": "Cassidy",
+    "key": "cassidy-2",
+    "name": "Deadeye",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/6b78a5cb96040a70e6b41e767a6ea59c2af4e773521b8b4e0bf2c6fd642a3824.png",
+    "sha256": "6b78a5cb96040a70e6b41e767a6ea59c2af4e773521b8b4e0bf2c6fd642a3824"
+  },
+  {
+    "hero": "D.Mon",
+    "key": "dmon-0",
+    "name": "Plasma Saber ",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5b8ae7f23071c20d472d55243ddebe666c361bab598c18e12161b8415ee058de.png",
+    "sha256": "5b8ae7f23071c20d472d55243ddebe666c361bab598c18e12161b8415ee058de"
+  },
+  {
+    "hero": "D.Mon",
+    "key": "dmon-1",
+    "name": "Portable Fusion Repeater",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/bedcca9c4d45135065757cd2f5ff48137b9694159ea5929959efa63e9a45dac7.png",
+    "sha256": "bedcca9c4d45135065757cd2f5ff48137b9694159ea5929959efa63e9a45dac7"
+  },
+  {
+    "hero": "D.Mon",
+    "key": "dmon-2",
+    "name": "Power Barrier",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/fc4fc3dc561102b6469a81771190f915f07ac7186b1c9597451018f885c6b99c.png",
+    "sha256": "fc4fc3dc561102b6469a81771190f915f07ac7186b1c9597451018f885c6b99c"
+  },
+  {
+    "hero": "D.Mon",
+    "key": "dmon-3",
+    "name": "Surging Strike",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/e2027a7ba82448e64bf82f5714adaaeafea76d9c6c8ef461e226300a060a7fa8.png",
+    "sha256": "e2027a7ba82448e64bf82f5714adaaeafea76d9c6c8ef461e226300a060a7fa8"
+  },
+  {
+    "hero": "D.Mon",
+    "key": "dmon-4",
+    "name": "Fusion Repeater",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/db227e82342a3b2f97f3223616ffc5923999ea9d3badf019a341f2ba1b38843f.png",
+    "sha256": "db227e82342a3b2f97f3223616ffc5923999ea9d3badf019a341f2ba1b38843f"
+  },
+  {
+    "hero": "D.Mon",
+    "key": "dmon-5",
+    "name": "Propulsors",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ea768e2c364167941c4b0a3bc8bc65d959274e1c0439ab5f6073611aff8c4e37.png",
+    "sha256": "ea768e2c364167941c4b0a3bc8bc65d959274e1c0439ab5f6073611aff8c4e37"
+  },
+  {
+    "hero": "D.Mon",
+    "key": "dmon-6",
+    "name": "Eject!",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/caeb745949c69cdc2c088c2f77827ca1485ef13e19b06fa4353c4f18fb219ac2.png",
+    "sha256": "caeb745949c69cdc2c088c2f77827ca1485ef13e19b06fa4353c4f18fb219ac2"
+  },
+  {
+    "hero": "D.Mon",
+    "key": "dmon-7",
+    "name": "Limit Break",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1dba45b4791b7de30f525eb4a4ab38e605c14d93bc5a5a4e4d121186b3d71020.png",
+    "sha256": "1dba45b4791b7de30f525eb4a4ab38e605c14d93bc5a5a4e4d121186b3d71020"
+  },
+  {
+    "hero": "D.Mon",
+    "key": "dmon-8",
+    "name": "Call Mech",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/751219a659df8c345ade932ed66dea60bdc844c71c2c185d64bcea83ea8c1ae2.png",
+    "sha256": "751219a659df8c345ade932ed66dea60bdc844c71c2c185d64bcea83ea8c1ae2"
+  },
+  {
+    "hero": "Doctrine",
+    "key": "doctrine-0",
+    "name": "Eternal Scepter",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3ffab68d983c0108cb80c8c55e9980ae855342f5d31c94e3a3f9e7bcf8ac7b6d.png",
+    "sha256": "3ffab68d983c0108cb80c8c55e9980ae855342f5d31c94e3a3f9e7bcf8ac7b6d"
+  },
+  {
+    "hero": "Doctrine",
+    "key": "doctrine-1",
+    "name": "Infuse",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/13178efb1b3fceb275829ff4caa894fd883011d49d2ab33b9130ccf5d777597c.png",
+    "sha256": "13178efb1b3fceb275829ff4caa894fd883011d49d2ab33b9130ccf5d777597c"
+  },
+  {
+    "hero": "Doctrine",
+    "key": "doctrine-2",
+    "name": "Invigorating Drones",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a0db060f87598d0c57247dd03d2da4d13ea194e7c5c72d93cde7ed0c5393002c.png",
+    "sha256": "a0db060f87598d0c57247dd03d2da4d13ea194e7c5c72d93cde7ed0c5393002c"
+  },
+  {
+    "hero": "Doctrine",
+    "key": "doctrine-3",
+    "name": "Shrouded Momentum",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c3d96fb3fe2df91421d82e134385f0fe23b8950af35ac73e50d91eb0371cd18d.png",
+    "sha256": "c3d96fb3fe2df91421d82e134385f0fe23b8950af35ac73e50d91eb0371cd18d"
+  },
+  {
+    "hero": "Doctrine",
+    "key": "doctrine-4",
+    "name": "Deliverance",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/8ebbedfc4f56c80106e83280513eaf433471ac96900f782ffef8fcf764faeebb.png",
+    "sha256": "8ebbedfc4f56c80106e83280513eaf433471ac96900f782ffef8fcf764faeebb"
+  },
+  {
+    "hero": "Domina",
+    "key": "domina-0",
+    "name": "Photon Magnum",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/6a661b5275bfbc67f584a80c080b17b7cb4d91d665294b9bbb364e9bcf31812b.png",
+    "sha256": "6a661b5275bfbc67f584a80c080b17b7cb4d91d665294b9bbb364e9bcf31812b"
+  },
+  {
+    "hero": "Domina",
+    "key": "domina-1",
+    "name": "Barrier Array",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/909e0bb235934d7961a51fe41f90fadafaee33784b8199f62c92f3dd946da76f.png",
+    "sha256": "909e0bb235934d7961a51fe41f90fadafaee33784b8199f62c92f3dd946da76f"
+  },
+  {
+    "hero": "Domina",
+    "key": "domina-2",
+    "name": "Sonic Repulsors",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7f54ab0fa0be464fe670b61ee5665e5b3b562909f2e9afa7ad1b95e568e91b1f.png",
+    "sha256": "7f54ab0fa0be464fe670b61ee5665e5b3b562909f2e9afa7ad1b95e568e91b1f"
+  },
+  {
+    "hero": "Domina",
+    "key": "domina-3",
+    "name": "Crystal Charge",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/e2a15136441c63461f9c187e39d902fd64710aebc7e87d8430839cc083ca9b45.png",
+    "sha256": "e2a15136441c63461f9c187e39d902fd64710aebc7e87d8430839cc083ca9b45"
+  },
+  {
+    "hero": "Domina",
+    "key": "domina-4",
+    "name": "Panopticon",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5685ed099de9b6438a493e6060d692bd10ce08424cff88a767dc5b13a7edcb5e.png",
+    "sha256": "5685ed099de9b6438a493e6060d692bd10ce08424cff88a767dc5b13a7edcb5e"
+  },
+  {
+    "hero": "Doomfist",
+    "key": "doomfist-0",
+    "name": "Hand Cannon",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3b3a99fadfbd19067a787782d7152ae500ada480f40ae773b9c6d5f8909dd80f.png",
+    "sha256": "3b3a99fadfbd19067a787782d7152ae500ada480f40ae773b9c6d5f8909dd80f"
+  },
+  {
+    "hero": "Doomfist",
+    "key": "doomfist-1",
+    "name": "Rocket Punch",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/79fa2ac1beeaaecc23735e2bc41068a99838c76ff626a12ac07fcdc5efd70bd9.png",
+    "sha256": "79fa2ac1beeaaecc23735e2bc41068a99838c76ff626a12ac07fcdc5efd70bd9"
+  },
+  {
+    "hero": "Doomfist",
+    "key": "doomfist-2",
+    "name": "Seismic Slam",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4bc170a43b0d19921079fefcf16e66d720019271e37303413971b12e0ced9eca.png",
+    "sha256": "4bc170a43b0d19921079fefcf16e66d720019271e37303413971b12e0ced9eca"
+  },
+  {
+    "hero": "Doomfist",
+    "key": "doomfist-3",
+    "name": "Power Block",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2af34b2442543da4b3a588ae8791c2b9f8a24cf5e17c935f146a7c88b0d02bd4.png",
+    "sha256": "2af34b2442543da4b3a588ae8791c2b9f8a24cf5e17c935f146a7c88b0d02bd4"
+  },
+  {
+    "hero": "Doomfist",
+    "key": "doomfist-4",
+    "name": "Meteor Strike",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/dd68ed0cdc85d2bd688a487dc0778cd64e7dc1d11f8e4d5e7bbf421fb1144315.png",
+    "sha256": "dd68ed0cdc85d2bd688a487dc0778cd64e7dc1d11f8e4d5e7bbf421fb1144315"
+  },
+  {
+    "hero": "D.Va",
+    "key": "dva-0",
+    "name": "Fusion Cannons",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1b8dd81bd8353ce0a66009578dc4d7b6a51464e5bc7898010053ff46159f4fa1.png",
+    "sha256": "1b8dd81bd8353ce0a66009578dc4d7b6a51464e5bc7898010053ff46159f4fa1"
+  },
+  {
+    "hero": "D.Va",
+    "key": "dva-1",
+    "name": "Light Gun",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/969a72050f376bf6ee5ed5550a8033cdd661f2f9883c1229e9ee70dd3ae58ec4.png",
+    "sha256": "969a72050f376bf6ee5ed5550a8033cdd661f2f9883c1229e9ee70dd3ae58ec4"
+  },
+  {
+    "hero": "D.Va",
+    "key": "dva-2",
+    "name": "Boosters",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7076c739fe2c1d11f4f118d9e22a3d8f66303242434b71a7e4451e62f5d27b65.png",
+    "sha256": "7076c739fe2c1d11f4f118d9e22a3d8f66303242434b71a7e4451e62f5d27b65"
+  },
+  {
+    "hero": "D.Va",
+    "key": "dva-3",
+    "name": "Defense Matrix",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/e3806878b38cbab585c4d48e05f2dd63817a36a4f69cedbaf62fd3af6ca5bbd2.png",
+    "sha256": "e3806878b38cbab585c4d48e05f2dd63817a36a4f69cedbaf62fd3af6ca5bbd2"
+  },
+  {
+    "hero": "D.Va",
+    "key": "dva-4",
+    "name": "Micro Missiles",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/adcd1c898f2ab66779554711451303ee83ca15b70a0951e18964520f5f02566a.png",
+    "sha256": "adcd1c898f2ab66779554711451303ee83ca15b70a0951e18964520f5f02566a"
+  },
+  {
+    "hero": "D.Va",
+    "key": "dva-5",
+    "name": "Self-Destruct",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3ae91694dd2901ced5b3c6789b686fbda4175f807abe602101df6a26bfdf3491.png",
+    "sha256": "3ae91694dd2901ced5b3c6789b686fbda4175f807abe602101df6a26bfdf3491"
+  },
+  {
+    "hero": "D.Va",
+    "key": "dva-6",
+    "name": "Call Mech",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7117851e322ccefb98a710f926daffe1aabee9d47662c26d35c938c633897e71.png",
+    "sha256": "7117851e322ccefb98a710f926daffe1aabee9d47662c26d35c938c633897e71"
+  },
+  {
+    "hero": "D.Va",
+    "key": "dva-7",
+    "name": "Eject!",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3aa95031ecc236c99d902971910edece23982e95743630e949b1259ba48f5c63.png",
+    "sha256": "3aa95031ecc236c99d902971910edece23982e95743630e949b1259ba48f5c63"
+  },
+  {
+    "hero": "Echo",
+    "key": "echo-0",
+    "name": "Tri-Shot",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/eda680580d3957d2c06b3006fbe0f0b2f7637a3931c05a266a357984587e4f9f.png",
+    "sha256": "eda680580d3957d2c06b3006fbe0f0b2f7637a3931c05a266a357984587e4f9f"
+  },
+  {
+    "hero": "Echo",
+    "key": "echo-1",
+    "name": "Sticky Bombs",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5dd1a8e7c4097e3822db4a36d6bb5277203da4ba6bfd1ebe5ecab0311d199dbc.png",
+    "sha256": "5dd1a8e7c4097e3822db4a36d6bb5277203da4ba6bfd1ebe5ecab0311d199dbc"
+  },
+  {
+    "hero": "Echo",
+    "key": "echo-2",
+    "name": "Flight",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/edbca7879024d5b35a24e942ee5ebdec9780a425ef5e8d64f8113f7d5f2048b3.png",
+    "sha256": "edbca7879024d5b35a24e942ee5ebdec9780a425ef5e8d64f8113f7d5f2048b3"
+  },
+  {
+    "hero": "Echo",
+    "key": "echo-3",
+    "name": "Focusing Beam",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/864e210890c8ac666d29fdda118a2a8c0ae16fc5471812ef4da4ab322d11bb8e.png",
+    "sha256": "864e210890c8ac666d29fdda118a2a8c0ae16fc5471812ef4da4ab322d11bb8e"
+  },
+  {
+    "hero": "Echo",
+    "key": "echo-4",
+    "name": "Duplicate",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d374c55bb34248543dc4b63b73738fd17a488afa29eaa63f800008edda7f3907.png",
+    "sha256": "d374c55bb34248543dc4b63b73738fd17a488afa29eaa63f800008edda7f3907"
+  },
+  {
+    "hero": "Echo",
+    "key": "echo-5",
+    "name": "Glide",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4668bf556984868ba73b931a45fa61bae503f7c67371f1a4f8085c8f992cd6bd.png",
+    "sha256": "4668bf556984868ba73b931a45fa61bae503f7c67371f1a4f8085c8f992cd6bd"
+  },
+  {
+    "hero": "Emre",
+    "key": "emre-0",
+    "name": "Synthetic Burst Rifle",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/6db52d088dd5272c7b6aca53746b68a0f6ea7ad23a2ee8143c11d495d602f64b.png",
+    "sha256": "6db52d088dd5272c7b6aca53746b68a0f6ea7ad23a2ee8143c11d495d602f64b"
+  },
+  {
+    "hero": "Emre",
+    "key": "emre-1",
+    "name": "Cyber Frag",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/58eeb3950828ceadc16565163bfc03231a0cecdf3a0a6ce78de34bdff4bf09bf.png",
+    "sha256": "58eeb3950828ceadc16565163bfc03231a0cecdf3a0a6ce78de34bdff4bf09bf"
+  },
+  {
+    "hero": "Emre",
+    "key": "emre-2",
+    "name": "Override Protocol",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/fc8088a2968e2850ef438645fd2286ea7abe1779b2eae5cf85638168736ecddc.png",
+    "sha256": "fc8088a2968e2850ef438645fd2286ea7abe1779b2eae5cf85638168736ecddc"
+  },
+  {
+    "hero": "Emre",
+    "key": "emre-3",
+    "name": "Altered Vitals",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/fec616f100308698fe85eb6c7a36daa8af6d26181de8fa2f0e59ee2414bcb6df.png",
+    "sha256": "fec616f100308698fe85eb6c7a36daa8af6d26181de8fa2f0e59ee2414bcb6df"
+  },
+  {
+    "hero": "Freja",
+    "key": "freja-0",
+    "name": "Bola Shot",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f3b485b68fdf2b703537b38d2c9a30a6377772ca42e5ae6442c3cad5c3cc98be.png",
+    "sha256": "f3b485b68fdf2b703537b38d2c9a30a6377772ca42e5ae6442c3cad5c3cc98be"
+  },
+  {
+    "hero": "Freja",
+    "key": "freja-1",
+    "name": "Quick Dash",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/571c4a87204cad7117e3f127e94f5a54c93f6e81674f46d25b73eddd76eaa2c2.png",
+    "sha256": "571c4a87204cad7117e3f127e94f5a54c93f6e81674f46d25b73eddd76eaa2c2"
+  },
+  {
+    "hero": "Freja",
+    "key": "freja-2",
+    "name": "Take Aim",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a86fa2849d7ab515d256e390e75387e4ae306f5d64c5cf24a1ba33038da91e45.png",
+    "sha256": "a86fa2849d7ab515d256e390e75387e4ae306f5d64c5cf24a1ba33038da91e45"
+  },
+  {
+    "hero": "Freja",
+    "key": "freja-3",
+    "name": "Updraft",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/cf6b96a730b9a772c6ff9320dfb0723dbb304c52b2ef666651739d8716d5f96e.png",
+    "sha256": "cf6b96a730b9a772c6ff9320dfb0723dbb304c52b2ef666651739d8716d5f96e"
+  },
+  {
+    "hero": "Genji",
+    "key": "genji-0",
+    "name": "Shuriken",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/75fe50db5b246e9786632963f6e1126029bd270bfaaa8b9f564e303a9b938906.png",
+    "sha256": "75fe50db5b246e9786632963f6e1126029bd270bfaaa8b9f564e303a9b938906"
+  },
+  {
+    "hero": "Genji",
+    "key": "genji-1",
+    "name": "Deflect",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/6947d8eeddce8d295ed96525cdabfe36c94b3b67b50baf87aabb8ae61d32495a.png",
+    "sha256": "6947d8eeddce8d295ed96525cdabfe36c94b3b67b50baf87aabb8ae61d32495a"
+  },
+  {
+    "hero": "Genji",
+    "key": "genji-2",
+    "name": "Swift Strike",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/76519481d06f1a23600eb1f3d3c163268ff6e55ecde410751b508de434a7426b.png",
+    "sha256": "76519481d06f1a23600eb1f3d3c163268ff6e55ecde410751b508de434a7426b"
+  },
+  {
+    "hero": "Genji",
+    "key": "genji-3",
+    "name": "Dragonblade",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/12e6d44381805e22db2b69679028bdf5ee626586663d44e8deb20e96ae7657c2.png",
+    "sha256": "12e6d44381805e22db2b69679028bdf5ee626586663d44e8deb20e96ae7657c2"
+  },
+  {
+    "hero": "Genji",
+    "key": "genji-4",
+    "name": "Cyber-Agility",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d006aeb97a48941414492f160bf22b9a5c129ddb6e1956275752953eb1b0472e.png",
+    "sha256": "d006aeb97a48941414492f160bf22b9a5c129ddb6e1956275752953eb1b0472e"
+  },
+  {
+    "hero": "Hanzo",
+    "key": "hanzo-0",
+    "name": "Storm Bow",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/e38382e38d83492de12d3428bc30ef2f8833f8cef89298daa5a5a6d0b4420269.png",
+    "sha256": "e38382e38d83492de12d3428bc30ef2f8833f8cef89298daa5a5a6d0b4420269"
+  },
+  {
+    "hero": "Hanzo",
+    "key": "hanzo-1",
+    "name": "Storm Arrows",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5b2a2a02cf8087005216db110ab5aba37112eeca29c32f4491abb29caeb1910b.png",
+    "sha256": "5b2a2a02cf8087005216db110ab5aba37112eeca29c32f4491abb29caeb1910b"
+  },
+  {
+    "hero": "Hanzo",
+    "key": "hanzo-2",
+    "name": "Sonic Arrow",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3a378bcfc321bb2b2416db2ae3a52d22b2ca771d6f69522c1950132c5fefa59d.png",
+    "sha256": "3a378bcfc321bb2b2416db2ae3a52d22b2ca771d6f69522c1950132c5fefa59d"
+  },
+  {
+    "hero": "Hanzo",
+    "key": "hanzo-3",
+    "name": "Lunge",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/8b0423ecd27436f808b99254ad57bc453a839c5590c6a5b925855f13dd4ecc18.png",
+    "sha256": "8b0423ecd27436f808b99254ad57bc453a839c5590c6a5b925855f13dd4ecc18"
+  },
+  {
+    "hero": "Hanzo",
+    "key": "hanzo-4",
+    "name": "Dragonstrike",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ec52a328bd2febd049dddd9f61a0004b0688688d3254929002ef22338e205366.png",
+    "sha256": "ec52a328bd2febd049dddd9f61a0004b0688688d3254929002ef22338e205366"
+  },
+  {
+    "hero": "Hanzo",
+    "key": "hanzo-5",
+    "name": "Wall Climb",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d23ec9b85d43aa414b489bf5ccfcc683b9f6b66f866d723ed4c0cb7556a8cbbd.png",
+    "sha256": "d23ec9b85d43aa414b489bf5ccfcc683b9f6b66f866d723ed4c0cb7556a8cbbd"
+  },
+  {
+    "hero": "Hazard",
+    "key": "hazard-0",
+    "name": "Bonespur",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a840d02b1e6b87c8f1884b386be7a216842fac65ad24fa6c8aa88c45c4a4421a.png",
+    "sha256": "a840d02b1e6b87c8f1884b386be7a216842fac65ad24fa6c8aa88c45c4a4421a"
+  },
+  {
+    "hero": "Hazard",
+    "key": "hazard-1",
+    "name": "Spike Guard",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d1d1bb23a702a4e9f831b3acf5dd85f2da68459059f84f080b6c519f0f1db1d9.png",
+    "sha256": "d1d1bb23a702a4e9f831b3acf5dd85f2da68459059f84f080b6c519f0f1db1d9"
+  },
+  {
+    "hero": "Hazard",
+    "key": "hazard-2",
+    "name": "Violent Leap",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b82ab1a5ed08f039461be720c32b8c54e66cdb78d40b798feb69dbbea807303f.png",
+    "sha256": "b82ab1a5ed08f039461be720c32b8c54e66cdb78d40b798feb69dbbea807303f"
+  },
+  {
+    "hero": "Hazard",
+    "key": "hazard-3",
+    "name": "Jagged Wall",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/8c82b489f5d8756f98a6671e445d394e93ee5658135c9a54122d079d5d59995b.png",
+    "sha256": "8c82b489f5d8756f98a6671e445d394e93ee5658135c9a54122d079d5d59995b"
+  },
+  {
+    "hero": "Hazard",
+    "key": "hazard-4",
+    "name": "Downpour",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/85894376fb7803b87f71e900d73606e2daa14c0ca11122c100871b3d20bd2024.png",
+    "sha256": "85894376fb7803b87f71e900d73606e2daa14c0ca11122c100871b3d20bd2024"
+  },
+  {
+    "hero": "Hazard",
+    "key": "hazard-5",
+    "name": "Vault",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d006aeb97a48941414492f160bf22b9a5c129ddb6e1956275752953eb1b0472e.png",
+    "sha256": "d006aeb97a48941414492f160bf22b9a5c129ddb6e1956275752953eb1b0472e"
+  },
+  {
+    "hero": "Illari",
+    "key": "illari-0",
+    "name": "Solar Rifle",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b5bbee12c4a45526f3ab0c73b0027eae88f4da57192e68e9b30bbc9da3e032a6.png",
+    "sha256": "b5bbee12c4a45526f3ab0c73b0027eae88f4da57192e68e9b30bbc9da3e032a6"
+  },
+  {
+    "hero": "Illari",
+    "key": "illari-1",
+    "name": "Captive Sun",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/853a9ed59d241e1fd477a7c36dc826a1cf3321114b5ee3095780aa800649ff8e.png",
+    "sha256": "853a9ed59d241e1fd477a7c36dc826a1cf3321114b5ee3095780aa800649ff8e"
+  },
+  {
+    "hero": "Illari",
+    "key": "illari-2",
+    "name": "Healing Pylon",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/97656e46d5815627032b7e9783381a09b1dee4c553c802afc3c57767768bd281.png",
+    "sha256": "97656e46d5815627032b7e9783381a09b1dee4c553c802afc3c57767768bd281"
+  },
+  {
+    "hero": "Illari",
+    "key": "illari-3",
+    "name": "Outburst",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/fa2fa52626c761a91588ac62d835ddc7ec2f9a1d9034d06587e39129b8c2a94b.png",
+    "sha256": "fa2fa52626c761a91588ac62d835ddc7ec2f9a1d9034d06587e39129b8c2a94b"
+  },
+  {
+    "hero": "Jetpack Cat",
+    "key": "jetpack-cat-0",
+    "name": "Biotic Pawjectiles",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f69a07e928053431f7a1ac72a29c045d3eba5b6ae3bf29fdb21ee24e6f5d41e3.png",
+    "sha256": "f69a07e928053431f7a1ac72a29c045d3eba5b6ae3bf29fdb21ee24e6f5d41e3"
+  },
+  {
+    "hero": "Jetpack Cat",
+    "key": "jetpack-cat-1",
+    "name": "Frenetic Flight",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f957b6f5803bd08a99eec642365c30f22e817ad33afb4b95d8e1856c87cba1b2.png",
+    "sha256": "f957b6f5803bd08a99eec642365c30f22e817ad33afb4b95d8e1856c87cba1b2"
+  },
+  {
+    "hero": "Jetpack Cat",
+    "key": "jetpack-cat-2",
+    "name": "Lifeline",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d0c899ac61aa5b72e7de931b014b02176605fba7c9f022cc7a968b6cc6ebf19b.png",
+    "sha256": "d0c899ac61aa5b72e7de931b014b02176605fba7c9f022cc7a968b6cc6ebf19b"
+  },
+  {
+    "hero": "Jetpack Cat",
+    "key": "jetpack-cat-3",
+    "name": "Purr",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4632fb81d5af7bcac3502108fa283f614b98cbeb18e3149808dcc2e50042f927.png",
+    "sha256": "4632fb81d5af7bcac3502108fa283f614b98cbeb18e3149808dcc2e50042f927"
+  },
+  {
+    "hero": "Jetpack Cat",
+    "key": "jetpack-cat-4",
+    "name": "Catnapper",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/01fd22b375088be5c2b0e3a00a8e09c97de48d634d939627d3d46b13a2428c28.png",
+    "sha256": "01fd22b375088be5c2b0e3a00a8e09c97de48d634d939627d3d46b13a2428c28"
+  },
+  {
+    "hero": "Junker Queen",
+    "key": "junker-queen-0",
+    "name": "Scattergun",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2d5df1a8232c23ea96183a39a9ce930b26c53e87dc12ff77bd972e4805690c6f.png",
+    "sha256": "2d5df1a8232c23ea96183a39a9ce930b26c53e87dc12ff77bd972e4805690c6f"
+  },
+  {
+    "hero": "Junker Queen",
+    "key": "junker-queen-1",
+    "name": "Commanding Shout",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ef3c2fb9bdb4c913d2b048ef4363fce335553c8f4ee74524f2af86af961ba648.png",
+    "sha256": "ef3c2fb9bdb4c913d2b048ef4363fce335553c8f4ee74524f2af86af961ba648"
+  },
+  {
+    "hero": "Junker Queen",
+    "key": "junker-queen-2",
+    "name": "Carnage",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/85c3796fdb062e1038fb130450f1586ce1f3c047886b0baf13f937d93a4e05d4.png",
+    "sha256": "85c3796fdb062e1038fb130450f1586ce1f3c047886b0baf13f937d93a4e05d4"
+  },
+  {
+    "hero": "Junker Queen",
+    "key": "junker-queen-3",
+    "name": "Rampage",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/17ff06bcf2e7fe6c2f66590573e6b274b416f0a8855f925c4479ac20b4d8d977.png",
+    "sha256": "17ff06bcf2e7fe6c2f66590573e6b274b416f0a8855f925c4479ac20b4d8d977"
+  },
+  {
+    "hero": "Junker Queen",
+    "key": "junker-queen-4",
+    "name": "Adrenaline Rush",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5a05a31b7196b53d751219c5d4d0814cc58e37db5eeb37a1648b37327309f794.png",
+    "sha256": "5a05a31b7196b53d751219c5d4d0814cc58e37db5eeb37a1648b37327309f794"
+  },
+  {
+    "hero": "Junkrat",
+    "key": "junkrat-0",
+    "name": "Frag Launcher",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b8ba613f23c771523b25caf8db1d43f518c9267b13fea2a684a2610ae46585f1.png",
+    "sha256": "b8ba613f23c771523b25caf8db1d43f518c9267b13fea2a684a2610ae46585f1"
+  },
+  {
+    "hero": "Junkrat",
+    "key": "junkrat-1",
+    "name": "Concussion Mine",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/11dd2b5573ebc5ec231911d443733507e5d92822ff5b6d5dd93cd69c9827c92a.png",
+    "sha256": "11dd2b5573ebc5ec231911d443733507e5d92822ff5b6d5dd93cd69c9827c92a"
+  },
+  {
+    "hero": "Junkrat",
+    "key": "junkrat-2",
+    "name": "Steel Trap",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3b231767363675405aeda173403c44740cca76b8d3653730c075f561e513f935.png",
+    "sha256": "3b231767363675405aeda173403c44740cca76b8d3653730c075f561e513f935"
+  },
+  {
+    "hero": "Junkrat",
+    "key": "junkrat-3",
+    "name": "RIP-Tire",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/946029ed03ebc3dae775fd0b0ca80faa2f8627cb568c51170190a432ba9e3e50.png",
+    "sha256": "946029ed03ebc3dae775fd0b0ca80faa2f8627cb568c51170190a432ba9e3e50"
+  },
+  {
+    "hero": "Junkrat",
+    "key": "junkrat-4",
+    "name": "Total Mayhem",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4720883e2f44ebac617748f717908183a4cb7e6e90d29226602a54708c4f57d1.png",
+    "sha256": "4720883e2f44ebac617748f717908183a4cb7e6e90d29226602a54708c4f57d1"
+  },
+  {
+    "hero": "Juno",
+    "key": "juno-0",
+    "name": "Mediblaster",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d75b0943dbbf45729efb48ab3d40bef9de9e4742d208f887d57ed9fd75d4ed9e.png",
+    "sha256": "d75b0943dbbf45729efb48ab3d40bef9de9e4742d208f887d57ed9fd75d4ed9e"
+  },
+  {
+    "hero": "Juno",
+    "key": "juno-1",
+    "name": "Pulsar Torpedoes",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/24ad567c5400d4eb7a5d7b9f938a197654e5465dfd2e881754e8f4f699f84088.png",
+    "sha256": "24ad567c5400d4eb7a5d7b9f938a197654e5465dfd2e881754e8f4f699f84088"
+  },
+  {
+    "hero": "Juno",
+    "key": "juno-2",
+    "name": "Orbital Ray",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5723182cddc6719ee19a5b35d840d2fb3ed933c861f3f66514d66fc29630c84a.png",
+    "sha256": "5723182cddc6719ee19a5b35d840d2fb3ed933c861f3f66514d66fc29630c84a"
+  },
+  {
+    "hero": "Juno",
+    "key": "juno-3",
+    "name": "Hyper Ring",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/bfdddb5d1857a8a13713381d3fe6cc6b690f71efef9131147116adc10b00d245.png",
+    "sha256": "bfdddb5d1857a8a13713381d3fe6cc6b690f71efef9131147116adc10b00d245"
+  },
+  {
+    "hero": "Juno",
+    "key": "juno-4",
+    "name": "Glide Boost",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/39ea7b359006e25f0b6d373c87e690209c9daefed5196b51f945f3d1a2743af0.png",
+    "sha256": "39ea7b359006e25f0b6d373c87e690209c9daefed5196b51f945f3d1a2743af0"
+  },
+  {
+    "hero": "Juno",
+    "key": "juno-5",
+    "name": "Martian Overboots",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/edb2f175e4231589a8fc9fd2607f8c98c2566ec6f517e699194164274bfee94e.png",
+    "sha256": "edb2f175e4231589a8fc9fd2607f8c98c2566ec6f517e699194164274bfee94e"
+  },
+  {
+    "hero": "Kiriko",
+    "key": "kiriko-0",
+    "name": "Healing Ofuda",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4ebf8c956da05591160da7416299bb3b641a268fbf334debf7892b8c7b3c326d.png",
+    "sha256": "4ebf8c956da05591160da7416299bb3b641a268fbf334debf7892b8c7b3c326d"
+  },
+  {
+    "hero": "Kiriko",
+    "key": "kiriko-1",
+    "name": "Kunai",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/81466ccd866d29b1edc9884cd0842b2e32ef0b5712198ea137ae212494feb1f4.png",
+    "sha256": "81466ccd866d29b1edc9884cd0842b2e32ef0b5712198ea137ae212494feb1f4"
+  },
+  {
+    "hero": "Kiriko",
+    "key": "kiriko-2",
+    "name": "Swift Step",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/155642954764b574f3b6845af58961e941a26a12e5d05053a8f7101f6005cc97.png",
+    "sha256": "155642954764b574f3b6845af58961e941a26a12e5d05053a8f7101f6005cc97"
+  },
+  {
+    "hero": "Kiriko",
+    "key": "kiriko-3",
+    "name": "Protection Suzu",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a5c1a2e74ccb598d376aac2c1cd255aa46570a08886e72b06d5a6f64203c8072.png",
+    "sha256": "a5c1a2e74ccb598d376aac2c1cd255aa46570a08886e72b06d5a6f64203c8072"
+  },
+  {
+    "hero": "Kiriko",
+    "key": "kiriko-4",
+    "name": "Kitsune Rush",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4ad7d2913e24d538c906eaa95c0e87f148d63f8dfe3c443c408f443c2de8bae8.png",
+    "sha256": "4ad7d2913e24d538c906eaa95c0e87f148d63f8dfe3c443c408f443c2de8bae8"
+  },
+  {
+    "hero": "Lifeweaver",
+    "key": "lifeweaver-0",
+    "name": "Healing Blossom",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/bd2fde345ddbf726922a007add13188566a2810aee2fe14773c5dedf2778d34f.png",
+    "sha256": "bd2fde345ddbf726922a007add13188566a2810aee2fe14773c5dedf2778d34f"
+  },
+  {
+    "hero": "Lifeweaver",
+    "key": "lifeweaver-1",
+    "name": "Thorn Volley",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/6f96b55eaf1922f2ea57166062c4cd7f7c373cbcc1795888def7a9aa24abb258.png",
+    "sha256": "6f96b55eaf1922f2ea57166062c4cd7f7c373cbcc1795888def7a9aa24abb258"
+  },
+  {
+    "hero": "Lifeweaver",
+    "key": "lifeweaver-2",
+    "name": "Petal Platform",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/040f6c05bfe6a0540c0139034d13ac09f3a4f6e2c611ff75113ac70596a65da7.png",
+    "sha256": "040f6c05bfe6a0540c0139034d13ac09f3a4f6e2c611ff75113ac70596a65da7"
+  },
+  {
+    "hero": "Lifeweaver",
+    "key": "lifeweaver-3",
+    "name": "Rejuvenating Dash",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9be0b14c8d6a1ac5f73ca118487e1fbe0feaae1be7b87c12bd9eb44bd0e82f57.png",
+    "sha256": "9be0b14c8d6a1ac5f73ca118487e1fbe0feaae1be7b87c12bd9eb44bd0e82f57"
+  },
+  {
+    "hero": "Lifeweaver",
+    "key": "lifeweaver-4",
+    "name": "Life Grip",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7202804f05ffb9fce9f66f7dabfd4104981671fe1d632326c4b3a04a5bbfe2ad.png",
+    "sha256": "7202804f05ffb9fce9f66f7dabfd4104981671fe1d632326c4b3a04a5bbfe2ad"
+  },
+  {
+    "hero": "Lifeweaver",
+    "key": "lifeweaver-5",
+    "name": "Tree of Life",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/03d294ff2fbd7cf4a66220be5734b3607bc5cfc57d3af2a0ce4ad823e1656b75.png",
+    "sha256": "03d294ff2fbd7cf4a66220be5734b3607bc5cfc57d3af2a0ce4ad823e1656b75"
+  },
+  {
+    "hero": "Lúcio",
+    "key": "lucio-0",
+    "name": "Sonic Amplifier",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5dc58c552d2b8ee4018f166b7a1c7eeda839c631fa09fb3bfac3e413e2a6e47d.png",
+    "sha256": "5dc58c552d2b8ee4018f166b7a1c7eeda839c631fa09fb3bfac3e413e2a6e47d"
+  },
+  {
+    "hero": "Lúcio",
+    "key": "lucio-1",
+    "name": "Crossfade",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/452af9dde57a4c3c85c9089dd28b57738fe33e225048602196989bea672450bd.png",
+    "sha256": "452af9dde57a4c3c85c9089dd28b57738fe33e225048602196989bea672450bd"
+  },
+  {
+    "hero": "Lúcio",
+    "key": "lucio-2",
+    "name": "Amp It Up",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9b1c9a43f51d39286dd9204b24cc590eae9f40fa4970d54676565240285a8339.png",
+    "sha256": "9b1c9a43f51d39286dd9204b24cc590eae9f40fa4970d54676565240285a8339"
+  },
+  {
+    "hero": "Lúcio",
+    "key": "lucio-3",
+    "name": "Soundwave",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f0ccd9830fc8f3b3a719faf0a6b4babf06677bd136287812efe7c6fa358cc389.png",
+    "sha256": "f0ccd9830fc8f3b3a719faf0a6b4babf06677bd136287812efe7c6fa358cc389"
+  },
+  {
+    "hero": "Lúcio",
+    "key": "lucio-4",
+    "name": "Sound Barrier",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f84b670bff38d0b97c44a084159bb41c140b5cf7e52348782ab9755d47cdbb0a.png",
+    "sha256": "f84b670bff38d0b97c44a084159bb41c140b5cf7e52348782ab9755d47cdbb0a"
+  },
+  {
+    "hero": "Lúcio",
+    "key": "lucio-5",
+    "name": "Wall Ride",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/20518d53a53b3f8cc26816f7d55182e43331b33b5d0eb2b491d12d6a59ea0941.png",
+    "sha256": "20518d53a53b3f8cc26816f7d55182e43331b33b5d0eb2b491d12d6a59ea0941"
+  },
+  {
+    "hero": "Mauga",
+    "key": "mauga-0",
+    "name": "Overrun",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/10f358f93cd59c2f2b31278cd09bfc7a986c7af6e9a15cdf96db16375b596cee.png",
+    "sha256": "10f358f93cd59c2f2b31278cd09bfc7a986c7af6e9a15cdf96db16375b596cee"
+  },
+  {
+    "hero": "Mauga",
+    "key": "mauga-1",
+    "name": "Cardiac Overdrive",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/33ccf2e8708d8625137b15c81528efd8b5c5100dcb29d137ab9a4750be3c9229.png",
+    "sha256": "33ccf2e8708d8625137b15c81528efd8b5c5100dcb29d137ab9a4750be3c9229"
+  },
+  {
+    "hero": "Mauga",
+    "key": "mauga-2",
+    "name": "Berserker",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/50b53f48c47c549e7926ef5ab9976a3b03327b0cf6d6df4dea501c8e544aa204.png",
+    "sha256": "50b53f48c47c549e7926ef5ab9976a3b03327b0cf6d6df4dea501c8e544aa204"
+  },
+  {
+    "hero": "Mauga",
+    "key": "mauga-3",
+    "name": "Cage Fight",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/fca5c4296a62de30239f2f372ff70574b74da36d1524101485038e94a86c658d.png",
+    "sha256": "fca5c4296a62de30239f2f372ff70574b74da36d1524101485038e94a86c658d"
+  },
+  {
+    "hero": "Mei",
+    "key": "mei-0",
+    "name": "Endothermic Blaster",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/02f402130df2ecfcedb6c5bdb7dd3eea199d1d1e833c567bb810c7edd7a717e7.png",
+    "sha256": "02f402130df2ecfcedb6c5bdb7dd3eea199d1d1e833c567bb810c7edd7a717e7"
+  },
+  {
+    "hero": "Mei",
+    "key": "mei-1",
+    "name": "Cryo-Freeze",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b7d01a56fe14d8b456aa716773760f51581a61e88a889e3e48e6a2f929388c48.png",
+    "sha256": "b7d01a56fe14d8b456aa716773760f51581a61e88a889e3e48e6a2f929388c48"
+  },
+  {
+    "hero": "Mei",
+    "key": "mei-2",
+    "name": "Ice Wall",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d5ac85b5a26546ea052de796e1da27090b559bbcda27b7e9613aaaa09813d2f7.png",
+    "sha256": "d5ac85b5a26546ea052de796e1da27090b559bbcda27b7e9613aaaa09813d2f7"
+  },
+  {
+    "hero": "Mei",
+    "key": "mei-3",
+    "name": "Blizzard",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7d834967543c76f8bccf5ea7b4d33a8ee9b335ec1e7a96ed444c0251b9fe937d.png",
+    "sha256": "7d834967543c76f8bccf5ea7b4d33a8ee9b335ec1e7a96ed444c0251b9fe937d"
+  },
+  {
+    "hero": "Mercy",
+    "key": "mercy-0",
+    "name": "Caduceus Staff",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/149e46752f75bc9f6fece61f1a7b8e08bd1d3dbea8a723efd518f6b9aa4a70b0.png",
+    "sha256": "149e46752f75bc9f6fece61f1a7b8e08bd1d3dbea8a723efd518f6b9aa4a70b0"
+  },
+  {
+    "hero": "Mercy",
+    "key": "mercy-1",
+    "name": "Caduceus Blaster",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d113f98e3c2a70b43ea99d9f4ccf7f9cc3b140c029e4fa9db6733a9ab3474fb0.png",
+    "sha256": "d113f98e3c2a70b43ea99d9f4ccf7f9cc3b140c029e4fa9db6733a9ab3474fb0"
+  },
+  {
+    "hero": "Mercy",
+    "key": "mercy-2",
+    "name": "Guardian Angel",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b8cee01a366f6c5fb1298426463aa27724bec1dd2b6a92a36b42b3884a73e8d5.png",
+    "sha256": "b8cee01a366f6c5fb1298426463aa27724bec1dd2b6a92a36b42b3884a73e8d5"
+  },
+  {
+    "hero": "Mercy",
+    "key": "mercy-3",
+    "name": "Resurrect",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9dcafd3a6c3cbb12be763d13ee1b06a677fdf7f740eee29f20921927d6cab337.png",
+    "sha256": "9dcafd3a6c3cbb12be763d13ee1b06a677fdf7f740eee29f20921927d6cab337"
+  },
+  {
+    "hero": "Mercy",
+    "key": "mercy-4",
+    "name": "Angelic Descent",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/8a0f7aad37480b3adbe6e7ebafc2bd253397bec324148812e27caa3d1ee8ab92.png",
+    "sha256": "8a0f7aad37480b3adbe6e7ebafc2bd253397bec324148812e27caa3d1ee8ab92"
+  },
+  {
+    "hero": "Mercy",
+    "key": "mercy-5",
+    "name": "Valkyrie",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/8465f0b6e120a6cdbd7b4b0124adcfe6a1585e6b417275f9c6cf86d248318ffd.png",
+    "sha256": "8465f0b6e120a6cdbd7b4b0124adcfe6a1585e6b417275f9c6cf86d248318ffd"
+  },
+  {
+    "hero": "Mizuki",
+    "key": "mizuki-0",
+    "name": "Spirit Glaive",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/407d795518aaf89ffd41fda4c392421c7e783c3486292bcabd412274ae8bfe6d.png",
+    "sha256": "407d795518aaf89ffd41fda4c392421c7e783c3486292bcabd412274ae8bfe6d"
+  },
+  {
+    "hero": "Mizuki",
+    "key": "mizuki-1",
+    "name": "Healing Kasa",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c97cbb4a6b1e7be7ce6d0f26434efc8e6d18674b24d29bff3d17389b43dedec9.png",
+    "sha256": "c97cbb4a6b1e7be7ce6d0f26434efc8e6d18674b24d29bff3d17389b43dedec9"
+  },
+  {
+    "hero": "Mizuki",
+    "key": "mizuki-2",
+    "name": "Binding Chain",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3404150b1babd17665ceced735828eedb701ee1d276debcedcd1a5d95d8d1cf7.png",
+    "sha256": "3404150b1babd17665ceced735828eedb701ee1d276debcedcd1a5d95d8d1cf7"
+  },
+  {
+    "hero": "Mizuki",
+    "key": "mizuki-3",
+    "name": "Katashiro Return",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/291ad4dfccb3678979f4f5ca8c24d219b9bb61a383731057547760646dcd5c04.png",
+    "sha256": "291ad4dfccb3678979f4f5ca8c24d219b9bb61a383731057547760646dcd5c04"
+  },
+  {
+    "hero": "Mizuki",
+    "key": "mizuki-4",
+    "name": "Kekkai Sanctuary",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/79d5017e5ae3c3fb8fa91b5ea13f890add3042c5b0ed9532e62fe4ee138ca033.png",
+    "sha256": "79d5017e5ae3c3fb8fa91b5ea13f890add3042c5b0ed9532e62fe4ee138ca033"
+  },
+  {
+    "hero": "Mizuki",
+    "key": "mizuki-5",
+    "name": "Remedy Aura",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/11ba949531e0cf7d2fab159f0806c08c31a9e770836ec5efcc408df043b72995.png",
+    "sha256": "11ba949531e0cf7d2fab159f0806c08c31a9e770836ec5efcc408df043b72995"
+  },
+  {
+    "hero": "Moira",
+    "key": "moira-0",
+    "name": "Biotic Grasp",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/e74ba239c376cb9de7a0f82418f4713e3183092d48988198825dd376da0b0a12.png",
+    "sha256": "e74ba239c376cb9de7a0f82418f4713e3183092d48988198825dd376da0b0a12"
+  },
+  {
+    "hero": "Moira",
+    "key": "moira-1",
+    "name": "Biotic Orb",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/66a472473965ecbe525afb991bab0f950248542232a13a3d34607d9b71a8ddee.png",
+    "sha256": "66a472473965ecbe525afb991bab0f950248542232a13a3d34607d9b71a8ddee"
+  },
+  {
+    "hero": "Moira",
+    "key": "moira-2",
+    "name": "Fade",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/e71cb3d2a4e880089a87b3a2ff609c5484fb8e04d6151507179646b1b4d97d64.png",
+    "sha256": "e71cb3d2a4e880089a87b3a2ff609c5484fb8e04d6151507179646b1b4d97d64"
+  },
+  {
+    "hero": "Moira",
+    "key": "moira-3",
+    "name": "Coalescence",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/8791876838df722d9153ecc6d1c7a76445892d13fcec304609435b2f91fcc2c1.png",
+    "sha256": "8791876838df722d9153ecc6d1c7a76445892d13fcec304609435b2f91fcc2c1"
+  },
+  {
+    "hero": "Orisa",
+    "key": "orisa-0",
+    "name": "Augmented Fusion Driver",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/80e4eabdaee092406062ae026ab50f5491d0d634fd27d791e999f03f798ae5ab.png",
+    "sha256": "80e4eabdaee092406062ae026ab50f5491d0d634fd27d791e999f03f798ae5ab"
+  },
+  {
+    "hero": "Orisa",
+    "key": "orisa-1",
+    "name": "Energy Javelin",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/50c5f92db1d3688b0395c88270a04f9730e468d0ca63f1c13c259b848b6e1b49.png",
+    "sha256": "50c5f92db1d3688b0395c88270a04f9730e468d0ca63f1c13c259b848b6e1b49"
+  },
+  {
+    "hero": "Orisa",
+    "key": "orisa-2",
+    "name": "Fortify",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a2003ee5e140d12cf850a0e5f1092e47f78b8111464d55489abb194bbbfa5523.png",
+    "sha256": "a2003ee5e140d12cf850a0e5f1092e47f78b8111464d55489abb194bbbfa5523"
+  },
+  {
+    "hero": "Orisa",
+    "key": "orisa-3",
+    "name": "Javelin Spin",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3d688c6c6361f15ec3f83e6e42a39accb5b498f4e1fd8de9cd8d7daf805be759.png",
+    "sha256": "3d688c6c6361f15ec3f83e6e42a39accb5b498f4e1fd8de9cd8d7daf805be759"
+  },
+  {
+    "hero": "Orisa",
+    "key": "orisa-4",
+    "name": "Terra Surge",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a0e2704fdc1d50a9670c8629b9da8cb7b2491523c3dd4616912e25b477b35427.png",
+    "sha256": "a0e2704fdc1d50a9670c8629b9da8cb7b2491523c3dd4616912e25b477b35427"
+  },
+  {
+    "hero": "Pharah",
+    "key": "pharah-0",
+    "name": "Rocket Launcher",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f41d86b7413491d430cf2bf9802f8110062ab190819b423098a642286443ff74.png",
+    "sha256": "f41d86b7413491d430cf2bf9802f8110062ab190819b423098a642286443ff74"
+  },
+  {
+    "hero": "Pharah",
+    "key": "pharah-1",
+    "name": "Jet Dash",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/025fb94110f48c67d64e41536962e670410d6ba9fe38f2bb6255ff0750c6b9c8.png",
+    "sha256": "025fb94110f48c67d64e41536962e670410d6ba9fe38f2bb6255ff0750c6b9c8"
+  },
+  {
+    "hero": "Pharah",
+    "key": "pharah-2",
+    "name": "Jump Jet",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4bf45e79768cc35aadd3ac66e31d19ac75e1bb088480c490866fdafcf9fc49b6.png",
+    "sha256": "4bf45e79768cc35aadd3ac66e31d19ac75e1bb088480c490866fdafcf9fc49b6"
+  },
+  {
+    "hero": "Pharah",
+    "key": "pharah-3",
+    "name": "Concussive Blast",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/666c55a0b7810194a486e73fddac9dac6b64eb0303a14be8d1453c9f29c210df.png",
+    "sha256": "666c55a0b7810194a486e73fddac9dac6b64eb0303a14be8d1453c9f29c210df"
+  },
+  {
+    "hero": "Pharah",
+    "key": "pharah-4",
+    "name": "Barrage",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/69a9067ddf8a7138d200c3bad9d01e09760df5b3f07bfb1cfa82ee70f385576c.png",
+    "sha256": "69a9067ddf8a7138d200c3bad9d01e09760df5b3f07bfb1cfa82ee70f385576c"
+  },
+  {
+    "hero": "Pharah",
+    "key": "pharah-5",
+    "name": "Hover Jets",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/452f72706d3da3b217d0a2e749aebcd7483f7128b048692ebd86dc905612b866.png",
+    "sha256": "452f72706d3da3b217d0a2e749aebcd7483f7128b048692ebd86dc905612b866"
+  },
+  {
+    "hero": "Ramattra",
+    "key": "ramattra-0",
+    "name": "Void Accelerator (Omnic Form)",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b860a9ba344656b591451cf17d419633e75c0c1abf2737e0c3c470fe94b70768.png",
+    "sha256": "b860a9ba344656b591451cf17d419633e75c0c1abf2737e0c3c470fe94b70768"
+  },
+  {
+    "hero": "Ramattra",
+    "key": "ramattra-1",
+    "name": "Void Barrier (Omnic Form)",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/94d29f925b938d4898f440d06d8543e49c772e09cb89ef9812826fb2be54f9c7.png",
+    "sha256": "94d29f925b938d4898f440d06d8543e49c772e09cb89ef9812826fb2be54f9c7"
+  },
+  {
+    "hero": "Ramattra",
+    "key": "ramattra-2",
+    "name": "Pummel (Nemesis Form)",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b38ab7e9dddd67875853b77de9a3b9db270ea1d9d107753debae2c07f1f5061f.png",
+    "sha256": "b38ab7e9dddd67875853b77de9a3b9db270ea1d9d107753debae2c07f1f5061f"
+  },
+  {
+    "hero": "Ramattra",
+    "key": "ramattra-3",
+    "name": "Ravenous Vortex",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/80e96eddbc10af5e1b08c7392f4f61aabc0e5408e31e72961595a936ccceabcc.png",
+    "sha256": "80e96eddbc10af5e1b08c7392f4f61aabc0e5408e31e72961595a936ccceabcc"
+  },
+  {
+    "hero": "Ramattra",
+    "key": "ramattra-4",
+    "name": "Annihilation",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/283267c35bf45ecfaf8f8fdeee5f8b29e36ab6937fda9112f730dce85e963213.png",
+    "sha256": "283267c35bf45ecfaf8f8fdeee5f8b29e36ab6937fda9112f730dce85e963213"
+  },
+  {
+    "hero": "Reaper",
+    "key": "reaper-0",
+    "name": "Hellfire Shotguns",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/903d169dd299e13294d43bf01c61ad5351169ef7cc0bd69bddb3855472b88359.png",
+    "sha256": "903d169dd299e13294d43bf01c61ad5351169ef7cc0bd69bddb3855472b88359"
+  },
+  {
+    "hero": "Reaper",
+    "key": "reaper-1",
+    "name": "Shadow Step",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/e20a77100283c55a2e3366eb903936eae445364f96575975005c5373f30d722d.png",
+    "sha256": "e20a77100283c55a2e3366eb903936eae445364f96575975005c5373f30d722d"
+  },
+  {
+    "hero": "Reaper",
+    "key": "reaper-2",
+    "name": "Wraith Form",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b85663ad878344ecf1de8037ff96b4df699d003db95c409b8de46485cdae47c2.png",
+    "sha256": "b85663ad878344ecf1de8037ff96b4df699d003db95c409b8de46485cdae47c2"
+  },
+  {
+    "hero": "Reaper",
+    "key": "reaper-3",
+    "name": "Death Blossom",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/01b5c2f0f26e964707ff9e382a639a402f9f7b3fff3025dadd79f8e6a3f902d1.png",
+    "sha256": "01b5c2f0f26e964707ff9e382a639a402f9f7b3fff3025dadd79f8e6a3f902d1"
+  },
+  {
+    "hero": "Reaper",
+    "key": "reaper-4",
+    "name": "The Reaping",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d6efc2a1bddf6bdafd95d6bf650bea70fe83d45000c400a1eaa6a86b042ef0a5.png",
+    "sha256": "d6efc2a1bddf6bdafd95d6bf650bea70fe83d45000c400a1eaa6a86b042ef0a5"
+  },
+  {
+    "hero": "Reinhardt",
+    "key": "reinhardt-0",
+    "name": "Rocket Hammer",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/22c800a8529b46a64f391cd432c94023dca2745ef9c9eec52ad9a7843d7df4e5.png",
+    "sha256": "22c800a8529b46a64f391cd432c94023dca2745ef9c9eec52ad9a7843d7df4e5"
+  },
+  {
+    "hero": "Reinhardt",
+    "key": "reinhardt-1",
+    "name": "Charge",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/6b7b226ab508dc7a45908b0613dc889558cf2cc217c04d072940e0a539ac56aa.png",
+    "sha256": "6b7b226ab508dc7a45908b0613dc889558cf2cc217c04d072940e0a539ac56aa"
+  },
+  {
+    "hero": "Reinhardt",
+    "key": "reinhardt-2",
+    "name": "Fire Strike",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ca90071b2e0c9cbf5a6e91e580682c73456298b88e34d40d7bf5eb5c098173a1.png",
+    "sha256": "ca90071b2e0c9cbf5a6e91e580682c73456298b88e34d40d7bf5eb5c098173a1"
+  },
+  {
+    "hero": "Reinhardt",
+    "key": "reinhardt-3",
+    "name": "Barrier Field",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/423dec435587464e24a663cdd4f35178020854e1f924af5902eebba5be9607f2.png",
+    "sha256": "423dec435587464e24a663cdd4f35178020854e1f924af5902eebba5be9607f2"
+  },
+  {
+    "hero": "Reinhardt",
+    "key": "reinhardt-4",
+    "name": "Earthshatter",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c5c5d0db3af35de00d60dd68e6350a540febbbac094bafaf0663f25ae4dcfd2b.png",
+    "sha256": "c5c5d0db3af35de00d60dd68e6350a540febbbac094bafaf0663f25ae4dcfd2b"
+  },
+  {
+    "hero": "Roadhog",
+    "key": "roadhog-0",
+    "name": "Scrap Gun",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d48d0b264d765e3732abda784e986595f7a6c5ad0e56f1929c008ffc0492a39d.png",
+    "sha256": "d48d0b264d765e3732abda784e986595f7a6c5ad0e56f1929c008ffc0492a39d"
+  },
+  {
+    "hero": "Roadhog",
+    "key": "roadhog-1",
+    "name": "Trash Compactor",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/23bd9bc7960a9958d04584375c5ea81c6615da668e9ad8c6cbb4920561f7c199.png",
+    "sha256": "23bd9bc7960a9958d04584375c5ea81c6615da668e9ad8c6cbb4920561f7c199"
+  },
+  {
+    "hero": "Roadhog",
+    "key": "roadhog-2",
+    "name": "Chain Hook",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7edc1cdef13c2fd21e279043816aa1d2975dc784298502fd121b927729e1e86d.png",
+    "sha256": "7edc1cdef13c2fd21e279043816aa1d2975dc784298502fd121b927729e1e86d"
+  },
+  {
+    "hero": "Roadhog",
+    "key": "roadhog-3",
+    "name": "Take a Breather",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/064bde1e9f9f65e2a1ca0898abe09432394dca3b0729da0dcccff41b5f5be69b.png",
+    "sha256": "064bde1e9f9f65e2a1ca0898abe09432394dca3b0729da0dcccff41b5f5be69b"
+  },
+  {
+    "hero": "Roadhog",
+    "key": "roadhog-4",
+    "name": "Whole Hog",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/907eeb4e179b70ea279ca8dd0e276bf45a1b1a13875757ae3b8fd2305f2affa9.png",
+    "sha256": "907eeb4e179b70ea279ca8dd0e276bf45a1b1a13875757ae3b8fd2305f2affa9"
+  },
+  {
+    "hero": "Shion",
+    "key": "shion-0",
+    "name": "Kira Pistols",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/364a8441812d647fb1324804223f963fc904add29b9396bf98f40d9bffa6fe43.png",
+    "sha256": "364a8441812d647fb1324804223f963fc904add29b9396bf98f40d9bffa6fe43"
+  },
+  {
+    "hero": "Shion",
+    "key": "shion-1",
+    "name": "Execution",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/dbd96d63564e1d99cfa5593f86796c9e5ab360214eb0e50c18d6a9503093c7c5.png",
+    "sha256": "dbd96d63564e1d99cfa5593f86796c9e5ab360214eb0e50c18d6a9503093c7c5"
+  },
+  {
+    "hero": "Shion",
+    "key": "shion-2",
+    "name": "Joyride",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a0279c43c165fe4f240c61baa6b7a721e73b84d7f940809e2a1897d94b2302ef.png",
+    "sha256": "a0279c43c165fe4f240c61baa6b7a721e73b84d7f940809e2a1897d94b2302ef"
+  },
+  {
+    "hero": "Shion",
+    "key": "shion-3",
+    "name": "Evade",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/460c2fb7f11b1ea206f11a72a7c93bfed0cd314bdfb35333287177a966e21c01.png",
+    "sha256": "460c2fb7f11b1ea206f11a72a7c93bfed0cd314bdfb35333287177a966e21c01"
+  },
+  {
+    "hero": "Shion",
+    "key": "shion-4",
+    "name": "Satsuriku Spree",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/758c015bd3da645e207d99d8a70275e114728101e6a5b7bc15dc24dba6c8962d.png",
+    "sha256": "758c015bd3da645e207d99d8a70275e114728101e6a5b7bc15dc24dba6c8962d"
+  },
+  {
+    "hero": "Sierra",
+    "key": "sierra-0",
+    "name": "Helix Rifle",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/d12e2bc19f1619b71d13816c01ef96ad54bb6a7cb4ee00ae8bea8be3d2e2102d.png",
+    "sha256": "d12e2bc19f1619b71d13816c01ef96ad54bb6a7cb4ee00ae8bea8be3d2e2102d"
+  },
+  {
+    "hero": "Sierra",
+    "key": "sierra-1",
+    "name": "Tracking Shot",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/6c77d58daaeaae211088786b8bf9bff92178ef2df3f0ca6ec9a721d6b4258e55.png",
+    "sha256": "6c77d58daaeaae211088786b8bf9bff92178ef2df3f0ca6ec9a721d6b4258e55"
+  },
+  {
+    "hero": "Sierra",
+    "key": "sierra-2",
+    "name": "Tremor Charge",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f4b141af6f5e6b6c392cdde07083f29d1b5374303c7fc39e37c3f4ed51985e52.png",
+    "sha256": "f4b141af6f5e6b6c392cdde07083f29d1b5374303c7fc39e37c3f4ed51985e52"
+  },
+  {
+    "hero": "Sierra",
+    "key": "sierra-3",
+    "name": "Anchor Drone",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f9e6fff99bff3c24a9ea9e57ae7c71b067982e6df9b0acb50529fe58131b6e7b.png",
+    "sha256": "f9e6fff99bff3c24a9ea9e57ae7c71b067982e6df9b0acb50529fe58131b6e7b"
+  },
+  {
+    "hero": "Sierra",
+    "key": "sierra-4",
+    "name": "Trailblazer",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4a300c381bac87785f406965cf94ef8d75ee2592bb07d867d50d1c738d8312c8.png",
+    "sha256": "4a300c381bac87785f406965cf94ef8d75ee2592bb07d867d50d1c738d8312c8"
+  },
+  {
+    "hero": "Sigma",
+    "key": "sigma-0",
+    "name": "Hyperspheres",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/30fc5dd8efdcc6aa5a34191c3ff308fb77fdfd542b2bfc36e1536f0db7bdb618.png",
+    "sha256": "30fc5dd8efdcc6aa5a34191c3ff308fb77fdfd542b2bfc36e1536f0db7bdb618"
+  },
+  {
+    "hero": "Sigma",
+    "key": "sigma-1",
+    "name": "Kinetic Grasp",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c8af801acf16c796c38a8aa8abb571eda481d6490f0562105aa20f319cccdf41.png",
+    "sha256": "c8af801acf16c796c38a8aa8abb571eda481d6490f0562105aa20f319cccdf41"
+  },
+  {
+    "hero": "Sigma",
+    "key": "sigma-2",
+    "name": "Accretion",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f7fd30ad038cc989f39b28bac6744b6ab0215e9817adfd67d077f3b40bc10fdf.png",
+    "sha256": "f7fd30ad038cc989f39b28bac6744b6ab0215e9817adfd67d077f3b40bc10fdf"
+  },
+  {
+    "hero": "Sigma",
+    "key": "sigma-3",
+    "name": "Experimental Barrier",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2ad5aa270071c229fd0a83b49d0ebd6b502489f0a0b5bcb109140eea79a5fb6b.png",
+    "sha256": "2ad5aa270071c229fd0a83b49d0ebd6b502489f0a0b5bcb109140eea79a5fb6b"
+  },
+  {
+    "hero": "Sigma",
+    "key": "sigma-4",
+    "name": "Gravitic Flux",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/0a5cda51d0e802e9adbdedefee7461c5abe2b6c6a7027d55903ac9a28281b2e4.png",
+    "sha256": "0a5cda51d0e802e9adbdedefee7461c5abe2b6c6a7027d55903ac9a28281b2e4"
+  },
+  {
+    "hero": "Sojourn",
+    "key": "sojourn-0",
+    "name": "Railgun",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/e5b9de0193dfaf675dd1cd1cbfe4ac96c8cc62059b376a728da56f59f639ee25.png",
+    "sha256": "e5b9de0193dfaf675dd1cd1cbfe4ac96c8cc62059b376a728da56f59f639ee25"
+  },
+  {
+    "hero": "Sojourn",
+    "key": "sojourn-1",
+    "name": "Power Slide",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/96315794f51b0dd88c540803fc3930472d75dca3cf00c02ad89dda1b0551493c.png",
+    "sha256": "96315794f51b0dd88c540803fc3930472d75dca3cf00c02ad89dda1b0551493c"
+  },
+  {
+    "hero": "Sojourn",
+    "key": "sojourn-2",
+    "name": "Disruptor Shot",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/aeee6090d3c14383487584bda86043add0b69c02331ad01dfd01958a545dddcf.png",
+    "sha256": "aeee6090d3c14383487584bda86043add0b69c02331ad01dfd01958a545dddcf"
+  },
+  {
+    "hero": "Sojourn",
+    "key": "sojourn-3",
+    "name": "Overclock",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5772b79f0a9d28125abb69412bce2a025d79f9b6023b561427592ece2b761588.png",
+    "sha256": "5772b79f0a9d28125abb69412bce2a025d79f9b6023b561427592ece2b761588"
+  },
+  {
+    "hero": "Soldier: 76",
+    "key": "soldier-76-0",
+    "name": "Heavy Pulse Rifle",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/92a278e67041e7d4fa9b1a392a0a632ae61878b166c07bfa4486fc8f331542c5.png",
+    "sha256": "92a278e67041e7d4fa9b1a392a0a632ae61878b166c07bfa4486fc8f331542c5"
+  },
+  {
+    "hero": "Soldier: 76",
+    "key": "soldier-76-1",
+    "name": "Sprint",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5b9ad6138762e898cd82c4d4573580004ee603976b7cd8e18362c902a00b496e.png",
+    "sha256": "5b9ad6138762e898cd82c4d4573580004ee603976b7cd8e18362c902a00b496e"
+  },
+  {
+    "hero": "Soldier: 76",
+    "key": "soldier-76-2",
+    "name": "Biotic Field",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a7ff449a9b1d26894358265bedbe1f6cbb75707359f9b5b86266e2ce5d1aa3a3.png",
+    "sha256": "a7ff449a9b1d26894358265bedbe1f6cbb75707359f9b5b86266e2ce5d1aa3a3"
+  },
+  {
+    "hero": "Soldier: 76",
+    "key": "soldier-76-3",
+    "name": "Helix Rockets",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4b430bbf1650e264875441dab1f4bd1083d106375fc1a7ef0e0c88e1d7371bc4.png",
+    "sha256": "4b430bbf1650e264875441dab1f4bd1083d106375fc1a7ef0e0c88e1d7371bc4"
+  },
+  {
+    "hero": "Soldier: 76",
+    "key": "soldier-76-4",
+    "name": "Tactical Visor",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/be3396e23ba0199441cfa6f3b1ed92400031c662b933c2354288111070210e6f.png",
+    "sha256": "be3396e23ba0199441cfa6f3b1ed92400031c662b933c2354288111070210e6f"
+  },
+  {
+    "hero": "Sombra",
+    "key": "sombra-0",
+    "name": "Machine Pistol",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/5750af901db77f479be41f01c55a5b3d5e644d2f99c179b77bd824eecf5fcbbc.png",
+    "sha256": "5750af901db77f479be41f01c55a5b3d5e644d2f99c179b77bd824eecf5fcbbc"
+  },
+  {
+    "hero": "Sombra",
+    "key": "sombra-1",
+    "name": "Hotfix",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/8646a0e19104f5185b6296c0123fd768c3333a18ffe4aa922e2724df9b2aa041.png",
+    "sha256": "8646a0e19104f5185b6296c0123fd768c3333a18ffe4aa922e2724df9b2aa041"
+  },
+  {
+    "hero": "Sombra",
+    "key": "sombra-2",
+    "name": "Cyberspace",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/22bfcf655c54a065b149c3359ce2447f6c4c09835fd957ce72fa8a4e023ba7ef.png",
+    "sha256": "22bfcf655c54a065b149c3359ce2447f6c4c09835fd957ce72fa8a4e023ba7ef"
+  },
+  {
+    "hero": "Sombra",
+    "key": "sombra-3",
+    "name": "Translocator",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/13259eeec8db36c3158d1d4bd4fe99667067ee7bf678349eec5cbd0d32da3a7f.png",
+    "sha256": "13259eeec8db36c3158d1d4bd4fe99667067ee7bf678349eec5cbd0d32da3a7f"
+  },
+  {
+    "hero": "Sombra",
+    "key": "sombra-4",
+    "name": "EMP",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9ccf2688b89c3f17c3f6410c3142510ea413718f0d165f78e712184ec636b2e4.png",
+    "sha256": "9ccf2688b89c3f17c3f6410c3142510ea413718f0d165f78e712184ec636b2e4"
+  },
+  {
+    "hero": "Symmetra",
+    "key": "symmetra-0",
+    "name": "Photon Projector",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/8a4fdf92378cdc77364729fe493013e913d794975c5a9b94865cd740f471d528.png",
+    "sha256": "8a4fdf92378cdc77364729fe493013e913d794975c5a9b94865cd740f471d528"
+  },
+  {
+    "hero": "Symmetra",
+    "key": "symmetra-1",
+    "name": "Sentry Turret",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2b4544ab4d75b4499b7cb6b1b6b44e8487b6d3d3857ee119ebbf29d59e903d45.png",
+    "sha256": "2b4544ab4d75b4499b7cb6b1b6b44e8487b6d3d3857ee119ebbf29d59e903d45"
+  },
+  {
+    "hero": "Symmetra",
+    "key": "symmetra-2",
+    "name": "Teleporter",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1c4fb9dbd9b6d02c2e75c3ad142b79955ba3e6e73469d676c79bdaef7f7a610f.png",
+    "sha256": "1c4fb9dbd9b6d02c2e75c3ad142b79955ba3e6e73469d676c79bdaef7f7a610f"
+  },
+  {
+    "hero": "Symmetra",
+    "key": "symmetra-3",
+    "name": "Photon Barrier",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/33e5dd2a53729dad19d77e7528de49e2e3e3a6500657d47fe1c331afd1c0a88f.png",
+    "sha256": "33e5dd2a53729dad19d77e7528de49e2e3e3a6500657d47fe1c331afd1c0a88f"
+  },
+  {
+    "hero": "Torbjörn",
+    "key": "torbjorn-0",
+    "name": "Rivet Gun",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2020ce8ffa1d19edbfa7097499ed5763ac18500a0f76cde75cc37243fd6aab27.png",
+    "sha256": "2020ce8ffa1d19edbfa7097499ed5763ac18500a0f76cde75cc37243fd6aab27"
+  },
+  {
+    "hero": "Torbjörn",
+    "key": "torbjorn-1",
+    "name": "Forge Hammer",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f88b11b8a6cceb1ba4a15e3d6bc4beb5a1bce9ae5dbcb088b2d51ace54af13bc.png",
+    "sha256": "f88b11b8a6cceb1ba4a15e3d6bc4beb5a1bce9ae5dbcb088b2d51ace54af13bc"
+  },
+  {
+    "hero": "Torbjörn",
+    "key": "torbjorn-2",
+    "name": "Deploy Turret",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/856576a7a6b8bc93e8024a152a8a300178ed4030c869edebaaf61469cdbc330c.png",
+    "sha256": "856576a7a6b8bc93e8024a152a8a300178ed4030c869edebaaf61469cdbc330c"
+  },
+  {
+    "hero": "Torbjörn",
+    "key": "torbjorn-3",
+    "name": "Overload",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9751ee2ad26041a274f60dab106a3d52eb0f0d7941b4bc48cd14e737e05dc6bd.png",
+    "sha256": "9751ee2ad26041a274f60dab106a3d52eb0f0d7941b4bc48cd14e737e05dc6bd"
+  },
+  {
+    "hero": "Torbjörn",
+    "key": "torbjorn-4",
+    "name": "Molten Core",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f90a17a62ce6d21dfca5f9dd0df6598f582872f88269c76f51efdec1e198ffe4.png",
+    "sha256": "f90a17a62ce6d21dfca5f9dd0df6598f582872f88269c76f51efdec1e198ffe4"
+  },
+  {
+    "hero": "Tracer",
+    "key": "tracer-0",
+    "name": "Pulse Pistols",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/17a3bc41fc57a8527c4f44a5615e249acca62cb69319e52b61d499e4e91cf346.png",
+    "sha256": "17a3bc41fc57a8527c4f44a5615e249acca62cb69319e52b61d499e4e91cf346"
+  },
+  {
+    "hero": "Tracer",
+    "key": "tracer-1",
+    "name": "Blink",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b8c86be415dba78af80c8f1536aba583096396327e0609607d21acea6a806276.png",
+    "sha256": "b8c86be415dba78af80c8f1536aba583096396327e0609607d21acea6a806276"
+  },
+  {
+    "hero": "Tracer",
+    "key": "tracer-2",
+    "name": "Recall",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/cfa2264173c1d8a365c514972412fbb802d78cd70451b1d38f37579cea500872.png",
+    "sha256": "cfa2264173c1d8a365c514972412fbb802d78cd70451b1d38f37579cea500872"
+  },
+  {
+    "hero": "Tracer",
+    "key": "tracer-3",
+    "name": "Pulse Bomb",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a2613e52845b252aee119c75e1b527cd0dd1c6d4c0605b3d48983188268d3581.png",
+    "sha256": "a2613e52845b252aee119c75e1b527cd0dd1c6d4c0605b3d48983188268d3581"
+  },
+  {
+    "hero": "Vendetta",
+    "key": "vendetta-0",
+    "name": "Palatine Fang",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9754a770516c07712b3cbababb825972eec78c08b3fbc141dbcee31d9c58c137.png",
+    "sha256": "9754a770516c07712b3cbababb825972eec78c08b3fbc141dbcee31d9c58c137"
+  },
+  {
+    "hero": "Vendetta",
+    "key": "vendetta-1",
+    "name": "Warding Stance",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/fa9a88278d46e3fc49aad27df9a0b70541f16fb517e96711514e7c736c377243.png",
+    "sha256": "fa9a88278d46e3fc49aad27df9a0b70541f16fb517e96711514e7c736c377243"
+  },
+  {
+    "hero": "Vendetta",
+    "key": "vendetta-2",
+    "name": "Whirlwind Dash",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/646af7a4d6b6b65adee6543ec70b33c9ffd36989c8dd4e8b22079c6b9e074c79.png",
+    "sha256": "646af7a4d6b6b65adee6543ec70b33c9ffd36989c8dd4e8b22079c6b9e074c79"
+  },
+  {
+    "hero": "Vendetta",
+    "key": "vendetta-3",
+    "name": "Soaring Slice",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/785bffa90ccf067fbfd86c7a6d6729ed12566a02554f28d76974b573d3a5c6a0.png",
+    "sha256": "785bffa90ccf067fbfd86c7a6d6729ed12566a02554f28d76974b573d3a5c6a0"
+  },
+  {
+    "hero": "Vendetta",
+    "key": "vendetta-4",
+    "name": "Projected Edge",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/82d88959c1044cf01449e6909cb962590a6ff4a188565f367a5b8a3b3a038ccb.png",
+    "sha256": "82d88959c1044cf01449e6909cb962590a6ff4a188565f367a5b8a3b3a038ccb"
+  },
+  {
+    "hero": "Vendetta",
+    "key": "vendetta-5",
+    "name": "Sundering Blade",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/827e0c55b3d2f335f5950c676f1f52c8668ad33f34ea4c6052c4a122ac005ce8.png",
+    "sha256": "827e0c55b3d2f335f5950c676f1f52c8668ad33f34ea4c6052c4a122ac005ce8"
+  },
+  {
+    "hero": "Venture",
+    "key": "venture-0",
+    "name": "SMART Excavator",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b2cc1eb839f7e907defe189101077716373a30e6ee17859521ab558a907a7925.png",
+    "sha256": "b2cc1eb839f7e907defe189101077716373a30e6ee17859521ab558a907a7925"
+  },
+  {
+    "hero": "Venture",
+    "key": "venture-1",
+    "name": "Drill Dash",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/dd98f66d96b860803bd144bb4376d236275bf994228de6f9bd7826ec5c4522e6.png",
+    "sha256": "dd98f66d96b860803bd144bb4376d236275bf994228de6f9bd7826ec5c4522e6"
+  },
+  {
+    "hero": "Venture",
+    "key": "venture-2",
+    "name": "Burrow",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/725f02ba7e5bba99db26300cdf1d7478e111b2a4049b7fd41b6ef3a4a6cb0e57.png",
+    "sha256": "725f02ba7e5bba99db26300cdf1d7478e111b2a4049b7fd41b6ef3a4a6cb0e57"
+  },
+  {
+    "hero": "Venture",
+    "key": "venture-3",
+    "name": "Tectonic Shock",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/41ee94ca95e5e7258fc67aa501aa9972c7a828f4df7b578b4eb44e01490e2679.png",
+    "sha256": "41ee94ca95e5e7258fc67aa501aa9972c7a828f4df7b578b4eb44e01490e2679"
+  },
+  {
+    "hero": "Widowmaker",
+    "key": "widowmaker-0",
+    "name": "Widow's Kiss",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/da5b161187088a765de4a40df65e8737bd9b6b09c896c9cc960f8fa322a78f22.png",
+    "sha256": "da5b161187088a765de4a40df65e8737bd9b6b09c896c9cc960f8fa322a78f22"
+  },
+  {
+    "hero": "Widowmaker",
+    "key": "widowmaker-1",
+    "name": "Grappling Hook",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9984591b905b66ab69c48c04e2f2829e32ffce04941b57403f1ec21c125fe573.png",
+    "sha256": "9984591b905b66ab69c48c04e2f2829e32ffce04941b57403f1ec21c125fe573"
+  },
+  {
+    "hero": "Widowmaker",
+    "key": "widowmaker-2",
+    "name": "Venom Mine",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/800b4cd6b00024479ac681dc160a50030a3883a334499da6c6918d7c239bec55.png",
+    "sha256": "800b4cd6b00024479ac681dc160a50030a3883a334499da6c6918d7c239bec55"
+  },
+  {
+    "hero": "Widowmaker",
+    "key": "widowmaker-3",
+    "name": "Infra-Sight",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7f5d2bca0cdf2d33170ed1253344059db14755fc69efb524d19cebb4f3dc2903.png",
+    "sha256": "7f5d2bca0cdf2d33170ed1253344059db14755fc69efb524d19cebb4f3dc2903"
+  },
+  {
+    "hero": "Winston",
+    "key": "winston-0",
+    "name": "Tesla Cannon",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/bee62b73fa25c243366aa1334aaac2d3b14b626156155895c4355dc3601ecb27.png",
+    "sha256": "bee62b73fa25c243366aa1334aaac2d3b14b626156155895c4355dc3601ecb27"
+  },
+  {
+    "hero": "Winston",
+    "key": "winston-1",
+    "name": "Jump Pack",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2bdebd912f34716becf022295dd66d83abd6d156dde2aad43c87498445050f62.png",
+    "sha256": "2bdebd912f34716becf022295dd66d83abd6d156dde2aad43c87498445050f62"
+  },
+  {
+    "hero": "Winston",
+    "key": "winston-2",
+    "name": "Barrier Projector",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/37fc72590a04cbcc4d8ddc3b839e853640a617bad0b6ce8904f6ebe8f07400ba.png",
+    "sha256": "37fc72590a04cbcc4d8ddc3b839e853640a617bad0b6ce8904f6ebe8f07400ba"
+  },
+  {
+    "hero": "Winston",
+    "key": "winston-3",
+    "name": "Primal Rage",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3dc843c002049f4c954545f8a11570fb347caddb24365a8839563e2302a2ad7c.png",
+    "sha256": "3dc843c002049f4c954545f8a11570fb347caddb24365a8839563e2302a2ad7c"
+  },
+  {
+    "hero": "Wrecking Ball",
+    "key": "wrecking-ball-0",
+    "name": "Quad Cannons",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/ac31602c3ce6b5732e1730f3b9745a5d10573b819332f730f6f3f0e9cd7fffba.png",
+    "sha256": "ac31602c3ce6b5732e1730f3b9745a5d10573b819332f730f6f3f0e9cd7fffba"
+  },
+  {
+    "hero": "Wrecking Ball",
+    "key": "wrecking-ball-1",
+    "name": "Grappling Claw",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/59622a0a190adb30f2ac004485b44e1956cd5fd7a984df1bb4b0e0c156878ed6.png",
+    "sha256": "59622a0a190adb30f2ac004485b44e1956cd5fd7a984df1bb4b0e0c156878ed6"
+  },
+  {
+    "hero": "Wrecking Ball",
+    "key": "wrecking-ball-2",
+    "name": "Roll",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/657f78a26e980f5fa339edb9cd318f348e00b9a0fd0079e4989584cedad40f52.png",
+    "sha256": "657f78a26e980f5fa339edb9cd318f348e00b9a0fd0079e4989584cedad40f52"
+  },
+  {
+    "hero": "Wrecking Ball",
+    "key": "wrecking-ball-3",
+    "name": "Piledriver",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/dfb63a6f4f8f8e4d69109d5db9107be47deaec938b1bac6725e756b0a74b8aaa.png",
+    "sha256": "dfb63a6f4f8f8e4d69109d5db9107be47deaec938b1bac6725e756b0a74b8aaa"
+  },
+  {
+    "hero": "Wrecking Ball",
+    "key": "wrecking-ball-4",
+    "name": "Adaptive Shield",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/0424cbb07a23692153df454ddbab6cbd11d735a7ac4f680d449e36e49d4fbd02.png",
+    "sha256": "0424cbb07a23692153df454ddbab6cbd11d735a7ac4f680d449e36e49d4fbd02"
+  },
+  {
+    "hero": "Wrecking Ball",
+    "key": "wrecking-ball-5",
+    "name": "Minefield",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/3477845322ea7befaff326fd662ff07eda2d7d49cb1a3518d27ec9531d10afaa.png",
+    "sha256": "3477845322ea7befaff326fd662ff07eda2d7d49cb1a3518d27ec9531d10afaa"
+  },
+  {
+    "hero": "Wuyang",
+    "key": "wuyang-0",
+    "name": "Xuanwu Staff",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/51dee96ac9a92d773bfa56a45272db8cf94ade9c051981f7a240782b0d16f8ec.png",
+    "sha256": "51dee96ac9a92d773bfa56a45272db8cf94ade9c051981f7a240782b0d16f8ec"
+  },
+  {
+    "hero": "Wuyang",
+    "key": "wuyang-1",
+    "name": "Restorative Stream",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/f4d4b3abcf4581b0cfb268f571aa1e657533c294d475043b8ef0ca0d3e9696b0.png",
+    "sha256": "f4d4b3abcf4581b0cfb268f571aa1e657533c294d475043b8ef0ca0d3e9696b0"
+  },
+  {
+    "hero": "Wuyang",
+    "key": "wuyang-2",
+    "name": "Rushing Torrent",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b545f1bee1ec06f66fee071afcece10cee6bf5f4eb2323e4daeacb7861dd8b1d.png",
+    "sha256": "b545f1bee1ec06f66fee071afcece10cee6bf5f4eb2323e4daeacb7861dd8b1d"
+  },
+  {
+    "hero": "Wuyang",
+    "key": "wuyang-3",
+    "name": "Tidal Blast",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1c1289f947063b60cdb43226bd997557161910a3ea8f5ffcb1d1ad69e91b24b7.png",
+    "sha256": "1c1289f947063b60cdb43226bd997557161910a3ea8f5ffcb1d1ad69e91b24b7"
+  },
+  {
+    "hero": "Wuyang",
+    "key": "wuyang-4",
+    "name": "Guardian Wave",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/a1a3efdb2c0db62876f6e39dc82b6095a1058803e3f428ca12c912391f818d35.png",
+    "sha256": "a1a3efdb2c0db62876f6e39dc82b6095a1058803e3f428ca12c912391f818d35"
+  },
+  {
+    "hero": "Zarya",
+    "key": "zarya-0",
+    "name": "Particle Cannon",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/b7f554bd5736dcf6493d9ba6c4961f5b93252d692123c7d10d43a4d1b3db62c3.png",
+    "sha256": "b7f554bd5736dcf6493d9ba6c4961f5b93252d692123c7d10d43a4d1b3db62c3"
+  },
+  {
+    "hero": "Zarya",
+    "key": "zarya-1",
+    "name": "Particle Barrier",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/2311738a2f08aa2e72198b01ef5131337d39275fe0722143e53509592b22612a.png",
+    "sha256": "2311738a2f08aa2e72198b01ef5131337d39275fe0722143e53509592b22612a"
+  },
+  {
+    "hero": "Zarya",
+    "key": "zarya-2",
+    "name": "Projected Barrier",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/80f5c53f2835ef60c6527802de36a603b90ea212af41bce469664817692fc97e.png",
+    "sha256": "80f5c53f2835ef60c6527802de36a603b90ea212af41bce469664817692fc97e"
+  },
+  {
+    "hero": "Zarya",
+    "key": "zarya-3",
+    "name": "Graviton Surge",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9a3f92c4af25b973f82ea2d8ea9a2ec266e0ccd387b053b317eb3cd977f10073.png",
+    "sha256": "9a3f92c4af25b973f82ea2d8ea9a2ec266e0ccd387b053b317eb3cd977f10073"
+  },
+  {
+    "hero": "Zarya",
+    "key": "zarya-4",
+    "name": "Energy",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/34d08df453dae3f8c01cabc9015e43ecfbb5fa764885a6f1f431ee90a98dcee2.png",
+    "sha256": "34d08df453dae3f8c01cabc9015e43ecfbb5fa764885a6f1f431ee90a98dcee2"
+  },
+  {
+    "hero": "Zenyatta",
+    "key": "zenyatta-0",
+    "name": "Orb of Destruction",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/9aaea64b6fd5f024741aab112dea6ef5e3adc706af58122a6beb92505889a5f1.png",
+    "sha256": "9aaea64b6fd5f024741aab112dea6ef5e3adc706af58122a6beb92505889a5f1"
+  },
+  {
+    "hero": "Zenyatta",
+    "key": "zenyatta-1",
+    "name": "Orb of Discord",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4000886b6906480f519f4a87c167bc1877b131f1dc43e8583bfc0fcf7e415904.png",
+    "sha256": "4000886b6906480f519f4a87c167bc1877b131f1dc43e8583bfc0fcf7e415904"
+  },
+  {
+    "hero": "Zenyatta",
+    "key": "zenyatta-2",
+    "name": "Orb of Harmony",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/c8e37e2f3e147fde823bb9566b57e3e20d238430f0cb4f8aa8b581525a4f225e.png",
+    "sha256": "c8e37e2f3e147fde823bb9566b57e3e20d238430f0cb4f8aa8b581525a4f225e"
+  },
+  {
+    "hero": "Zenyatta",
+    "key": "zenyatta-3",
+    "name": "Transcendence",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/bb8671b591d6310c3a956c354669fe8ef4b581517dea0813b5172092a8ab420c.png",
+    "sha256": "bb8671b591d6310c3a956c354669fe8ef4b581517dea0813b5172092a8ab420c"
+  },
+  {
+    "hero": "Zenyatta",
+    "key": "zenyatta-4",
+    "name": "Snap Kick",
+    "source": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/4bf9bae454ad8571a99b5418fe14b42b18922ca9521981797b66e9b1a9791fc7.png",
+    "sha256": "4bf9bae454ad8571a99b5418fe14b42b18922ca9521981797b66e9b1a9791fc7"
+  }
+]

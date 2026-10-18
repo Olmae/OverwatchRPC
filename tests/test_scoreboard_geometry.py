@@ -7,8 +7,23 @@ from owrpc_app.clock_digits import read_clock, digit
 
 
 class ScoreboardGeometryTests(unittest.TestCase):
+    def test_live_samoa_clock_six_has_one_enclosed_space(self):
+        with Image.open(Path(__file__).parent / 'fixtures' / 'clock-samoa-604.png') as header:
+            image = Image.new('RGB', (3440, 1440))
+            image.paste(header, (round(.65*3440), round(.025*1440)))
+            self.assertEqual(read_clock(image), 364)
+
+    def test_identical_six_eight_templates_remain_ambiguous(self):
+        from owrpc_app.clock_digits import templates
+        glyph = Image.new('L', (16,32))
+        glyph.putdata(templates()['6'])
+        values = tuple(glyph.get_flattened_data())
+        with patch('owrpc_app.clock_digits.templates', return_value={'6': values, '8': values}):
+            self.assertIsNone(digit(glyph))
+
     def test_table_band_with_header_text_and_both_aspects(self):
         for size, bounds in [((3440,1440),(.251,.146,.569,.174)),
+                             ((3440,1440),(.341,.146,.660,.174)),
                              ((1584,891),(.147,.286,.611,.317))]:
             image = Image.new('RGB', size, '#102030')
             draw = ImageDraw.Draw(image)

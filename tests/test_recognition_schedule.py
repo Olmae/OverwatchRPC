@@ -4,6 +4,17 @@ from owrpc_app.recognition_schedule import RecognitionSchedule
 
 
 class RecognitionScheduleTests(unittest.TestCase):
+    def test_boundary_confirmation_is_fast_and_bounded_without_tab(self):
+        schedule = RecognitionSchedule()
+        schedule.completed(10, 60)
+        schedule.confirm_transition(10)
+        self.assertFalse(schedule.due(10.2, True, False, 60))
+        self.assertTrue(schedule.due(10.25, True, False, 60))
+        schedule.completed(11, 60)
+        schedule.confirm_transition(11)
+        self.assertFalse(schedule.due(11.25, True, False, 60))
+        self.assertEqual(schedule.next_poll, 71)
+
     def test_missed_opening_frame_gets_one_bounded_retry(self):
         schedule = RecognitionSchedule()
         self.assertTrue(schedule.due(0, True, True, 60))

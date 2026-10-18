@@ -7,8 +7,43 @@ from owrpc_app.tab_capture import Sample, TabCapture
 
 class TabCaptureTests(unittest.TestCase):
     def setUp(self):
+        shortcut = patch('owrpc_app.tab_capture.diagnostic_shortcut_pressed', return_value=False)
+        shortcut.start()
+        self.addCleanup(shortcut.stop)
         self.capture = TabCapture()
         self.capture.configure(Settings(), 4, False)
+
+    def test_shortcut_requires_right_alt_and_right_bracket(self):
+        from owrpc_app.platform import diagnostic_shortcut_pressed
+        with patch('owrpc_app.platform.sys.platform', 'win32'), \
+                patch('owrpc_app.platform.ctypes.windll') as native:
+            pressed = {0xA5, 0xDD}
+            native.user32.GetAsyncKeyState.side_effect = lambda key: 0x8000 if key in pressed else 0
+            self.assertTrue(diagnostic_shortcut_pressed())
+            # AltGr may also report Ctrl. It must still work without requiring it.
+            pressed.add(0x11)
+            self.assertTrue(diagnostic_shortcut_pressed())
+            pressed.clear()
+            for keys in ({0xA4, 0xDD}, {0x11, 0xDD}, {0xA5}, {0xDD}):
+                pressed.clear()
+                pressed.update(keys)
+                self.assertFalse(diagnostic_shortcut_pressed())
+
+    def test_manual_shortcut_captures_once_while_held_even_when_paused(self):
+        self.capture.configure(Settings(ocr_enabled=False, kda_enabled=False), 4, True)
+        with patch('owrpc_app.tab_capture.diagnostic_shortcut_pressed', return_value=True):
+            self.assertEqual(self.step(1, pressed=False), 1)
+            self.assertEqual(self.step(4, pressed=False), 0)
+        sample = self.capture.take(4, 4)
+        self.assertTrue(sample.manual)
+        self.assertIsNone(self.capture.take(4, 4))
+
+    def test_tray_request_waits_for_verified_game_foreground(self):
+        self.capture.request_snapshot()
+        self.assertEqual(self.step(1, pressed=False, foreground=False), 0)
+        self.assertEqual(self.step(2, pressed=False), 1)
+        self.assertTrue(self.capture.take(4, 2).manual)
+
 
     def step(self, now, pressed=True, foreground=True):
         with patch('owrpc_app.tab_capture.game_foreground', return_value=foreground), \

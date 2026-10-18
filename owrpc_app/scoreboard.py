@@ -37,7 +37,7 @@ def locate_table(image):
                 gap += 1
                 if gap > 10:
                     width = end-start
-                    if 175 <= width <= 365 and 65 <= start <= 210 and 300 <= end <= 440:
+                    if 175 <= width <= 365 and 65 <= start <= 250 and 300 <= end <= 480:
                         coverage = sum(line[start:end])/width
                         if coverage >= .80:
                             candidates.append((y, start, end))

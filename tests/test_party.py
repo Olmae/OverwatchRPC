@@ -6,6 +6,21 @@ from owrpc_app.model import Settings, Status, build_payload
 
 
 class PartyTests(unittest.TestCase):
+    def test_back_menu_uses_the_same_portrait_strip_without_social_counter(self):
+        from owrpc_app.catalog import load_catalog
+        from owrpc_app.detection import Word, Detection
+        from owrpc_app.ocr import analyze_image
+        from unittest.mock import patch
+        image = self.header('solo-cat')
+        for label in ('BACK', 'НАЗАД'):
+            words = [Word(label, .02, .03, .04, .025)]
+            with self.subTest(label=label), patch('owrpc_app.detection.detect',
+                    return_value=Detection(phase='menus', scene='menus')):
+                result = analyze_image(image, words, load_catalog())
+            self.assertEqual(result.party_size, 1)
+        with patch('owrpc_app.detection.detect', return_value=Detection(phase='match', scene='hud')):
+            self.assertIsNone(analyze_image(image, words, load_catalog()).party_size)
+
     def header(self, name):
         crop = Image.open(Path(__file__).parent/'fixtures'/f'party-{name}.png').convert('RGB')
         image = Image.new('RGB', (1920, 1080))
@@ -42,7 +57,8 @@ class PartyTests(unittest.TestCase):
         self.assertIn('В группе: 2 игрока', build_payload(Settings(language='ru'), status, now=150)['state'])
         status.transition('map_vote', now=160)
         payload = build_payload(Settings(language='ru'), status, now=170)
-        self.assertEqual(payload['details'], 'Выбор карты')
+        self.assertEqual(payload['details'], 'В матче')
+        self.assertTrue(payload['state'].startswith('Выбор карты'))
         self.assertIn('В группе: 2 игрока', payload['state'])
         status.transition('match', now=200)
         payload = build_payload(Settings(language='ru'), status, now=2000)

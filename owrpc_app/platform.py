@@ -107,8 +107,28 @@ def lower_worker_priority():
         raise OSError("Could not lower recognition worker priority")
 
 
+def diagnostic_shortcut_pressed():
+    if sys.platform != 'win32':
+        return False
+    return all(ctypes.windll.user32.GetAsyncKeyState(key) & 0x8000 for key in (0xA5, 0xDD))
+
+
 def tab_pressed():
     """Read current Tab state; caller must first verify game foreground."""
     if sys.platform != "win32":
         return False
     return bool(ctypes.windll.user32.GetAsyncKeyState(0x09) & 0x8000)
+
+
+def play_snapshot_sound():
+    """Play the quiet bundled cue asynchronously after a manual save."""
+    if sys.platform != 'win32':
+        return
+    import logging
+    import winsound
+    from .catalog import resource_dir
+    try:
+        winsound.PlaySound(str(resource_dir() / 'snapshot.wav'),
+                           winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NODEFAULT)
+    except (OSError, RuntimeError):
+        logging.getLogger(__name__).debug('Snapshot sound unavailable', exc_info=True)

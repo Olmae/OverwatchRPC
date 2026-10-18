@@ -20,7 +20,7 @@ class CatalogLocalizationTests(unittest.TestCase):
 
     def test_russian_map_names_resolve(self):
         for text, name in [('КОНТРОЛЬ | БАШНЯ ЛИЦЗЯН', 'Lijiang Tower'),
-                           ('КОНТРОЛЬ | НЕПАЛ', 'Nepal'), ('СОПРОВОЖДЕНИЕ | ГАВАНА', 'Havana')]:
+                           ('КОНТРОЛЬ | НЕПАЛ', 'Nepal'), ('ГИБРИД | АЙХЕНВАЛЬД', 'Eichenwalde'), ('СОПРОВОЖДЕНИЕ | ГАВАНА', 'Havana')]:
             self.assertEqual(catalog_name(text, self.catalog['maps']), name)
 
     def test_bounded_fuzzy_matching_uses_localized_phrases(self):
@@ -30,6 +30,15 @@ class CatalogLocalizationTests(unittest.TestCase):
         self.assertIsNone(catalog_name('АН', self.catalog['heroes'], fuzzy=True))
         self.assertIsNone(catalog_name('НЕИЗВЕСТНЫЙ ГЕРОЙ', self.catalog['heroes'], fuzzy=True))
         self.assertIsNone(catalog_name('МОЙРА АНА', self.catalog['heroes'], fuzzy=True))
+
+    def test_english_recognition_uses_russian_presence_names(self):
+        hero = next(h for h in self.catalog['heroes'] if h['name'] == 'Ramattra')
+        map_info = next(m for m in self.catalog['maps'] if m['name'] == 'Eichenwalde')
+        status = Status(phase='match', hero='Ramattra', map_name='Eichenwalde', mode='Hybrid')
+        payload = build_payload(Settings(language='ru', ocr_language='eng'), status, hero, map_info)
+        self.assertIn('Айхенвальд', payload['details'])
+        self.assertIn('Раматтра', payload['state'])
+        self.assertEqual(status.map_name, 'Eichenwalde')
 
     def test_refresh_preserves_localizations_by_key_without_mutating_previous(self):
         previous = {'heroes': [{'key': 'ana', 'name': 'Ana', 'localized_names': {'ru': 'Ана'}}],
@@ -51,7 +60,8 @@ class CatalogLocalizationTests(unittest.TestCase):
         payload = build_payload(Settings(language='ru'), status, hero, map_info)
         self.assertIn('Ангел', payload['state'])
         self.assertIn('Непал', payload['details'])
-        self.assertEqual(payload.get('small_text'), 'Ангел')
+        self.assertEqual(payload.get('large_text'), 'Ангел')
+        self.assertEqual(payload.get('small_text'), 'Непал')
         self.assertEqual((status.hero, status.map_name), ('Mercy', 'Nepal'))
 
 

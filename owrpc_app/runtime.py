@@ -10,6 +10,7 @@ from .platform import game_running, game_started_at, game_foreground, lower_work
 from .ocr import recognize, close_recognition, analyze_frame
 from .recognition_schedule import RecognitionSchedule
 from .tab_capture import TabCapture
+from .recognition_diagnostics import missing_fields
 
 log = logging.getLogger(__name__)
 
@@ -85,6 +86,11 @@ class Worker(threading.Thread):
         self.commands = queue.Queue()
         self.stop_event = threading.Event()
         self.revision = 0
+        self.capture = None
+
+    def request_snapshot(self):
+        if self.capture is not None:
+            self.capture.request_snapshot()
 
     def configure(self, settings, status, catalog=None):
         self.revision += 1
@@ -106,9 +112,12 @@ class Worker(threading.Thread):
         current_revision = 0
         nickname = ""
         previous_detection = previous_confirmation = None
+        previous_idle = None
+        confirmed_at = None
         tab_opened_at = None
         active_burst = None
         capture = TabCapture() if sys.platform == "win32" else None
+        self.capture = capture
         if capture is not None:
             capture.configure(self.settings, current_revision, self.status.paused)
             capture.start()
@@ -169,8 +178,27 @@ class Worker(threading.Thread):
                 except Exception as exc:
                     foreground = pressed = False
                     log.info("Foreground/key check failed: %s", exc)
-                sample = capture.take(current_revision, time.monotonic()) if capture is not None and enabled and running else None
+                sample = capture.take(current_revision, time.monotonic()) if capture is not None and running else None
+                if sample is not None and sample.manual:
+                    from .detection import Detection
+                    from .recognition_diagnostics import recorder
+                    scene, evidence = Detection(), {}
+                    try:
+                        readings = analyze_frame(self.settings, self.catalog, nickname, sample.image, record=False)
+                        scene = readings.get('__scene__') or scene
+                        evidence = readings.get('__ocr_evidence__') or {}
+                    except Exception:
+                        log.warning('Manual frame OCR failed; saving the original frame', exc_info=True)
+                    path = recorder.save(sample.image, scene, self.settings, evidence, manual=True)
+                    self.events.put(('snapshot_saved', str(path) if path else None))
+                    continue
                 if not foreground and sample is None:
+                    idle = ('Presence paused' if self.status.paused else
+                            'Overwatch not running' if not running else
+                            'Bring Overwatch to the foreground' if enabled else 'Waiting for recognition')
+                    if idle != previous_idle:
+                        self.events.put(('ocr_status', idle))
+                        previous_idle = idle
                     scoreboard_clock = ScoreboardClock()
                     tab_opened_at = None
                     for match in stable.values():
@@ -178,6 +206,8 @@ class Worker(threading.Thread):
                 elif capture is None and pressed and not schedule.pressed:
                     tab_opened_at = time.monotonic()
                     log.info("Recognition timing: Tab opened")
+                if foreground:
+                    previous_idle = None
                 due = schedule.due(now, foreground, pressed if capture is None else False, self.settings.ocr_interval)
                 if sample is not None or (due and not (capture is not None and pressed)):
                     try:
@@ -189,7 +219,8 @@ class Worker(threading.Thread):
                                 active_burst = sample.burst
                                 for match in stable.values():
                                     match.reset()
-                            readings = dict(analyze_frame(self.settings, self.catalog, nickname, sample.image))
+                            readings = dict(analyze_frame(self.settings, self.catalog, nickname, sample.image,
+                                                          tab_sample=True))
                             if not capture.current(sample):
                                 continue
                         else:
@@ -225,15 +256,27 @@ class Worker(threading.Thread):
                             accepted_fields = {}
                             if scene.phase in ("match", "map_loading"):
                                 for key, candidate in (("hero", scene.hero), ("map", scene.map_name), ("kda", scene.kda)):
-                                    accepted_fields[key] = (None if sample is not None and candidate is None
+                                    accepted_fields[key] = (None if candidate is None and (sample is not None or scene.scene == 'hud' and key in ('hero', 'map'))
                                                             else stable[key].observe(candidate))
                             elif sample is None or scene.phase is not None:
                                 for key in ("hero", "map", "kda"):
                                     stable[key].reset()
                             accepted_phase = (None if sample is not None and scene.phase is None
                                               else stable["phase"].observe(scene.phase))
-                            mode = (None if sample is not None and scene.mode is None
+                            mode = (None if scene.mode is None and (sample is not None or scene.scene == 'hud')
                                     else stable["mode"].observe(scene.mode))
+                            # Confirm a strong boundary promptly, without accepting a
+                            # single transient frame or accelerating unchanged HUD polls.
+                            boundary = (scene.phase is not None and scene.phase != self.status.phase)
+                            new_map = (scene.map_name is not None and scene.map_name != self.status.map_name)
+                            first_boundary = boundary and stable["phase"].count == 1
+                            first_map = new_map and stable["map"].count == 1
+                            first_queue_mode = (scene.phase == "queue" and scene.mode
+                                                and scene.mode != self.status.mode and stable["mode"].count == 1)
+                            first_hero = (scene.hero and scene.hero != self.status.hero and stable["hero"].count == 1
+                                          and not (scene.scene == 'hud' and self.status.hero == 'Echo'))
+                            if sample is None and (first_boundary or first_map or first_queue_mode or first_hero):
+                                schedule.confirm_transition(time.monotonic())
                             if capture is None and pressed and not accepted_fields.get("hero"):
                                 schedule.retry_followup(time.monotonic())
                             if self.settings.ocr_enabled and accepted_phase is not None:
@@ -251,9 +294,12 @@ class Worker(threading.Thread):
                                 if old_phase == accepted_phase == "match" and (map_changed or counters_reset or practice_exit):
                                     log.info("New match recovered: map_changed=%s counters_reset=%s practice_exit=%s", bool(map_changed), bool(counters_reset), practice_exit)
                                     self.status.hero = self.status.map_name = ""
-                                    self.status.mode = self.settings.mode
+                                    self.status.mode = mode or ""
                                     self.status.kda = self.status.kda_read_at = None
                                     self.status.started_at = confirmed_start or int(time.time())
+                                if old_phase != accepted_phase and accepted_phase in ("queue", "match"):
+                                    # Never fill an automatic match/queue with a saved manual mode.
+                                    self.status.mode = mode or ""
                                 self.status.transition(accepted_phase)
                                 if old_phase != accepted_phase:
                                     if accepted_phase != "results":
@@ -267,6 +313,12 @@ class Worker(threading.Thread):
                             accepted_scene = stable["scene"].observe(scene.scene) if scene.phase else None
                             if accepted_scene and self.status.phase == scene.phase:
                                 self.status.scene = accepted_scene
+                                if (self.settings.ocr_enabled and accepted_scene == 'hero_select'
+                                        and scene.hero is None and self.status.hero):
+                                    # Two unreadable selection frames invalidate the old
+                                    # hero, while match-wide counters and map stay intact.
+                                    self.status.hero = ''
+                                    stable['hero'].reset()
                             if scene.phase == self.status.phase == "map_loading":
                                 loading_map = accepted_fields.get("map")
                                 if loading_map:
@@ -276,6 +328,10 @@ class Worker(threading.Thread):
                             if self.status.phase == "match" and scene.phase == "match":
                                 if self.settings.ocr_enabled:
                                     for key, attr in (("hero", "hero"), ("map", "map_name")):
+                                        # Ordinary swaps use the same two-frame confirmation.
+                                        # Echo's copied abilities must not replace Echo itself.
+                                        if key == "hero" and scene.scene == "hud" and self.status.hero == 'Echo' and scene.hero != 'Echo':
+                                            continue
                                         name = accepted_fields.get(key)
                                         if name:
                                             setattr(self.status, attr, name)
@@ -297,6 +353,11 @@ class Worker(threading.Thread):
                             confirmation = (self.status.phase, self.status.hero, self.status.map_name,
                                             self.status.mode, self.status.kda, self.status.party_size)
                             if confirmation != previous_confirmation:
+                                if accepted_phase is not None or mode or any(value is not None for value in accepted_fields.values()):
+                                    confirmed_at = time.time()
+                                # Discord receives confirmed changes on the next worker
+                                # tick, subject to a three-second spacing between sends.
+                                next_rpc = min(next_rpc, max(time.monotonic(), rpc.last_sent + 3))
                                 log.info("Recognition confirmed: phase=%s hero=%s map=%s mode=%s kda=%s party=%s", *confirmation)
                                 if (tab_opened_at is not None and self.status.hero
                                         and (previous_confirmation is None or self.status.hero != previous_confirmation[1])):
@@ -308,6 +369,17 @@ class Worker(threading.Thread):
                                     and (not self.settings.kda_enabled or accepted_fields.get("kda") is not None)):
                                 capture.discard(sample.burst)
                             self.events.put(("detected", (replace(self.status), current_revision)))
+                            self.events.put(("diagnostics", ({
+                                "read_at": captured_at, "confirmed_at": confirmed_at,
+                                "scene": scene.scene,
+                                "missing": missing_fields(scene, self.settings, sample is not None),
+                                "pending": bool((boundary and accepted_phase is None)
+                                                or (new_map and not accepted_fields.get("map"))
+                                                or (scene.hero and scene.hero != self.status.hero
+                                                    and not accepted_fields.get('hero'))),
+                                "duration_ms": (time.monotonic() - recognition_started) * 1000,
+                                "status": replace(self.status),
+                            }, current_revision)))
                             self.events.put(("ocr_status", "Automatic recognition: " + scene.scene))
                             continue
                         for field, text in readings.items():

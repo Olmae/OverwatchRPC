@@ -881,7 +881,10 @@
       ],
       "location": "Stuttgart, Germany",
       "country_code": "DE",
-      "image_available": true
+      "image_available": true,
+      "localized_names": {
+        "ru": "Айхенвальд"
+      }
     },
     {
       "key": "esperanca",
@@ -1111,7 +1114,9 @@
     {
       "key": "new-queen-street",
       "name": "New Queen Street",
-      "localized_names": {"ru": "Нью-Квин-стрит"},
+      "localized_names": {
+        "ru": "Нью-Квин-стрит"
+      },
       "screenshot": "https://overfast-api.tekrop.fr/static/maps/new-queen-street.jpg",
       "gamemodes": [
         "push"
@@ -1269,6 +1274,9 @@
     {
       "key": "runasapi",
       "name": "Runasapi",
+      "localized_names": {
+        "ru": "Рунасапи"
+      },
       "screenshot": "https://overfast-api.tekrop.fr/static/maps/runasapi.jpg",
       "gamemodes": [
         "push"

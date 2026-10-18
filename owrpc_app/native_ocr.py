@@ -1,11 +1,16 @@
 """Persistent Windows OCR bridge; images stay in memory, no external engine."""
 import base64
+from collections import OrderedDict
+import hashlib
 import io
 import json
 import queue
 import subprocess
 import threading
 from .detection import Word
+
+MAX_CACHE_ENTRIES = 64
+MAX_CACHED_WORDS = 4096
 
 SCRIPT = r'''
 $ErrorActionPreference = 'Stop'
@@ -60,6 +65,7 @@ class WindowsOCR:
         self.process = None
         self.lines = queue.Queue()
         self.language = "en-US"
+        self.cache = OrderedDict()
 
     def start(self):
         script = SCRIPT.replace("'en-US'", repr(self.language))
@@ -96,8 +102,12 @@ class WindowsOCR:
         image = image.convert('RGB')
         # Keep glyph detail at Full HD; enforce the native engine's dimension cap.
         image.thumbnail((2500, 2500))
+        key = (self.language, image.size, hashlib.sha256(image.tobytes()).digest())
+        if key in self.cache:
+            self.cache.move_to_end(key)
+            return list(self.cache[key])
         stream = io.BytesIO()
-        image.save(stream, format='PNG')
+        image.save(stream, format='PNG', compress_level=1)
         try:
             self.process.stdin.write(base64.b64encode(stream.getvalue()).decode('ascii') + '\n')
             self.process.stdin.flush()
@@ -107,13 +117,20 @@ class WindowsOCR:
             data = json.loads(line)
             if 'error' in data:
                 raise RuntimeError(data['error'])
-            return [Word(w['text'], w['x']/data['width'], w['y']/data['height'],
-                         w['width']/data['width'], w['height']/data['height']) for w in data['words']]
+            words = tuple(Word(w['text'], w['x']/data['width'], w['y']/data['height'],
+                               w['width']/data['width'], w['height']/data['height']) for w in data['words'])
+            if len(words) <= MAX_CACHED_WORDS:
+                self.cache[key] = words
+                while (len(self.cache) > MAX_CACHE_ENTRIES
+                       or sum(len(value) for value in self.cache.values()) > MAX_CACHED_WORDS):
+                    self.cache.popitem(last=False)
+            return list(words)
         except Exception:
             self.close()
             raise
 
     def close(self):
+        self.cache.clear()
         if self.process:
             self.process.terminate()
             try:
@@ -131,3 +148,7 @@ _engine = WindowsOCR()
 
 # Lazily started only when mixed-language name recognition is requested.
 _latin_engine = WindowsOCR()
+
+# Independent lazy bridge for Russian navigation after an in-game language
+# change; it does not change the configured OCR language for match text.
+_russian_engine = WindowsOCR()

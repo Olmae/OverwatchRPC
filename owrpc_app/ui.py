@@ -11,12 +11,13 @@ import webbrowser
 from . import __version__
 from .i18n import LANGUAGES, resolve_language, tr
 from .catalog import load_catalog, resource_dir
-from .model import Settings, Status, PHASES, MODES, build_payload, valid_url, kda_is_fresh, party_is_fresh
-from .platform import open_folder, set_autostart
+from .model import Settings, Status, PHASES, MODES, build_payload, valid_url, kda_is_fresh, party_is_fresh, selection_label
+from .platform import open_folder, set_autostart, play_snapshot_sound
 from .regions import choose_region
 from .runtime import Worker
 from .storage import data_dir, load_settings, save_settings
 from .widgets import ScrollPage, MotionButton, Disclosure, RoundedCard
+from .recognition_diagnostics import diagnostic_text
 
 log = logging.getLogger(__name__)
 
@@ -49,6 +50,8 @@ class App:
         self.rpc_status = "Waiting for Discord…"
         self.game_running = None
         self.ocr_status = "Waiting for recognition"
+        self.diagnostic_snapshot = None
+        self.diagnostic_label = tk.StringVar(value=self.t('Waiting for recognition'))
         self.game_label = tk.StringVar(value=self.t('Checking Overwatch…'))
         self.ocr_label = tk.StringVar(value=self.t('Waiting for recognition'))
         root.title(f"OWRPC Desktop · {__version__}")
@@ -170,11 +173,28 @@ class App:
         book.bind("<<NotebookTabChanged>>", navigation_changed)
         navigation_changed()
         self.build_presence(pages[0].content)
+        self.build_appearance(pages[1].content)
         essentials = RoundedCard(pages[1].content, padding=20)
+        self.recognition_card = essentials
         essentials.pack(fill="x", pady=(0, 16))
         ttk.Label(essentials, text=self.t("Recognition settings"), font=("Segoe UI", 16, "bold")).pack(anchor="w", pady=(0, 8))
         self.build_recognition(essentials)
         MotionButton(essentials, text=self.t("Save settings"), style="Accent.TButton", command=self.save_preferences).pack(anchor="w", pady=(10, 0))
+        diagnostics = RoundedCard(pages[1].content, padding=20)
+        self.diagnostics_card = diagnostics
+        diagnostics.pack(fill="x", pady=(0, 16))
+        ttk.Label(diagnostics, text=self.t('Recognition diagnostics'), font=('Segoe UI', 16, 'bold')).pack(anchor='w')
+        self.diagnostic_label.set(diagnostic_text(self.diagnostic_snapshot, self.language))
+        ttk.Label(diagnostics, textvariable=self.diagnostic_label, wraplength=int(640*self.scale),
+                  justify='left').pack(anchor='w', pady=12)
+        ttk.Label(diagnostics, textvariable=self.ocr_label, style='Small.TLabel',
+                  wraplength=int(640*self.scale)).pack(anchor='w', pady=(0, 10))
+        self.check(diagnostics, 'Save unrecognized game frames locally', 'recognition_diagnostics')
+        self.check(diagnostics, 'Also save one game frame per minute', 'recognition_minute_snapshots')
+        self.hint(diagnostics, 'Right Alt+] saves the foreground Overwatch frame locally. No upload.')
+        MotionButton(diagnostics, text=self.t('Save settings'), command=self.save_preferences).pack(anchor='w', pady=(10, 0))
+        MotionButton(diagnostics, text=self.t('Open recognition frames'),
+                     command=self.open_recognition_frames).pack(anchor='w', pady=(10, 0))
         self.build_preferences(pages[1].content)
         self.build_advanced(pages[1].content)
         about = Disclosure(pages[1].content, self.t("About"))
@@ -421,9 +441,13 @@ class App:
         self.entry(connection, 4, "OCR interval (3–120 seconds)", "ocr_interval")
         ttk.Label(connection, text=self.t("Keep the default ID unless you own a Discord application. No account token is needed."),
                   wraplength=int(590 * self.scale), style="Small.TLabel").grid(row=3, column=0, columnspan=2, sticky="w", pady=8)
-        appearance_section = Disclosure(parent, self.t("Activity appearance"), opened=False)
-        appearance_section.pack(fill="x", pady=8)
-        appearance = appearance_section.content
+        MotionButton(parent, text=self.t("Save settings"), command=self.save_preferences).pack(anchor="w", pady=12)
+
+    def build_appearance(self, parent):
+        appearance = RoundedCard(parent, padding=20)
+        appearance.pack(fill="x", pady=(0, 16))
+        ttk.Label(appearance, text=self.t("Activity appearance"),
+                  font=("Segoe UI", 16, "bold")).pack(anchor="w", pady=(0, 8))
         self.check(appearance, self.t("Use official hero portraits"), "use_hero_portrait")
         self.check(appearance, self.t("Use map artwork"), "use_map_art")
         ttk.Label(appearance, text=self.t("Discord artwork layout")).pack(anchor="w", pady=(8, 4))
@@ -434,7 +458,10 @@ class App:
         layout.pack(fill="x", pady=(0, 8))
         layout.bind("<<ComboboxSelected>>", lambda _: self.var("artwork_layout").set(layouts[layout_choice.get()]))
         self.artwork_layout_choice, self.artwork_layout_widget = layout_choice, layout
-        form = ttk.Frame(appearance)
+        MotionButton(appearance, text=self.t("Save settings"), command=self.save_preferences).pack(anchor="w", pady=12)
+        custom = Disclosure(appearance, self.t("Advanced settings"), opened=False)
+        custom.pack(fill="x", pady=8)
+        form = ttk.Frame(custom.content)
         form.pack(fill="x", pady=6)
         labels = ("Application name", "State", "Details")
         if not hasattr(self, "display_value"):
@@ -452,8 +479,8 @@ class App:
                                           ("Button URL (http/https)", "button_url")), 1):
             self.entry(form, row, self.t(label), key)
         self.entry(form, 9, "Menu logo HTTPS URL", "menu_image")
-        self.hint(appearance, "Leave custom text blank to show mode, map and hero automatically. HTTPS artwork is fetched by Discord.")
-        MotionButton(parent, text=self.t("Save settings"), command=self.save_preferences).pack(anchor="w", pady=12)
+        self.hint(custom.content, "Leave custom text blank to show mode, map and hero automatically. HTTPS artwork is fetched by Discord.")
+        MotionButton(custom.content, text=self.t("Save settings"), command=self.save_preferences).pack(anchor="w", pady=12)
 
     def build_recognition(self, parent):
         self.hint(parent, "Automatic recognition uses Windows OCR on the foreground game window. Team colors are ignored. Enter your nickname for E/A/D.")
@@ -466,9 +493,14 @@ class App:
         ttk.Combobox(form, textvariable=self.ocr_language_choice,
                      values=("English", "Русский"), state="readonly").grid(row=1, column=1, sticky="ew", pady=5)
         self.region_labels = {}
-        self.check(parent, "Show E/A/D from the scoreboard (experimental)", "kda_enabled")
+        self.check(parent, "Show E/A/D from the scoreboard", "kda_enabled")
         self.hint(parent, "E/A/D is read from your nickname row while Tab is visible. Discord keeps the last confirmed values until the next update or match exit. No region calibration is needed.")
         ttk.Label(parent, textvariable=self.ocr_label, wraplength=int(590 * self.scale)).pack(anchor="w", pady=10)
+
+    def open_recognition_frames(self):
+        folder = data_dir() / 'recognition-failures'
+        folder.mkdir(parents=True, exist_ok=True)
+        open_folder(folder)
 
     def build_about(self, parent):
         ttk.Label(parent, text=f"OWRPC Desktop {__version__}", font=("Segoe UI", 18, "bold")).pack(anchor="w")
@@ -630,8 +662,9 @@ class App:
         scene_label = ("Choosing a hero" if current.phase == "match" and current.scene == "hero_select"
                        else "Waiting for group" if current.phase == "menus" and current.scene == "waiting_for_group"
                        else PHASES[current.phase])
-        self.scene_label.configure(text=self.t(scene_label))
-        self.mode_label.configure(text=self.t(current.mode) if current.phase != "menus" else self.t("Your activity updates automatically") if self.settings.ocr_enabled else self.t("Manual activity"))
+        stage = selection_label(current)
+        self.scene_label.configure(text=self.t("In match") if stage else self.t(scene_label))
+        self.mode_label.configure(text=self.t(stage) if stage else self.t(current.mode) if current.phase != "menus" else self.t("Your activity updates automatically") if self.settings.ocr_enabled else self.t("Manual activity"))
         current_hero = next((x for x in self.catalog["heroes"] if x["name"] == current.hero), {})
         current_map = next((x for x in self.catalog["maps"] if x["name"] == current.map_name), {})
         self.activity_values["Hero"].configure(text=current_hero.get("localized_names", {}).get(self.language, current.hero) if current.phase == "match" and current.hero else "—")
@@ -668,6 +701,13 @@ class App:
                 self.set_text(self.kda_label, self.t("E/A/D unavailable · open the scoreboard to refresh"))
         else:
             self.set_text(self.kda_label, "")
+        if not self.example_phase and not self.status.paused:
+            # Refresh age labels without rebuilding images or replaying UI animations.
+            hero = next((x for x in self.catalog['heroes'] if x['name'] == self.status.hero), None)
+            map_info = next((x for x in self.catalog['maps'] if x['name'] == self.status.map_name), None)
+            state = build_payload(self.settings, self.status, hero, map_info)['state']
+            self.preview_payload['state'] = state
+            self.set_text(self.preview_state, state)
         if self.example_phase:
             self.set_text(self.preview_time, self.t("Match time: {time}", time="02:07") if self.example_phase == "match" and self.settings.show_timer else "")
         elif self.status.phase == "match" and self.status.started_at and self.settings.show_timer:
@@ -720,10 +760,24 @@ class App:
                 self.events.put((event, value))
             menu = pystray.Menu(
                 pystray.MenuItem(lambda item: self.t('Open OWRPC'), lambda *_: post("show"), default=True),
-                pystray.MenuItem(lambda item: self.t('In menus'), lambda *_: post("phase", "menus")),
-                pystray.MenuItem(lambda item: self.t('In queue'), lambda *_: post("phase", "queue")),
-                pystray.MenuItem(lambda item: self.t('In match'), lambda *_: post("phase", "match")),
+                pystray.MenuItem(lambda item: self.t('Recognition settings'), lambda *_: post('settings')),
+                pystray.MenuItem(lambda item: self.t('Recognition diagnostics'), lambda *_: post('diagnostic_page')),
+                pystray.MenuItem(lambda item: self.t('Save game frame (Right Alt+])'), lambda *_: post('snapshot')),
+                pystray.Menu.SEPARATOR,
                 pystray.MenuItem(lambda item: self.t("Resume" if self.status.paused else "Pause"), lambda *_: post("pause")),
+                pystray.MenuItem(lambda item: self.t('Manual status'), pystray.Menu(
+                    *(pystray.MenuItem(lambda item, phase=phase: self.t(PHASES[phase]),
+                                       lambda *_, phase=phase: post('phase', phase),
+                                       checked=lambda item, phase=phase: self.status.phase == phase,
+                                       radio=True)
+                      for phase in PHASES),
+                    pystray.Menu.SEPARATOR,
+                    pystray.MenuItem(lambda item: self.t('New match'), lambda *_: post('new_match')))),
+                pystray.Menu.SEPARATOR,
+                pystray.MenuItem(lambda item: self.t('Open logs folder'), lambda *_: post('logs')),
+                pystray.MenuItem(lambda item: self.t('Open recognition frames'), lambda *_: post('recognition_frames')),
+                pystray.MenuItem(lambda item: self.t('Check for updates'), lambda *_: post('check_release')),
+                pystray.Menu.SEPARATOR,
                 pystray.MenuItem(lambda item: self.t("Quit OWRPC"), lambda *_: post("quit")))
             with Image.open(resource_dir() / "app.png") as image:
                 self.tray = pystray.Icon("OWRPC", image.copy(), "OWRPC Desktop", menu)
@@ -773,6 +827,11 @@ class App:
             elif event == "game":
                 self.game_running = value
                 self.game_label.set(self.t("Overwatch running" if value else "Overwatch not running"))
+            elif event == "diagnostics":
+                snapshot, revision = value
+                if revision == self.worker.revision:
+                    self.diagnostic_snapshot = snapshot
+                    self.diagnostic_label.set(diagnostic_text(snapshot, self.language))
             elif event == "ocr_status":
                 self.ocr_status = value
                 self.ocr_label.set(self.t(value))
@@ -814,6 +873,34 @@ class App:
                 self.preview()
             elif event == "show":
                 self.show()
+            elif event in ('settings', 'diagnostic_page'):
+                self.show()
+                self.book.select(1)
+                self.root.update_idletasks()
+                page = self.root.nametowidget(self.book.tabs()[1])
+                offset = (self.diagnostics_card if event == 'diagnostic_page' else self.recognition_card).winfo_y()
+                page.canvas.yview_moveto(offset / max(1, page.content.winfo_height()))
+            elif event == 'logs':
+                open_folder(data_dir())
+            elif event == 'snapshot':
+                self.worker.request_snapshot()
+                self.ocr_label.set(self.t('Return to Overwatch to capture the frame'))
+            elif event == 'snapshot_saved':
+                if value:
+                    play_snapshot_sound()
+                label = self.t('Game frame saved') if value else self.t('An error occurred; see logs')
+                self.ocr_label.set(label)
+                if self.tray:
+                    try:
+                        self.tray.notify(label, 'OWRPC')
+                    except Exception:
+                        log.debug('Snapshot notification unavailable', exc_info=True)
+            elif event == 'recognition_frames':
+                self.open_recognition_frames()
+            elif event == 'check_release':
+                self.run_service('release', manual=True)
+            elif event == 'new_match':
+                self.new_match()
             elif event == "phase":
                 self.set_phase(value)
             elif event == "pause":

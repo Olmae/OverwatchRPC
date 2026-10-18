@@ -20,6 +20,7 @@ class Ticks:
 class FakeRpc:
     def __init__(self):
         self.calls = []
+        self.last_sent = 0
 
     def send(self, client_id, payload):
         self.calls.append(payload)
@@ -33,6 +34,176 @@ CATALOG = {"heroes": [{"name": "Ana", "portrait": "https://example.com/ana.png"}
 
 
 class WorkerTests(unittest.TestCase):
+    def test_pause_overlay_keeps_match_hero_counters_and_clock(self):
+        from owrpc_app.detection import Detection
+        worker = Worker(Settings(ocr_enabled=True, kda_enabled=True),
+                        Status(phase='match', hero='Ana', map_name='Nepal', started_at=50,
+                               kda=(12, 4, 3), kda_read_at=100), CATALOG, queue.Queue())
+        worker.stop_event = Ticks(3)
+        with patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+                patch('owrpc_app.runtime.game_running', return_value=True), \
+                patch('owrpc_app.runtime.game_foreground', return_value=True), \
+                patch('owrpc_app.runtime.tab_pressed', return_value=False), \
+                patch('owrpc_app.runtime.time.monotonic', side_effect=lambda: worker.stop_event.tick*10), \
+                patch('owrpc_app.runtime.recognize', return_value={'__scene__': Detection(scene='pause_menu')}):
+            worker.run()
+        self.assertEqual((worker.status.phase, worker.status.hero, worker.status.map_name,
+                          worker.status.started_at, worker.status.kda),
+                         ('match', 'Ana', 'Nepal', 50, (12, 4, 3)))
+
+    def test_duo_to_solo_menu_requires_two_positive_readings(self):
+        from owrpc_app.detection import Detection
+        worker = Worker(Settings(ocr_enabled=True),
+                        Status(phase='menus', party_size=2, party_read_at=100), CATALOG, queue.Queue())
+        observed = []
+        worker.stop_event = Ticks(2, lambda tick: observed.append((tick, worker.status.party_size)))
+        with patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+                patch('owrpc_app.runtime.game_running', return_value=True), \
+                patch('owrpc_app.runtime.game_foreground', return_value=True), \
+                patch('owrpc_app.runtime.tab_pressed', return_value=False), \
+                patch('owrpc_app.runtime.time.monotonic', side_effect=lambda: worker.stop_event.tick*10), \
+                patch('owrpc_app.runtime.recognize', return_value={
+                    '__scene__': Detection(phase='menus', scene='menus', party_size=1)}):
+            worker.run()
+        self.assertIn((2, 2), observed)
+        self.assertEqual(worker.status.party_size, 1)
+
+    def test_unreadable_selection_clears_old_hero_then_hud_can_confirm_swap(self):
+        from owrpc_app.detection import Detection
+        for current in ('Mei', 'Echo'):
+            with self.subTest(current=current):
+                worker = Worker(Settings(ocr_enabled=True, kda_enabled=True),
+                                Status(phase='match', hero=current, map_name='Nepal', started_at=50,
+                                       kda=(12, 4, 3), kda_read_at=100), CATALOG, queue.Queue())
+                observed = []
+                worker.stop_event = Ticks(4, lambda tick: observed.append((tick, worker.status.hero)))
+                scenes = [Detection(phase='match', scene='hero_select')]*2
+                scenes += [Detection(phase='match', scene='hud', hero='Ana')]*2
+                with patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+                        patch('owrpc_app.runtime.game_running', return_value=True), \
+                        patch('owrpc_app.runtime.game_foreground', return_value=True), \
+                        patch('owrpc_app.runtime.tab_pressed', return_value=False), \
+                        patch('owrpc_app.runtime.time.monotonic', side_effect=lambda: worker.stop_event.tick*10), \
+                        patch('owrpc_app.runtime.recognize', side_effect=[{'__scene__': scene} for scene in scenes]):
+                    worker.run()
+                self.assertIn((2, current), observed)
+                self.assertIn((3, ''), observed)
+                self.assertIn((4, ''), observed)
+                self.assertEqual(worker.status.hero, 'Ana')
+                self.assertEqual((worker.status.map_name, worker.status.kda), ('Nepal', (12, 4, 3)))
+
+    def test_hud_confirms_ordinary_swaps_but_preserves_echo(self):
+        from owrpc_app.detection import Detection
+        for current, expected in (('', 'Ana'), ('Mei', 'Ana'), ('Echo', 'Echo')):
+            worker = Worker(Settings(ocr_enabled=True), Status(phase='match', hero=current),
+                            CATALOG, queue.Queue())
+            worker.stop_event = Ticks(4)
+            with patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+                    patch('owrpc_app.runtime.game_running', return_value=True), \
+                    patch('owrpc_app.runtime.game_foreground', return_value=True), \
+                    patch('owrpc_app.runtime.tab_pressed', return_value=False), \
+                    patch('owrpc_app.runtime.time.monotonic', side_effect=lambda: worker.stop_event.tick*10), \
+                    patch('owrpc_app.runtime.recognize', return_value={
+                        '__scene__': Detection(phase='match', scene='hud', hero='Ana')}):
+                worker.run()
+            self.assertEqual(worker.status.hero, expected)
+
+    def test_mauga_swap_requires_two_readings_and_confirms_promptly(self):
+        from owrpc_app.detection import Detection
+        worker = Worker(Settings(ocr_enabled=True, ocr_interval=60),
+                        Status(phase='match', hero='Mei'), CATALOG, queue.Queue())
+        observed = []
+        worker.stop_event = Ticks(3, lambda tick: observed.append((tick, worker.status.hero)))
+        with patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+                patch('owrpc_app.runtime.game_running', return_value=True), \
+                patch('owrpc_app.runtime.game_foreground', return_value=True), \
+                patch('owrpc_app.runtime.tab_pressed', return_value=False), \
+                patch('owrpc_app.runtime.time.monotonic', side_effect=lambda: worker.stop_event.tick*.25), \
+                patch('owrpc_app.runtime.recognize', return_value={
+                    '__scene__': Detection(phase='match', scene='hud', hero='Mauga')}):
+            worker.run()
+        self.assertIn((2, 'Mei'), observed)
+        self.assertIn((3, 'Mauga'), observed)
+
+    def test_hud_missing_fields_preserve_pending_practice_context(self):
+        from owrpc_app.detection import Detection
+        worker = Worker(Settings(ocr_enabled=True, ocr_interval=3, mode='Stadium'),
+                        Status(phase='menus', mode='Stadium'), CATALOG, queue.Queue())
+        worker.stop_event = Ticks(4)
+        scenes = [Detection(phase='match', scene='hero_select', map_name='Practice Range', mode='Practice'),
+                  Detection(phase='match', scene='hud', hero='Mei'),
+                  Detection(phase='match', scene='hero_select', hero='Mei', map_name='Practice Range', mode='Practice'),
+                  Detection(phase='match', scene='hud', hero='Mei')]
+        observed = []
+        worker.stop_event.callback = lambda tick: observed.append((tick, worker.status.mode))
+        with patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+                patch('owrpc_app.runtime.game_running', return_value=True), \
+                patch('owrpc_app.runtime.game_foreground', return_value=True), \
+                patch('owrpc_app.runtime.tab_pressed', return_value=False), \
+                patch('owrpc_app.runtime.time.monotonic', side_effect=lambda: worker.stop_event.tick*10), \
+                patch('owrpc_app.runtime.recognize', side_effect=[{'__scene__': scene} for scene in scenes]):
+            worker.run()
+        self.assertIn((3, ''), observed)
+        self.assertEqual((worker.status.hero, worker.status.map_name, worker.status.mode),
+                         ('Mei', 'Practice Range', 'Practice'))
+
+    def test_manual_frame_survives_ocr_failure_without_changing_presence(self):
+        from owrpc_app.tab_capture import Sample
+        capture = unittest.mock.Mock()
+        frame = object()
+        capture.take.side_effect = [Sample(frame, 0, 1, 0, 0, manual=True)]
+        worker = Worker(Settings(ocr_enabled=False, kda_enabled=False),
+                        Status(phase='match', hero='Ana', map_name='Nepal', paused=True), CATALOG, queue.Queue())
+        worker.stop_event = Ticks(1)
+        with patch('owrpc_app.runtime.TabCapture', return_value=capture), \
+                patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+                patch('owrpc_app.runtime.game_running', return_value=True), \
+                patch('owrpc_app.runtime.analyze_frame', side_effect=RuntimeError('OCR failed')), \
+                patch('owrpc_app.recognition_diagnostics.recorder.save', return_value='saved.png') as save, \
+                self.assertLogs('owrpc_app.runtime', level='WARNING'):
+            worker.run()
+        self.assertIs(save.call_args.args[0], frame)
+        self.assertTrue(save.call_args.kwargs['manual'])
+        self.assertEqual((worker.status.phase, worker.status.hero, worker.status.map_name), ('match', 'Ana', 'Nepal'))
+        self.assertIn(('snapshot_saved', 'saved.png'), list(worker.events.queue))
+
+    def test_new_queue_clears_previous_mode_and_keeps_confirmed_queue_mode(self):
+        from owrpc_app.detection import Detection
+        worker = Worker(Settings(ocr_enabled=True, ocr_interval=3),
+                        Status(phase='menus', mode='Mystery Madness'), CATALOG, queue.Queue())
+        observed = []
+        worker.stop_event = Ticks(5, lambda tick: observed.append((tick, worker.status.phase, worker.status.mode)))
+        scenes = [Detection(phase='queue', scene='search'), Detection(phase='queue', scene='search'),
+                  Detection(phase='queue', scene='search', mode='Quick Play'),
+                  Detection(phase='queue', scene='search', mode='Quick Play'),
+                  Detection(phase='queue', scene='search')]
+        with patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+                patch('owrpc_app.runtime.game_running', return_value=True), \
+                patch('owrpc_app.runtime.game_foreground', return_value=True), \
+                patch('owrpc_app.runtime.tab_pressed', return_value=False), \
+                patch('owrpc_app.runtime.time.monotonic', side_effect=lambda: worker.stop_event.tick*10), \
+                patch('owrpc_app.runtime.recognize', side_effect=[{'__scene__': scene} for scene in scenes]):
+            worker.run()
+        self.assertIn((3, 'queue', ''), observed)
+        self.assertEqual((worker.status.phase, worker.status.mode), ('queue', 'Quick Play'))
+
+    def test_menu_boundary_confirms_with_quarter_second_ticks(self):
+        from owrpc_app.detection import Detection
+        worker = Worker(Settings(ocr_enabled=True, ocr_interval=60),
+                        Status(phase='match', hero='Ana', map_name='Nepal', kda=(12, 3, 4)),
+                        CATALOG, queue.Queue())
+        observed = []
+        worker.stop_event = Ticks(4, lambda tick: observed.append((tick, worker.status.phase)))
+        with patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+                patch('owrpc_app.runtime.game_running', return_value=True), \
+                patch('owrpc_app.runtime.game_foreground', return_value=True), \
+                patch('owrpc_app.runtime.tab_pressed', return_value=False), \
+                patch('owrpc_app.runtime.time.monotonic', side_effect=lambda: worker.stop_event.tick*.25), \
+                patch('owrpc_app.runtime.recognize', return_value={'__scene__': Detection(phase='menus', scene='menus')}):
+            worker.run()
+        self.assertIn((3, 'menus'), observed)
+        self.assertEqual((worker.status.hero, worker.status.map_name, worker.status.kda), ('', '', None))
+
     def setUp(self):
         process_patch = patch('owrpc_app.runtime.game_started_at', return_value=None)
         process_patch.start()
@@ -159,6 +330,32 @@ class WorkerTests(unittest.TestCase):
         # Initial background poll, rising edge, one follow-up, then idle.
         self.assertEqual(capture.call_count, 3)
 
+    def test_vote_to_hero_selection_clears_previous_match_and_publishes_match_stage(self):
+        from owrpc_app.detection import Detection
+        from owrpc_app.model import build_payload
+        scenes = [Detection(phase='map_vote', scene='map_vote')]*2
+        scenes += [Detection(phase='map_loading', map_name='Ilios', scene='map_loading')]*2
+        scenes += [Detection(phase='match', hero='Ana', scene='hero_select')]*2
+        events = queue.Queue()
+        status = Status(phase='match', hero='Old hero', map_name='Old map',
+                        started_at=10, kda=(12, 4, 3), kda_read_at=15)
+        settings = Settings(language='ru', kda_enabled=True)
+        worker = Worker(settings, status, CATALOG, events)
+        worker.stop_event = Ticks(6)
+        with patch('owrpc_app.runtime.RpcSession', return_value=FakeRpc()), \
+             patch('owrpc_app.runtime.game_running', return_value=True), \
+             patch('owrpc_app.runtime.game_foreground', return_value=True), \
+             patch('owrpc_app.runtime.recognize', side_effect=[{'__scene__': s} for s in scenes]), \
+             patch('owrpc_app.runtime.time.monotonic', side_effect=lambda: worker.stop_event.tick * 10):
+            worker.run()
+        confirmed = [value[0] for event, value in events.queue if event == 'detected']
+        vote = next(s for s in confirmed if s.phase == 'map_vote')
+        self.assertEqual((vote.hero, vote.map_name, vote.kda), ('', '', None))
+        self.assertEqual(build_payload(settings, vote)['details'], 'В матче')
+        selection = next(s for s in confirmed if s.scene == 'hero_select')
+        self.assertEqual((selection.hero, selection.map_name), ('Ana', 'Ilios'))
+        self.assertTrue(build_payload(settings, selection)['state'].startswith('Выбор героя'))
+
     def test_loading_map_is_kept_on_hero_selection_and_results_stop_timer(self):
         from owrpc_app.detection import Detection
         scenes = [Detection(phase='map_loading', map_name='Ilios', scene='map_loading')]*2
@@ -212,7 +409,7 @@ class WorkerTests(unittest.TestCase):
                 self.assertEqual(worker.status.party_size, 5)
                 if changed:
                     self.assertEqual(worker.status.kda, kda)
-                    self.assertEqual(worker.status.mode, "Quick Play")
+                    self.assertEqual(worker.status.mode, "")
 
     def test_confirmed_real_map_mode_clears_stale_practice_without_map_ocr(self):
         from owrpc_app.detection import Detection

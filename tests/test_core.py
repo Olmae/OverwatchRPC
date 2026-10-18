@@ -10,6 +10,12 @@ from owrpc_app.runtime import RpcSession
 
 
 class ModelTests(unittest.TestCase):
+    def test_unknown_automatic_mode_has_neutral_match_details(self):
+        settings = Settings(language='ru')
+        self.assertEqual(build_payload(settings, Status(phase='match', mode=''))['details'], 'В матче')
+        payload = build_payload(settings, Status(phase='match', mode='', map_name='Practice Range'))
+        self.assertEqual(payload['details'], 'В матче · Practice Range')
+
     def test_automatic_recognition_is_default_but_explicit_opt_out_is_preserved(self):
         self.assertTrue(Settings().ocr_enabled)
         self.assertTrue(Settings.from_dict({}).ocr_enabled)
@@ -72,7 +78,7 @@ class ModelTests(unittest.TestCase):
         self.assertNotIn("Ana", p.get("state", ""))
 
     def test_modern_assets_and_button(self):
-        settings = Settings(button_label="Profile", button_url="https://example.com", display_type=2)
+        settings = Settings(button_label="Profile", button_url="https://example.com", display_type=2, artwork_layout="map_large")
         p = build_payload(settings, Status(phase="match", hero="Ana", map_name="Busan"),
                           {"portrait": "https://example.com/ana.png", "source": "https://example.com/ana"},
                           {"screenshot": "https://example.com/busan.png"})
@@ -97,13 +103,33 @@ class ModelTests(unittest.TestCase):
         self.assertNotIn('start', payload)
         self.assertEqual(status.party_size, 5)
         status.transition("map_loading", now=30)
-        self.assertEqual(build_payload(settings, status, now=31)['details'], 'Загрузка карты')
+        self.assertEqual(build_payload(settings, status, now=31)['details'], 'В матче')
+        self.assertTrue(build_payload(settings, status, now=31)['state'].startswith('Загрузка карты'))
         status.transition('match', now=40)
         status.scene = 'hero_select'
         self.assertTrue(build_payload(settings, status, now=41)['state'].startswith('Выбор героя'))
         status.transition('menus', now=50)
         status.scene = 'waiting_for_group'
         self.assertEqual(build_payload(settings, status, now=51)['state'], 'Ожидание группы')
+
+    def test_map_and_hero_selection_are_presented_as_match_stages(self):
+        settings = Settings(language='ru', kda_enabled=True)
+        status = Status(phase='map_vote', hero='Old hero', map_name='Old map',
+                        kda=(12, 4, 3), kda_read_at=10)
+        payload = build_payload(settings, status, now=11)
+        self.assertEqual((payload['details'], payload['state']), ('В матче', 'Выбор карты'))
+        self.assertNotIn('Old', str(payload))
+        self.assertNotIn('start', payload)
+        status.transition('map_loading', now=20)
+        status.map_name = 'New map'
+        payload = build_payload(settings, status, now=21)
+        self.assertEqual((payload['details'], payload['state']), ('В матче', 'Загрузка карты · New map'))
+        status.transition('match', now=30)
+        status.scene, status.hero = 'hero_select', 'Ana'
+        payload = build_payload(settings, status, now=31)
+        self.assertEqual((payload['details'], payload['state']), ('В матче', 'Выбор героя · New map · Ana'))
+        status.scene = 'scoreboard'
+        self.assertIn('Играет за', build_payload(settings, status, now=32)['state'])
 
     def test_artwork_layout_swaps_images_and_labels_and_keeps_custom_hero(self):
         hero = {"portrait": "https://example.com/ana.png", "source": "https://example.com/ana"}
@@ -123,7 +149,7 @@ class ModelTests(unittest.TestCase):
 
     def test_image_defaults_migrate_and_layout_is_validated(self):
         settings = Settings.from_dict({"menu_image": "", "artwork_layout": "invalid"})
-        self.assertEqual(settings.artwork_layout, "map_large")
+        self.assertEqual(settings.artwork_layout, "hero_large")
         self.assertEqual(settings.menu_image, Settings().menu_image)
         self.assertIn("small_image", build_payload(settings, Status()))
 

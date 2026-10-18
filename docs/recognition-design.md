@@ -258,3 +258,314 @@ A twice-confirmed scoreboard mode incompatible with Practice clears a retained
 Practice Range state even when the next map is unreadable, preventing an
 `Escort · Practice Range` combination after a missed transition. A single
 observation is insufficient. Independent new hero/KDA values can then update.
+
+
+## Local failure evidence
+
+Use Additional → Recognition diagnostics to enable local failure captures and
+optional minute snapshots, then save settings. Recording is disabled by default.
+The same flags can be configured in `%APPDATA%\OWRPC\settings.json` while closed.
+
+Incomplete scoreboard readings, hero-selection readings, missing menu party counts,
+and unrecognized buffered Tab frames save a PNG and a JSON reason under
+`%APPDATA%\OWRPC\recognition-failures`. Ordinary HUD frames without Tab do not
+trigger recording. Screenshots can include visible game chat and player names;
+there is no automatic upload. Metadata omits nickname and raw OCR text.
+
+Each scene/missing-field combination is limited to one capture per minute.
+The recorder keeps at most 40 frames and 100 MB including metadata, pruning the
+pairs by diagnostic value: routine minute samples first, unrecognized Tab frames
+next, missing fields in recognized scenes next, and manual snapshots last.
+Within each priority, the oldest pairs are removed first. Disk errors are logged
+and do not stop recognition.
+
+Set `recognition_minute_snapshots` to `true` alongside diagnostics to also
+record an ordinary game frame approximately once per minute, even when no
+expected field is missing. This uses existing foreground game captures and
+pauses while the game is not foreground; it does not capture other applications.
+Periodic samples and failures share the same retention limits. JSON metadata
+marks minute samples with `periodic: true`.
+
+
+## Transition confirmation and live diagnostics
+
+Strong phase or map changes request one extra foreground reading after 250 ms.
+Two observations remain mandatory; extra polls are limited to one per five seconds.
+Confirmed changes schedule Discord delivery with at least three seconds between sends,
+instead of waiting for the normal presence interval. Summary / Rewards ends a match
+without requiring a Competitive label. Centered Assemble Your Heroes is a match HUD
+cue when health counters are present, not the left-hand Heroes menu navigation.
+
+The Additional page shows the last captured frame time, last confirmation time,
+processing duration, scene, missing expected fields and confirmed presence values.
+A missing value in a new frame is distinguished from the retained confirmed value.
+Background, paused, unavailable OCR and stopped-game states remain visible alongside
+this snapshot. These times describe recognition, not a Discord delivery receipt.
+
+Before Tab, English assembly screens provide map names and a verified-player portrait
+fallback. The fallback currently supports the observed 16:9 assembly layout; it requires
+an unambiguous nickname match in the five player-card positions. Existing Tab artwork
+is supplemented with `assets/assembly-ramattra.png`, a portrait-only crop of the
+maintainer-provided Midtown screenshot from 2026-10-09. It contains no nickname or chat.
+The same reference recognizes the independently supplied Grímsvötn assembly frame.
+Both use correlation >= .86 and a hero margin >= .15. Unknown illustrations abstain.
+This is initial assembly coverage, not a claim that every hero, skin, aspect ratio or
+loading-screen layout is supported. Loading map votes retain their existing handling.
+
+
+## Explicit diagnostic snapshot
+
+Right Alt+] captures the verified foreground Overwatch client immediately on
+its rising edge, independently of OCR polling and Tab bursts. A held shortcut
+captures once. The tray Save game frame item queues a capture until Overwatch
+returns to the foreground. Requests never capture another application.
+Two manual frames can wait in memory; accepted requests are spaced by two seconds.
+The recognition worker saves PNG + JSON (`manual: true`), bypassing automatic
+recording switches and minute throttles but retaining the same disk limits.
+If OCR fails, the original game image is still saved with an unknown detection.
+Manual samples do not confirm or change presence state. A tray notification
+confirms disk saving. A quiet 140 ms sound also confirms a successful manual
+save; automatic frames and failed saves remain silent. Playback is asynchronous
+and does not change system volume. Nothing is uploaded automatically.
+
+
+## Missing friendly rows and compact queue banners
+
+Friendly nickname rows are also anchored to the neutral scoreboard header when
+native OCR misses every single-digit counter. This covers a non-first player row
+at 0/0/0 and comma-separated totals on expanded perk tables. Native-size padded
+nickname OCR is a fallback only when the normal pass cannot identify the player;
+ambiguous nicknames still abstain. The numeric crop starts at the first statistic
+column, excluding perk artwork. Missing counters retain independent digit checks.
+
+English assembly accepts Ready alongside the assembly heading and reads the
+selected roster label separately from the large fading hero title. Compact blue
+Role Queue banners require both a recognized playlist and a timer. A bottom-right
+Stay as Team footer identifies post-match screens even when chat hides the highlight
+title. Ordinary chat mentions outside that footer do not end a match.
+
+
+## Ambiguous scoreboard digits
+
+When a verified player row is missing a counter, the shape reader checks the
+individual counter crop. If its confidence is insufficient, native OCR retries
+that isolated, padded crop. Only one exact numeric token of one to three digits
+is accepted; ambiguous, split or nonnumeric tokens abstain. This fallback does
+not relax shape thresholds or the runtime requirement for repeated observations.
+
+The neutral scoreboard band is located even when the Scoreboard tab caption
+is absent or unreadable during a transition. Menu/search exclusions still run
+first. Without a tab caption, a real DMG heading must also be read inside
+the band to reject similar bars on hero selection screens. Player ownership
+still requires an unambiguous nickname match.
+The reviewed `digits/1-eichenwalde.png` is a binary 12x20 glyph from the
+maintainer-provided 2026-10-12 frame; it contains no names or chat. Alternatives
+are scored per digit, preserving the .28 error and .035 ambiguity thresholds.
+
+
+## Centered Tab and expanded assembly cards
+
+The neutral table locator includes the centered scoreboard shown before the
+right hero panel appears. The nickname range follows a unique first statistic
+header, remains to its left, and retains the existing confidence and ambiguity
+gates. No hero is inferred from question-mark portraits on that loading frame.
+English assembly map captions that already resolve are not re-read through a
+crop that could clip their first word. Unresolved captions get a complete crop.
+The observed 21:9 expanded player-card layout can read a verified nickname and
+match that card's portrait using the existing references and .86/.15 gates.
+This does not claim coverage of all 21:9 assembly variants or skins.
+
+
+## Match stages during map and hero selection
+
+English SELECTING MAP and VOTE FOR A MAP headings identify map voting before
+Tab. The countdown variant can also use the complete central vote instruction;
+clipped or unrelated chat words are insufficient. Candidate map cards and their
+highlight are never treated as the winning map. Two observations still confirm
+phase changes. Discord and the current-activity header present map voting, map
+loading and hero selection as In match, with the specific stage underneath.
+Canonical internal phases remain separate so voting clears the previous hero,
+map, counters and timer. The selected loading map survives into hero selection.
+The observed 21:9 Ready layout uses its own nickname and portrait bounds, with
+the same ownership check, portrait references and .86/.15 confidence gates.
+The supplied Junkertown frame and independent Eichenwalde / King's Row captures
+are included in the private OCR corpus. No screenshots are uploaded.
+
+The additional `assembly-ramattra-highlight.png` reference is a portrait-only
+crop of the maintainer-provided 2026-10-12 Eichenwalde frame (205407). The adjacent
+205421 frame is held out from extraction. Native nickname retries are limited
+to an unreadable owner; multiple OCR spellings can merge within one player slot,
+while matching names in different slots still abstain.
+
+The 2026-10-15 practice-range selection captures add portrait-only assembly
+references for Anran, Echo, Freja, Doctrine, Lúcio and Hazard. Each reference is
+a 144px square at x=.300 of the 3440px viewport and y=.478 of its 1440px height;
+names and chat are excluded. These are standard player-card portraits even
+when the large model uses a different skin. The six source captures remain in
+the private corpus, with additional resize and brightness checks; they are not
+independent held-out captures. This expands verified assembly coverage to seven
+heroes, including Ramattra, rather than claiming real-frame coverage of all 54.
+
+Continue identifies the compact practice assembly layout, as Ready does in a
+match. A confident nickname-owned portrait takes precedence over a stale title
+only in hero selection. Existing ownership, correlation and ambiguity gates
+remain unchanged. When ownership or the portrait cannot be verified, the large
+title and the highlighted grid label are text fallbacks. The grid label can be
+in any role column. Compact nameplate retries use tighter bounds only after
+the normal ownership reads fail. Hero galleries never invoke this override.
+
+Queue playlist extraction reads the left SEARCHING detail on collapsed English
+menus before returning from the header-only OCR path. Expanded dropdowns use
+the line containing QUEUE / РОЛЯМ, excluding navigation tabs on other lines.
+Generic top-panel mode names are ignored when menu navigation is present;
+timed side banners keep their existing priority. A maintainer-provided solo
+Competitive Role Queue capture (2026-10-15, 21:37) is a private regression case.
+
+English/Russian interface OCR now follows multiple fixed navigation labels,
+paired scoreboard captions, or paired selection controls. It retains the
+confirmed language between frames and can switch back; unconfirmed probes
+are discarded. An isolated word or a player name cannot change the interface
+language. A separate lazy Russian OCR bridge avoids restarting the configured
+English bridge. Other configured OCR languages keep their existing behavior.
+Detected changes and the language used are recorded in local diagnostics.
+
+Own-name OCR selects its alphabet from the configured/detected nickname,
+independently of the game UI: Cyrillic or mixed Cyrillic/Latin names use the
+Russian bridge, Latin names use the English bridge. Confidence and duplicate
+owner checks are unchanged. Private checks include the supplied Russian menu
+with English OCR configured, a Russian-to-English-to-Russian menu sequence,
+and an English scoreboard with a synthetic Cyrillic own-name overlay and KDA.
+
+Russian practice/assembly screens now run the same nickname-owned portrait
+checks as English screens, and highlighted grid names use the detected UI
+language. Kiriko adds an eighth verified assembly reference, extracted from
+the maintainer's 2026-10-15 22:56 screenshot (portrait only, same compact bounds
+as above). The independently recorded 225603 frame is held out from extraction.
+Initial language probing also covers selection controls without requiring a
+previous menu observation, so starting directly on Russian selection works.
+
+## HUD ability and weapon fallback
+
+The 2026-10-16 matcher bundles 276 current ability/weapon images for 54 heroes.
+Public Blizzard CDN URLs, ability names, hero mappings and SHA-256 hashes are
+recorded in `assets/hud-icons/sources.json`; mappings were retrieved through
+OverFast API. No network request is needed at recognition time. The older
+Pukima ability collection was researched but is not bundled for HUD matching.
+
+The matcher extracts dark glyphs enclosed in neutral ready-ability tiles in
+the bottom-right HUD, preserving disconnected white interior details. Bounds
+follow viewport height for 16:9 and 21:9. Colored cooldown tiles are excluded.
+Normalized binary shapes allow a one-pixel alignment tolerance. Two distinct
+abilities on different tiles must jointly identify one hero, each at least
+.78, strongest at least .86, mean at least .82, with .12 mean margin over the
+next hero. Multiple crops of one weapon count as one slot. If two abilities
+are unavailable, a weapon may support a uniquely matching .86 ability; the
+joint weapon path additionally requires .09 hero margin and .12 individual
+ability margin. A lone weapon, lone ability, duplicate ability or conflicting
+pair is insufficient.
+
+Application integration requires a verified own-name plate, independently of
+the game UI alphabet. It can fill a detected HUD's hero or confirm an otherwise
+unknown screen from the matching icon pair when health/ammo OCR failed.
+Recognized statistic headings exclude that recovery path. Replay/spectator
+headings abstain. Menu, queue, results, selection and scoreboard paths do not
+use this fallback. Existing two-observation confirmation remains required.
+HUD icons can replace an existing hero after two positive observations, so an
+ordinary Mei-to-Mauga swap updates without opening Tab. A first different hero
+requests a prompt confirmation. Known Echo is protected from HUD replacements
+when copied abilities are visible. This conservative fallback
+does not claim universal spectator/replay detection when headings are hidden.
+
+Real screenshots verify Reaper, Ramattra, Genji, Mei and Mauga; official templates cover
+the other heroes without claiming equivalent real-frame validation. Tests
+include separate Ramattra captures, resized/dimmed HUD crops, a simulated
+cooldown with Reaper's remaining ability and weapon, wrong own-name, replay
+headings, and negative menu/queue/scoreboard integration. Sanitized test crops
+contain only the HUD region, with no names or chat. Full captures stay private.
+
+Mei adds a ninth assembly reference from the maintainer's 2026-10-16 00:32:35
+capture (portrait only). Fresh Mei selection, Tab, HUD and Mauga HUD captures
+are private regression cases. Missing map/mode fields on HUD frames preserve
+pending positive observations from selection. Automatic match entry clears an
+unconfirmed saved manual mode; unknown mode uses neutral `In match` details.
+
+## Saved-frame review, 2026-10-18
+
+The local review includes all 41 retained captures (manual, failure and six
+periodic captures), with 26 additional exact images beyond the previous
+95-case corpus. Historical sidecars are audit inputs, not ground truth; scene,
+hero, map and timer corrections were checked against the visible captures.
+
+Runasapi's Russian caption `РУНАСАПИ` now resolves through its reviewed
+localization. Challenge navigation (`DAILY`, `WEEKLY`, `LIFETIME`) is a menu;
+`STADIUM COMPETITIVE` navigation cannot borrow the system clock from the other
+corner as queue evidence. Playlist and timer must share the banner bounds.
+Role selection before starting a search is also a menu.
+
+Compact scoreboard captions have a tight fallback that excludes adjacent TIME
+text, with the alphabet selected from fixed scoreboard captions, not nicknames.
+This covers the dim Ilios and Russian Busan frames. Three sanitized glyph-only
+clock references (6 from Nepal 000210, 3 from Ilios 002853, dim 8 from Ilios
+003712, 2026-10-15 captures) retain existing shape/margin checks. The separate
+Nepal 000211 and Ilios 003831 captures verify the same digits independently.
+Evidence sidecars now include the detected interface OCR language and hero
+source, when available, separately from the configured language.
+
+Three further maintainer captures cover Russian map voting and two Doctrine
+scoreboards on Rialto (zero counters and 0:00). A cold start on Russian voting
+can select the interface alphabet from the complete fixed probability hint in
+its bounded center region, even when the condensed voting title is unreadable.
+Incomplete hints and player-name regions cannot trigger that language change.
+Voting remains `map_vote`; highlighted map candidates and previous-hero icons
+are not promoted to confirmed match fields.
+
+## Confirmed field freshness
+
+Match counters remain available until the next reading or match exit. After
+120 seconds, the Discord state includes their age in whole minutes instead of
+presenting an old scoreboard reading as current. A new confirmed reading removes
+that age label. Local preview state refreshes with the timer without reloading
+artwork; explicit custom status text still takes precedence.
+
+Two consecutive unreadable hero-selection scenes clear the previous hero, while
+keeping the map, timer and match-wide counters. One transient selection frame
+does not clear it. A following HUD pair can then confirm a new hero, including
+after leaving Echo; copied HUD abilities while Echo remains confirmed continue
+to abstain from replacement. Unknown ordinary HUD frames alone do not erase a
+hero, since cooldowns and occlusion are not evidence of a swap.
+
+Menu party recognition also accepts a BACK/НАЗАД navigation header after the
+scene has been identified as a menu/queue. The same conservative portrait-strip
+matcher is used; the social counter is not interpreted as party membership.
+The maintainer's 2026-10-18 00:36:40 Esc-menu capture verifies solo, addressing
+a stale duo retained when the regular HEROES/SHOP navigation was absent. The
+worker still requires two positive membership readings before replacing duo.
+
+## Exact-input OCR cache
+
+Each native OCR bridge caches results for identical RGB pixels at the exact
+dimensions submitted to Windows OCR, keyed by language, dimensions and SHA-256.
+The cache retains at most 64 regions and 4096 words per bridge; it stores no
+source images. Hits return a separate list of immutable Word records. Any
+changed pixel, dimensions or language requires a new read. Closing/restarting the
+bridge and OCR errors clear it. Empty successful readings can be cached too.
+Independent frame capture and two-observation confirmation remain unchanged.
+
+In a four-read static Mauga HUD benchmark on 2026-10-18, warmed reads changed
+from 1196–1260 ms to 516–523 ms with identical words. This measures a repeated
+still frame, not all live-game frames: moving pixels reduce cache reuse. The
+first read still includes bridge startup and is not the warm-cache benchmark.
+
+## Escape-menu boundaries
+
+A BACK/НАЗАД label alone is no longer sufficient to declare menus. The main
+escape menu needs bounded profile/settings controls and an Exit Game command.
+A Leave Game/Leave Match/Покинуть матч command is instead an unconfirmed
+`pause_menu` scene: opening that menu does not prove that the match was left.
+The worker retains the confirmed hero, counters and timer until a real boundary.
+
+Three neutral button interiors trigger small menu-control OCR crops, but pixels
+alone never classify the scene. Fixed MENU/PROFILE/OPTIONS or Russian equivalents
+can identify the interface alphabet, independently of player names. The saved
+2026-10-18 00:36:40 Russian menu is checked both as the first frame (configured
+English OCR) and after the full corpus; its cold start formerly remained unknown.
