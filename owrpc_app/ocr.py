@@ -47,22 +47,21 @@ def capture_frame(settings):
         raise RuntimeError("Could not locate the foreground game capture area")
     if rect.right <= 0 or rect.bottom <= 0:
         return None
-    image = ImageGrab.grab(window=hwnd)
-    # PrintWindow includes the title bar in ordinary window mode. All OCR and
-    # portrait coordinates refer to the game viewport, never the window chrome.
-    ctypes.windll.user32.GetWindowRect(hwnd, ctypes.byref(window))
-    image = client_image(image, (rect.right, rect.bottom),
-                         (origin.x-window.left, origin.y-window.top),
-                         (window.right-window.left, window.bottom-window.top))
-    if image is None:
-        image = ImageGrab.grab(bbox=(origin.x, origin.y, origin.x + rect.right,
-                                    origin.y + rect.bottom), all_screens=True)
-    if all(high == 0 for low, high in image.convert("RGB").getextrema()):
-        # PrintWindow can return black for the game's accelerated swap chain.
+    try:
+        image = ImageGrab.grab(window=hwnd)
+    except OSError:
+        image = None
+    # OCR coordinates refer to the client area, not the window chrome.
+    if image is not None:
+        ctypes.windll.user32.GetWindowRect(hwnd, ctypes.byref(window))
+        image = client_image(image, (rect.right, rect.bottom),
+                             (origin.x-window.left, origin.y-window.top),
+                             (window.right-window.left, window.bottom-window.top))
+    if image is None or all(high == 0 for _, high in image.convert("RGB").getextrema()):
+        # PrintWindow can fail or return unusable pixels for an accelerated game.
         # Fall back to visible client pixels, including secondary monitors.
         if hwnd != ctypes.windll.user32.GetForegroundWindow() or not game_foreground(settings.game_process):
             return None
-        from ctypes import wintypes
         rect = wintypes.RECT()
         origin = wintypes.POINT()
         if not ctypes.windll.user32.GetClientRect(hwnd, ctypes.byref(rect)) or not ctypes.windll.user32.ClientToScreen(hwnd, ctypes.byref(origin)):
@@ -365,8 +364,8 @@ def frame_words(image, read_names=False, nickname=""):
         if image.width / image.height > 2 and not practice:
             read((.815, .025, .935, .055), upright=True, scale=2, padded=True)
             from .catalog import load_catalog
-            from .detection import catalog_name
-            if catalog_name(text_in(words, (.65, 0, 1, .09)), load_catalog()['maps'], fuzzy=True) is None:
+            from .detection import scoreboard_map
+            if scoreboard_map(text_in(words, (.65, 0, 1, .09)), load_catalog()['maps']) is None:
                 # Keep dim compact map captions at native size; enlarging a
                 # long header can merge the map with the adjacent TIME label.
                 russian_header = 'СТАТИСТИКА' in top
@@ -605,6 +604,9 @@ def analyze_image(image, words, catalog, nickname=''):
     if result.scene == 'hero_select':
         from .portraits import assembly_hero
         hero = assembly_hero(image, words, nickname)
+        if hero is None and result.hero is None:
+            from .assembly_titles import assembly_title
+            hero = assembly_title(image)
         if hero and any(item['name'] == hero for item in catalog['heroes']):
             result = replace(result, hero=hero)
     if result.scene == 'scoreboard':

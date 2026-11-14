@@ -107,6 +107,26 @@ def mode_from(text):
     return None
 
 
+def scoreboard_map(text, maps):
+    # In the small Cyrillic scoreboard header, Windows OCR reads 66 as ЬЬ.
+    # Correct only the complete map phrase; never rewrite the clock or stats.
+    text = re.sub(r'\bШОССЕ\s+[6ЬБ]{2}\b', 'ШОССЕ 66', text)
+    text = re.sub(r'\bТРАССА\s+66\b', 'ШОССЕ 66', text)
+    match = catalog_name(text, maps, fuzzy=True)
+    if match == 'Route 66' and not re.search(r'\b(?:ROUTE|ШОССЕ)\s+66\b', text):
+        return None
+    return match
+
+
+def standard_map_mode(map_name, maps):
+    modes = {'hybrid': 'Hybrid', 'escort': 'Escort', 'control': 'Control', 'push': 'Push'}
+    for item in maps:
+        if isinstance(item, dict) and item['name'] == map_name:
+            kinds = set(item.get('gamemodes', ()))
+            return modes.get(next(iter(kinds))) if len(kinds) == 1 else None
+    return None
+
+
 def own_row(words, nickname):
     if not nickname:
         return None
@@ -267,11 +287,12 @@ def detect(words, heroes, maps, nickname=''):
     scoreboard = len(headers) == 3 and headers[0].x < headers[1].x < headers[2].x
     if scoreboard:
         hero = catalog_name(text_in(words, (.58, .29, .86, .39)), heroes, fuzzy=True)
-        map_name = catalog_name(text_in(words, (.65, 0, 1, .09)), maps, fuzzy=True)
+        map_name = scoreboard_map(text_in(words, (.65, 0, 1, .09)), maps)
         timer_text = text_in(words, (.65 if practice else .91, .025, 1, .085)).replace('O', '0').replace('О', '0')
         timer = re.findall(r'(?<!\d)(\d{1,3}):([0-5]\d)(?!\d)', timer_text)
         elapsed = int(timer[0][0])*60+int(timer[0][1]) if len(timer)==1 else None
-        return Detection(phase='match', hero=hero, map_name=map_name, mode=mode_from(top),
+        return Detection(phase='match', hero=hero, map_name=map_name,
+                         mode=mode_from(top) or standard_map_mode(map_name, maps),
                          kda=own_stats(words, headers, nickname), scene='scoreboard', elapsed=elapsed)
     left = text_in(words, (0, .08, .48, .31))
     selected_label = text_in(words, (.15, .76, .85, .89))

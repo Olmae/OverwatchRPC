@@ -91,3 +91,7 @@ are recorded in `sources.json`. Blizzard retains ownership of these images.
 `assets/assembly-*.png` and the small HUD regression fixtures are sanitized
 portrait/glyph-only crops supplied by the maintainer; they contain no player
 names or chat. Full diagnostic captures are excluded from source and releases.
+
+`assets/assembly-titles` contains two processed Overwatch title crops (Ashe
+and Kiriko), from maintainer captures on 2026-11-13 at 14:33:39 and 15:49:20.
+The crops contain hero lettering only. Blizzard retains ownership.

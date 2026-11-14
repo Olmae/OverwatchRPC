@@ -1,13 +1,33 @@
 import unittest
+import sys
+from unittest.mock import Mock, patch
 
 from PIL import Image
 
 from owrpc_app.model import ScoreboardClock
-from owrpc_app.ocr import client_image, normalized_overlap
+from owrpc_app.ocr import capture_frame, client_image, normalized_overlap
+from owrpc_app.model import Settings
 from owrpc_app.detection import Word, detect
 
 
 class ViewportClockTests(unittest.TestCase):
+    @unittest.skipUnless(sys.platform == 'win32', 'Windows capture')
+    def test_window_capture_error_uses_visible_client(self):
+        user32 = Mock()
+        user32.GetForegroundWindow.return_value = 7
+
+        def client_rect(hwnd, rect):
+            rect._obj.right, rect._obj.bottom = 80, 50
+            return True
+
+        user32.GetClientRect.side_effect = client_rect
+        frame = Image.new('RGB', (80, 50), 'blue')
+        with patch('ctypes.windll.user32', user32), \
+                patch('owrpc_app.platform.game_foreground', return_value=True), \
+                patch('PIL.ImageGrab.grab', side_effect=[OSError('capture failed'), frame]) as grab:
+            self.assertIs(capture_frame(Settings()), frame)
+            grab.assert_called_with(bbox=(0, 0, 80, 50), all_screens=True)
+
     def test_overlapping_header_passes_ignore_ocr_case(self):
         words = [Word('урон', .448, .29, .023, .012),
                  Word('УРОН', .4482, .2902, .023, .012),

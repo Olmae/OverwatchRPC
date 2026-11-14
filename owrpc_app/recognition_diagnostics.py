@@ -3,8 +3,11 @@ from dataclasses import asdict
 from datetime import datetime
 import json
 import logging
+from pathlib import Path
+import tempfile
 import time
 
+from . import __version__
 from .storage import data_dir
 
 log = logging.getLogger(__name__)
@@ -84,19 +87,21 @@ class FailureRecorder:
         failure = bool(missing) and now-self.last_saved.get(key, float('-inf')) >= self.interval
         if not periodic and not failure and not manual:
             return
-        if periodic:
-            self.last_periodic = now
-        if failure:
-            self.last_saved[key] = now
+        path = None
         try:
             self.folder.mkdir(parents=True, exist_ok=True)
             stem = datetime.now().strftime('%Y%m%d-%H%M%S-%f')
-            path = self.folder / (stem + '.png')
-            image.save(path)
+            # The Windows clock can return the same timestamp for several saves.
+            # Reserve a unique name so a manual capture cannot replace evidence.
+            with tempfile.NamedTemporaryFile(dir=self.folder, prefix=stem + '-',
+                                             suffix='.png', delete=False) as stream:
+                path = Path(stream.name)
+                image.save(stream, format='PNG')
             detection = asdict(scene)
             detection.pop('nickname', None)
             metadata = {'missing': missing, 'detection': detection, 'periodic': periodic,
                         'manual': manual,
+                        'app_version': __version__,
                         'language': settings.ocr_language, 'tab_sample': tab_sample,
                         'interface_ocr_language': evidence.get('interface_ocr_language'),
                         'hero_source': evidence.get('hero_source'),
@@ -104,6 +109,10 @@ class FailureRecorder:
                         'timing_ms': {name: evidence.get(name) for name in ('text_ms', 'parse_ms')}}
             path.with_suffix('.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2),
                                                 encoding='utf-8')
+            if periodic:
+                self.last_periodic = now
+            if failure:
+                self.last_saved[key] = now
             frames = sorted(self.folder.glob('*.png'), key=lambda frame: (retention_priority(frame), frame.name))
             total = sum(frame.stat().st_size + (frame.with_suffix('.json').stat().st_size
                         if frame.with_suffix('.json').exists() else 0) for frame in frames)
@@ -117,6 +126,12 @@ class FailureRecorder:
                 log.info('Recognition evidence saved: missing=%s file=%s', ','.join(missing), path)
                 return path
         except OSError:
+            if path is not None:
+                for file in (path, path.with_suffix('.json')):
+                    try:
+                        file.unlink(missing_ok=True)
+                    except OSError:
+                        pass
             log.warning('Could not save recognition evidence', exc_info=True)
 
 

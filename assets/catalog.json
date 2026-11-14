@@ -1024,7 +1024,10 @@
       ],
       "location": "London, United Kingdom",
       "country_code": "UK",
-      "image_available": true
+      "image_available": true,
+      "localized_names": {
+        "ru": "Кингс Роу"
+      }
     },
     {
       "key": "lijiang-tower",
@@ -1268,7 +1271,7 @@
       "country_code": "US",
       "image_available": true,
       "localized_names": {
-        "ru": "Трасса 66"
+        "ru": "Шоссе 66"
       }
     },
     {

@@ -1,4 +1,5 @@
 from dataclasses import replace
+from datetime import datetime
 import json
 from pathlib import Path
 import tempfile
@@ -13,6 +14,25 @@ from owrpc_app.recognition_diagnostics import FailureRecorder, missing_fields
 
 
 class FailureRecorderTests(unittest.TestCase):
+    def test_same_clock_tick_preserves_both_images_and_metadata(self):
+        from owrpc_app import __version__
+        with tempfile.TemporaryDirectory() as tmp:
+            recorder = FailureRecorder(Path(tmp))
+            with patch('owrpc_app.recognition_diagnostics.datetime') as clock:
+                clock.now.return_value = datetime(2026, 10, 20, 12)
+                first = recorder.save(Image.new('RGB', (80, 50), 'red'),
+                                      Detection(hero='Mei'), Settings(), {}, manual=True)
+                second = recorder.save(Image.new('RGB', (80, 50), 'blue'),
+                                       Detection(hero='Mauga'), Settings(), {}, manual=True)
+            self.assertNotEqual(first, second)
+            for path, color, hero in ((first, (255, 0, 0), 'Mei'),
+                                      (second, (0, 0, 255), 'Mauga')):
+                with Image.open(path) as image:
+                    self.assertEqual(image.getpixel((0, 0)), color)
+                metadata = json.loads(path.with_suffix('.json').read_text(encoding='utf-8'))
+                self.assertEqual(metadata['detection']['hero'], hero)
+                self.assertEqual(metadata['app_version'], __version__)
+
     def test_explicit_snapshot_works_with_recording_disabled(self):
         with tempfile.TemporaryDirectory() as tmp:
             recorder = FailureRecorder(Path(tmp))
@@ -21,6 +41,23 @@ class FailureRecorderTests(unittest.TestCase):
             metadata = json.loads(path.with_suffix('.json').read_text(encoding='utf-8'))
             self.assertTrue(metadata['manual'])
             self.assertNotIn('nickname', metadata['detection'])
+
+    def test_failed_save_leaves_no_partial_frame_and_can_retry_immediately(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            recorder = FailureRecorder(Path(tmp))
+            settings = Settings(recognition_diagnostics=True, recognition_minute_snapshots=True)
+            image = Image.new('RGB', (80, 50))
+            scene = Detection(scene='scoreboard')
+            with patch('owrpc_app.recognition_diagnostics.time.monotonic', return_value=100):
+                with patch('pathlib.Path.write_text', side_effect=OSError('disk full')):
+                    with self.assertLogs('owrpc_app.recognition_diagnostics', level='WARNING'):
+                        self.assertIsNone(recorder.save(image, scene, settings, {}))
+                self.assertEqual(list(Path(tmp).iterdir()), [])
+                path = recorder.save(image, scene, settings, {})
+            self.assertTrue(path.exists())
+            metadata = json.loads(path.with_suffix('.json').read_text(encoding='utf-8'))
+            self.assertTrue(metadata['periodic'])
+            self.assertTrue(metadata['missing'])
 
     def test_diagnostics_distinguish_capture_from_confirmation_and_missing_values(self):
         from owrpc_app.recognition_diagnostics import diagnostic_text

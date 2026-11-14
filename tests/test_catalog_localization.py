@@ -2,7 +2,7 @@ import copy
 import unittest
 
 from owrpc_app.catalog import load_catalog
-from owrpc_app.detection import catalog_name
+from owrpc_app.detection import catalog_name, scoreboard_map, standard_map_mode
 from owrpc_app.model import Settings, Status, build_payload
 from scripts.refresh_catalog import preserve_localized_names
 
@@ -22,6 +22,21 @@ class CatalogLocalizationTests(unittest.TestCase):
         for text, name in [('КОНТРОЛЬ | БАШНЯ ЛИЦЗЯН', 'Lijiang Tower'),
                            ('КОНТРОЛЬ | НЕПАЛ', 'Nepal'), ('ГИБРИД | АЙХЕНВАЛЬД', 'Eichenwalde'), ('СОПРОВОЖДЕНИЕ | ГАВАНА', 'Havana')]:
             self.assertEqual(catalog_name(text, self.catalog['maps']), name)
+
+    def test_scoreboard_reads_localized_map_and_preserves_the_required_digits(self):
+        maps = self.catalog['maps']
+        for text, expected in (
+            ('ГИБРИДНЫЙ РЕЖИМ | КИНГС РОУ 0:00', 'King’s Row'),
+            ('СОПРОВОЖДЕНИЕ ШОССЕ ЬЬ 1:22', 'Route 66'),
+            ('ESCORT | ROUTE 66 TIME 1:22', 'Route 66'),
+            ('СОПРОВОЖДЕНИЕ ШОССЕ 67 1:22', None),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(scoreboard_map(text, maps), expected)
+        self.assertEqual(standard_map_mode('King’s Row', maps), 'Hybrid')
+        self.assertIsNone(standard_map_mode('Example', [
+            {'name': 'Example', 'gamemodes': ['escort', 'hybrid']},
+        ]))
 
     def test_bounded_fuzzy_matching_uses_localized_phrases(self):
         for text, name in [('МОЙРД', 'Moira'), ('КУЛАК СМЕРТИИ', 'Doomfist'),
